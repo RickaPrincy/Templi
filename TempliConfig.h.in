@@ -1,0 +1,3 @@
+#define Templi_VERSION_MAJOR @Templi_VERSION_MAJOR@
+#define Templi_VERSION_MINOR @Templi_VERSION_MINOR@
+#define Templi_VERSION_PATCH @Templi_VERSION_PATCH@
