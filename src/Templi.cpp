@@ -1,8 +1,7 @@
 #include <iostream>
 #include <Templi/Templi.hpp>
 
-using namespace Templi;
 
-void helloWorld(){
+void Templi::helloWorld(){
     std::cout << "Hello world" << std::endl;
 }
