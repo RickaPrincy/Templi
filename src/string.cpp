@@ -2,5 +2,5 @@
 
 
 std::map<std::string, int> Templi::getWordWithIndex(std::string text){
-
+    
 }
