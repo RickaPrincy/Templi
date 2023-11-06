@@ -4,8 +4,11 @@
     #include <string> 
     #include <vector>
     #include <map> 
+    #include <fstream>
     
     namespace Templi{
-        bool fileExists(std::string path);
+        void writeLine(std::ofstream *file, std::string text);
+        bool saveOrUpdate(std::string path, std::string text);
+        bool testAndWrite(std::ofstream *file,std::string text);
     }
 #endif
