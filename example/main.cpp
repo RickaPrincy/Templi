@@ -1,6 +1,7 @@
-#include <Templi/Templi.hpp>
+#include <Templi/file.hpp>
+#include <iostream>
 
 int main(int argc, char const *argv[]){
-    Templi::helloWorld();
+    Templi::findPosition("../template/hello.txt", "helo");
     return 0;
 }
