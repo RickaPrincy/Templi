@@ -33,8 +33,8 @@ bool Templi::saveOrUpdate(std::string path, std::string &text){
     }
 }
 
-std::vector<std::tuple<std::string, std::string, int, int>> Templi::extractConfigValue(std::string configPath, std::map<std::string, std::string> &values){
-    std::vector<std::tuple<std::string, std::string, int, int>> extraced;
+std::vector<std::tuple<std::string, std::string,std::string, int, int>> Templi::extractConfigValue(std::string configPath, std::map<std::string, std::string> &values){
+    std::vector<std::tuple<std::string,std::string, std::string, int, int>> extraced;
     std::ifstream configFile(configPath);
     std::string lineContent, lastFileName = "";
     int line{1}, lastLine{-1}, sameFileSameLine{1};
@@ -43,9 +43,9 @@ std::vector<std::tuple<std::string, std::string, int, int>> Templi::extractConfi
         extraced;
     
     while(std::getline(configFile, lineContent)){
-        std::tuple<std::string, std::string, int, int> value = Templi::extractValues(lineContent);
-        const std::string fileNameValue = std::get<0>(value), wordValue = std::get<1>(value);
-        size_t lineValue = std::get<2>(value), indexValue = std::get<3>(value);
+        std::tuple<std::string, std::string,std::string, int, int> value = Templi::extractValues(lineContent);
+        const std::string fileNameValue = std::get<0>(value),fileOutput = std::get<1>(value), wordValue = std::get<2>(value);
+        size_t lineValue = std::get<3>(value), indexValue = std::get<4>(value);
 
         if(fileNameValue != "" && values.find(wordValue) != values.end()){
             const std::string wordContent = values.at(wordValue);
@@ -55,8 +55,8 @@ std::vector<std::tuple<std::string, std::string, int, int>> Templi::extractConfi
             }else{
                 sameFileSameLine = wordContent.size();
             }
-
-            extraced.push_back(std::make_tuple(fileNameValue,wordContent, lineValue, indexValue));
+            
+            extraced.push_back(std::make_tuple(fileNameValue,fileOutput,wordContent, lineValue, indexValue));
             lastFileName = fileNameValue;
             lastLine = lineValue;
         }

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <tuple>
 
-using TempliConfigExtracted = std::vector<std::tuple<std::string, std::string, int ,int>>;
+using TempliConfigExtracted = std::vector<std::tuple<std::string,std::string, std::string, int ,int>>;
 
 static void launchTest(std::string configContent,std::map<std::string, std::string> &values, TempliConfigExtracted &outputs){
     Templi::deleteFile("templi_test_config.templi");
@@ -24,6 +24,7 @@ static void launchTest(std::string configContent,std::map<std::string, std::stri
         ASSERT_EQ(std::get<1>(result), std::get<1>(output));
         ASSERT_EQ(std::get<2>(result), std::get<2>(output));
         ASSERT_EQ(std::get<3>(result), std::get<3>(output));
+        ASSERT_EQ(std::get<4>(result), std::get<4>(output));
     }
 
     Templi::deleteFile("templi_test_config.templi");
@@ -31,7 +32,7 @@ static void launchTest(std::string configContent,std::map<std::string, std::stri
 
 TEST(TempliFileExtractConfig, no_match){
     //Arrange
-    std::string config = "hello.txt/author/5/ricka\nmain.cpp/version/\n,main.cpp/version/55///5\n";
+    std::string config = "hello.txt/hello.txt.output/author/5/ricka\nmain.cpp/version/\n,main.cpp/version/55///5\n";
     std::map<std::string, std::string> values = {};
     TempliConfigExtracted outputs = {};
     
@@ -41,7 +42,7 @@ TEST(TempliFileExtractConfig, no_match){
 
 TEST(TempliFileExtractConfig, one_match_but_no_values){
     //Arrange
-    std::string config = "hello.txt/author/5/ricka\nmain.cpp/version/5/8\n,main.cpp/version/55///5\n";
+    std::string config = "hello.txt/hello.txt.output/author/5/ricka\nmain.cpp/main.cpp.output/version/5/8\n,main.cpp/version/55///5\n";
     std::map<std::string, std::string> values = {};
     TempliConfigExtracted outputs = {};
     
@@ -51,9 +52,9 @@ TEST(TempliFileExtractConfig, one_match_but_no_values){
 
 TEST(TempliFileExtractConfig, one_match){
     //Arrange
-    std::string config = "hello.txt/author/5/ricka\nmain.cpp/version/5/8\n,main.cpp/version/55///5\n";
+    std::string config = "hello.txt/output/author/5/ricka\nmain.cpp/output.txt/version/5/8\n,main.cpp/version/55///5\n";
     std::map<std::string, std::string> values = {{"version", "1.0.0"}};
-    TempliConfigExtracted outputs = {{"main.cpp","1.0.0",5,8}};
+    TempliConfigExtracted outputs = {{"main.cpp","output.txt","1.0.0",5,8}};
     
     //Act && Assert
     launchTest(config, values, outputs);
@@ -61,14 +62,14 @@ TEST(TempliFileExtractConfig, one_match){
 
 TEST(TempliFileExtractConfig, two_match){
     //Arrange
-    std::string config = "hello.txt/author/5/8\nmain.cpp/version/8/10\n,main.cpp/version/55///5\n";
+    std::string config = "hello.txt/output.txt/author/5/8\nmain.cpp/output.txt/version/8/10\n,main.cpp/version/55///5\n";
     std::map<std::string, std::string> values = {
         {"version", "1.0.0"},
         {"author", "RickaPrincy"}
     };
     TempliConfigExtracted outputs = {
-        {"hello.txt","RickaPrincy",5,8},
-        {"main.cpp","1.0.0",8,10},
+        {"hello.txt","output.txt","RickaPrincy",5,8},
+        {"main.cpp","output.txt","1.0.0",8,10},
     };
     
     //Act && Assert

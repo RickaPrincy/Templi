@@ -26,18 +26,19 @@ std::vector<std::pair<std::string, int>> Templi::getWordWithIndex(std::string &t
     return results;
 }
 
-std::tuple<std::string,std::string, int, int> Templi::extractValues(std::string &config){
-    std::tuple<std::string,std::string, int, int> result = {"","",-1,-1};
-    std::regex pattern(R"((\w+\.\w+)/(\w+)/(\d+)/(\d+))");
+std::tuple<std::string,std::string,std::string, int, int> Templi::extractValues(std::string &config){
+    std::tuple<std::string,std::string,std::string, int, int> result = {"","","",-1,-1};
+    std::regex pattern(R"((.+?)/(.+?)/(.+?)/(\d+)/(\d+))");
     std::smatch matches;
 
     if(std::regex_match(config, matches, pattern)){
-        std::string file = matches[1].str();
-        std::string word = matches[2].str();
-        int line = std::stoi(matches[3].str());
-        int column = std::stoi(matches[4].str());
+        std::string inputFile = matches[1].str();
+        std::string outputFile = matches[2].str();
+        std::string word = matches[3].str();
+        int line = std::stoi(matches[4].str());
+        int column = std::stoi(matches[5].str());
 
-        result = std::make_tuple(file, word, line, column);
+        result = std::make_tuple(inputFile,outputFile, word, line, column);
     }else{
         //TODO : should throw error here
         std::cerr << "Config file syntax error" << std::endl;

@@ -18,5 +18,7 @@
         void writeTitle(std::string title);
         std::string getVersion();       
         void optionHandler(const char*);
+
+        void configure();
     }
 #endif
