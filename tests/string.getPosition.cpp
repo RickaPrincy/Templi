@@ -17,7 +17,7 @@ static void testResults(std::string &text, TempliResult outputs){
     }
 }
 
-TEST(TempliStringTest, no_word){
+TEST(TempliStringGetPosition, no_word){
     //Arrange
     TempliResult outputs = {};
     std::string text = "I have no value";
@@ -27,7 +27,7 @@ TEST(TempliStringTest, no_word){
     ASSERT_EQ("I have no value", text);
 }
 
-TEST(TempliStringTest, one_word){
+TEST(TempliStringGetPosition, one_word){
     //Arrange 
     std::string text = "I'mone test for{{you}} so tell me";
     TempliResult outputs = {{"you",15}};
@@ -37,7 +37,7 @@ TEST(TempliStringTest, one_word){
     ASSERT_EQ("I'mone test for so tell me", text);
 }
 
-TEST(TempliStringTest, one_word_at_end){
+TEST(TempliStringGetPosition, one_word_at_end){
     //Arrange
     std::string text = "mone{{name}}";
     TempliResult outputs = {{"name", 4}};
@@ -47,7 +47,7 @@ TEST(TempliStringTest, one_word_at_end){
     ASSERT_EQ("mone", text);
 }
 
-TEST(TempliStringTest, one_word_at_begin){
+TEST(TempliStringGetPosition, one_word_at_begin){
     //Arrange
     std::string text = "{{cool}}test";
     TempliResult outputs = {{"cool", 0}};
@@ -57,7 +57,7 @@ TEST(TempliStringTest, one_word_at_begin){
     ASSERT_EQ("test", text);
 }
 
-TEST(TempliStringTest, one_word_only){
+TEST(TempliStringGetPosition, one_word_only){
     //Arrange
     std::string text = "{{cool}}";
     TempliResult outputs = {{"cool", 0}};
@@ -67,7 +67,7 @@ TEST(TempliStringTest, one_word_only){
     ASSERT_EQ("", text);
 }
 
-TEST(TempliStringTest, two_words){
+TEST(TempliStringGetPosition, two_words){
     //Arrange
     std::string text = "{{cool}}I'm happy{{lol}}";
     TempliResult outputs = {
@@ -80,7 +80,7 @@ TEST(TempliStringTest, two_words){
     ASSERT_EQ("I'm happy", text);
 }
 
-TEST(TempliStringTest, many_words){
+TEST(TempliStringGetPosition, many_words){
     //Arrange
     std::string text = "je{{cool}}I'm happy{{lol}},!no\\ motion{{number1}}, things, {{nice}}";
     TempliResult outputs = {
@@ -95,7 +95,7 @@ TEST(TempliStringTest, many_words){
     ASSERT_EQ("jeI'm happy,!no\\ motion, things, ", text);
 }
 
-TEST(TempliStringTest, with_no_close){
+TEST(TempliStringGetPosition, with_no_close){
     //Arrange
     std::string text = "je{{cool{{nice}}, {{je";
     TempliResult outputs = {

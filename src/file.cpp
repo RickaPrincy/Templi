@@ -1,8 +1,13 @@
 #include <Templi/file.hpp>
 #include <Templi/string.hpp>
+#include <cstdio>
 
 void Templi::writeLine(std::ofstream *file, std::string text){
     *file << text << "\n";
+}
+
+bool Templi::deleteFile(std::string path){
+    return std::remove(path.c_str()) != 0;
 }
 
 bool Templi::testAndWrite(std::ofstream *file,std::string &text){
@@ -45,10 +50,10 @@ std::vector<std::tuple<std::string, std::string, int, int>> Templi::extractConfi
         if(fileNameValue != "" && values.find(wordValue) != values.end()){
             const std::string wordContent = values.at(wordValue);
             if( lastFileName == fileNameValue && lastLine == lineValue){
-                indexValue += wordContent.size() * sameFileSameLine;
-                sameFileSameLine++;
+                indexValue += sameFileSameLine;
+                sameFileSameLine += wordContent.size();
             }else{
-                sameFileSameLine = 1;
+                sameFileSameLine = wordContent.size();
             }
 
             extraced.push_back(std::make_tuple(fileNameValue,wordContent, lineValue, indexValue));

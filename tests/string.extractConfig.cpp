@@ -14,7 +14,7 @@ static void testResults(std::string &text, TempliExtracted outputs){
     ASSERT_EQ(std::get<3>(results), std::get<3>(outputs));
 }
 
-TEST(TempliExtractString, error_config){
+TEST(TempliStringExtractConfig, error_config){
     //Arrange
     TempliExtracted outputs = { "", "", -1, -1};
     std::string text = "dfdfdf/dfdfdfdfdkfdjfk";
@@ -23,7 +23,7 @@ TEST(TempliExtractString, error_config){
     testResults(text, outputs);
 }
 
-TEST(TempliExtractString, simple_config){
+TEST(TempliStringExtractConfig, simple_config){
     //Arrange
     TempliExtracted outputs = { "hello.txt", "ricka", 5, 6};
     std::string text = "hello.txt/ricka/5/6";
@@ -32,7 +32,7 @@ TEST(TempliExtractString, simple_config){
     testResults(text, outputs);
 }
 
-TEST(TempliExtractString, another_simple_config){
+TEST(TempliStringExtractConfig, another_simple_config){
     //Arrange
     TempliExtracted outputs = { "main.txt", "author", 1, 6};
     std::string text = "main.txt/author/1/6";
