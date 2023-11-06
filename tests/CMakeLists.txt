@@ -8,8 +8,8 @@ target_include_directories(${BINARY}
 )
 
 target_link_directories( ${BINARY} 
-    PUBLIC ${CMAKE_SOURCE_DIR}/src 
-    PUBLIC ${CMAKE_SOURCE_DIR}/lib
+    PUBLIC ${CMAKE_SOURCE_DIR}/build/src 
+    PUBLIC ${CMAKE_SOURCE_DIR}/build/lib
 )
 
 target_link_libraries(${BINARY} 

@@ -1,11 +1,7 @@
-set(BINARY ${CMAKE_PROJECT_NAME})
-
 file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.hpp *.h *.cpp)
-file(GLOB HEADERS "${CMAKE_SOURCE_DIR}/include/${BINARY}/*.hpp")
+file(GLOB HEADERS "${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/*.hpp")
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
+add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADERS})
 
-add_library(${BINARY} STATIC ${SOURCES} ${HEADERS})
-
-install(TARGETS  ${BINARY} DESTINATION lib)
+install(TARGETS ${PROJECT_NAME} DESTINATION lib)
 install(FILES ${HEADERS} DESTINATION include/Templi)
