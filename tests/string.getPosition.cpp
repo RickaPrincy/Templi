@@ -4,7 +4,7 @@
 
 using TempliResult = std::vector<std::pair<std::string, int>>;
 
-void testResults(std::string &text, TempliResult outputs){
+static void testResults(std::string &text, TempliResult outputs){
     TempliResult results = Templi::getWordWithIndex(text);
 
     ASSERT_EQ(results.size(),outputs.size());

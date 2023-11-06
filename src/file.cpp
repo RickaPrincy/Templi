@@ -32,7 +32,7 @@ std::vector<std::tuple<std::string, std::string, int, int>> Templi::extractConfi
     std::vector<std::tuple<std::string, std::string, int, int>> extraced;
     std::ifstream configFile(configPath);
     std::string lineContent, lastFileName = "";
-    size_t line{1}, lastLine{-1}, sameFileSameLine{1};
+    int line{1}, lastLine{-1}, sameFileSameLine{1};
 
     if(!configFile.is_open())
         extraced;

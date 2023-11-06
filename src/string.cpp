@@ -28,7 +28,7 @@ std::vector<std::pair<std::string, int>> Templi::getWordWithIndex(std::string &t
 
 std::tuple<std::string,std::string, int, int> Templi::extractValues(std::string &config){
     std::tuple<std::string,std::string, int, int> result = {"","",-1,-1};
-    std::regex pattern("([\\w]+)/([\\w]+)/([0-9]+)/([0-9]+)");
+    std::regex pattern(R"((\w+\.\w+)/(\w+)/(\d+)/(\d+))");
     std::smatch matches;
 
     if(std::regex_match(config, matches, pattern)){
