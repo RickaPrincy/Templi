@@ -2,9 +2,9 @@
 #define __TEMPLI_STRING__
 
     #include <string>
-    #include <map>
+    #include <vector>
 
     namespace Templi{
-        std::map<std::string, int> getWordWithIndex(std::string text);
+        std::vector<std::pair<std::string, int>> getWordWithIndex(std::string text);
     }
 #endif
