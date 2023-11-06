@@ -32,7 +32,7 @@ static void launchTest(std::string configContent,std::map<std::string, std::stri
 
 TEST(TempliFileExtractConfig, no_match){
     //Arrange
-    std::string config = "hello.txt/hello.txt.output/author/5/ricka\nmain.cpp/version/\n,main.cpp/version/55///5\n";
+    std::string config = "hello.txt hello.txt.output author 5/icka\nmain.cppversion/\n,main.cpp/version/55///5\n";
     std::map<std::string, std::string> values = {};
     TempliConfigExtracted outputs = {};
     
@@ -42,7 +42,7 @@ TEST(TempliFileExtractConfig, no_match){
 
 TEST(TempliFileExtractConfig, one_match_but_no_values){
     //Arrange
-    std::string config = "hello.txt/hello.txt.output/author/5/ricka\nmain.cpp/main.cpp.output/version/5/8\n,main.cpp/version/55///5\n";
+    std::string config = "hello.txt/hello.txt.output/author/5/ricka\nmain.cpp main.cpp.output version 5 8\n,main.cpp/version/55///5\n";
     std::map<std::string, std::string> values = {};
     TempliConfigExtracted outputs = {};
     
@@ -52,7 +52,7 @@ TEST(TempliFileExtractConfig, one_match_but_no_values){
 
 TEST(TempliFileExtractConfig, one_match){
     //Arrange
-    std::string config = "hello.txt/output/author/5/ricka\nmain.cpp/output.txt/version/5/8\n,main.cpp/version/55///5\n";
+    std::string config = "hello.txt output author 5/ icka\nmain.cpp output.txt version 5 8\n,main.cpp/version/55///5\n";
     std::map<std::string, std::string> values = {{"version", "1.0.0"}};
     TempliConfigExtracted outputs = {{"main.cpp","output.txt","1.0.0",5,8}};
     
@@ -62,7 +62,7 @@ TEST(TempliFileExtractConfig, one_match){
 
 TEST(TempliFileExtractConfig, two_match){
     //Arrange
-    std::string config = "hello.txt/output.txt/author/5/8\nmain.cpp/output.txt/version/8/10\n,main.cpp/version/55///5\n";
+    std::string config = "hello.txt output.txt author 5 8\nmain.cpp output.txt version 8 10\n,main.cpp version/55///5\n";
     std::map<std::string, std::string> values = {
         {"version", "1.0.0"},
         {"author", "RickaPrincy"}

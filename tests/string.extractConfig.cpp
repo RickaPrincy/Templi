@@ -27,7 +27,7 @@ TEST(TempliStringExtractConfig, error_config){
 TEST(TempliStringExtractConfig, simple_config){
     //Arrange
     TempliExtracted outputs = { "hello.txt","hello.txt.output","ricka", 5, 6};
-    std::string text = "hello.txt/hello.txt.output/ricka/5/6";
+    std::string text = "hello.txt hello.txt.output ricka 5 6";
 
     //Act && Assert
     testResults(text, outputs);
@@ -36,7 +36,7 @@ TEST(TempliStringExtractConfig, simple_config){
 TEST(TempliStringExtractConfig, another_simple_config){
     //Arrange
     TempliExtracted outputs = { "main.txt","main.txt.output","author", 1, 6};
-    std::string text = "main.txt/main.txt.output/author/1/6";
+    std::string text = "main.txt main.txt.output author 1 6";
 
     //Act && Assert
     testResults(text, outputs);

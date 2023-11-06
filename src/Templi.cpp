@@ -41,10 +41,10 @@ bool Templi::configureFile(std::string path,std::string outputPath, std::string 
     std::string configContent = "";
     for(const auto configLine : results){
         configContent += 
-            path + "/" 
-            + outputPath + "/" 
-            + std::get<0>(configLine) + "/" 
-            + std::to_string(std::get<1>(configLine)) + "/"
+            path + " " 
+            + outputPath + " " 
+            + std::get<0>(configLine) + " " 
+            + std::to_string(std::get<1>(configLine)) + " "
             + std::to_string(std::get<2>(configLine)) + "\n";
     }
 
