@@ -1,4 +1,6 @@
 #include <Templi/string.hpp>
+#include <iostream>
+#include <regex>
 
 std::vector<std::pair<std::string, int>> Templi::getWordWithIndex(std::string &text){
     std::vector<std::pair<std::string, int>> results;
@@ -22,4 +24,24 @@ std::vector<std::pair<std::string, int>> Templi::getWordWithIndex(std::string &t
     }
         
     return results;
+}
+
+std::tuple<std::string,std::string, int, int> Templi::extractValues(std::string &config){
+    std::tuple<std::string,std::string, int, int> result = {"","",-1,-1};
+    std::regex pattern("([\\w]+)/([\\w]+)/([0-9]+)/([0-9]+)");
+    std::smatch matches;
+
+    if(std::regex_match(config, matches, pattern)){
+        std::string file = matches[1].str();
+        std::string word = matches[2].str();
+        int line = std::stoi(matches[3].str());
+        int column = std::stoi(matches[4].str());
+
+        result = std::make_tuple(file, word, line, column);
+    }else{
+        //TODO : should throw error here
+        std::cerr << "Config file syntax error" << std::endl;
+    }
+
+    return result;
 }

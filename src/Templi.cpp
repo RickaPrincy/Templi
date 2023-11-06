@@ -4,6 +4,7 @@
 #include <Templi/file.hpp>
 #include <sstream>
 #include <tuple>
+#include <vector>
 
 bool Templi::configureFile(std::string path, std::string configPath){
     std::ifstream fileTemplate(path);
