@@ -1,4 +1,4 @@
-I'm {{author}} {{version}}
+I'm  
 I'm deeeeeeeeeeeeeeeeeeeeeee 
 I'm deeeeeeeeeeeeeeeeeeeeeee 
 I'm deeeeeeeeeeeeeeeeeeeeeee 
@@ -9,4 +9,4 @@ I'm deeeeeeeeeeeeeeeeeeeeeee
 I'm deeeeeeeeeeeeeeeeeeeeeee 
 I'm deeeeeeeeeeeeeeeeeeeeeee 
 I'm deeeeeeeeeeeeeeeeeeeeeee 
-Nice {{but}} nice;
+Nice  nice;

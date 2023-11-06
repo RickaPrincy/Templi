@@ -33,7 +33,7 @@ void Templi::takeConfiguration(){
         std::cout << "Enter output path for " << path << ": ";
         Templi::cleanInput(fileOutput);
         if(!fileOutput.empty()){
-            files.push_back({path, fileOutput});
+            files.push_back({templateFolder +"/" + path, fileOutput});
         }
     }
 
