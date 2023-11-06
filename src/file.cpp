@@ -4,7 +4,7 @@ void Templi::writeLine(std::ofstream *file, std::string text){
     *file << text << "\n";
 }
 
-bool Templi::testAndWrite(std::ofstream *file,std::string text){
+bool Templi::testAndWrite(std::ofstream *file,std::string &text){
     if (file->is_open()) {
         *file << text;
         file->close();
@@ -13,7 +13,7 @@ bool Templi::testAndWrite(std::ofstream *file,std::string text){
     return false;
 }
 
-bool Templi::saveOrUpdate(std::string path, std::string text){
+bool Templi::saveOrUpdate(std::string path, std::string &text){
     std::ifstream fileExist(path);
     const bool fileExistStatus = fileExist.good();
     fileExist.close();

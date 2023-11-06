@@ -1,28 +1,45 @@
 #include <iostream>
 #include <Templi/Templi.hpp>
+#include <Templi/string.hpp>
+#include <Templi/file.hpp>
+#include <sstream>
+#include <tuple>
 
 bool Templi::configureFile(std::string path, std::string configPath){
-    std::ifstream fileExist(path);
-    const bool fileExistStatus = fileExist.good();
-    fileExist.close();
-    
-    if (fileExistStatus) {
-        std::ofstream file(path, std::ios::app);
-        
-        if (file.is_open()) {
+    std::ifstream fileTemplate(path);
+    std::stringstream contentCleaned;
+    std::string lineContent;
+    size_t line{1};
+    std::vector<std::tuple<std::string, int, int>> results;
 
-            file.close();
-        } else {
-            return false;
-        }
-    } else {
-        std::ofstream file(path);
-        if (file.is_open()) {
+    if(!fileTemplate.is_open())
+        return false;
 
-            file.close();
-        } else {
-            return false;
+    while(std::getline(fileTemplate, lineContent)){
+        std::vector<std::pair<std::string, int>> words = Templi::getWordWithIndex(lineContent);
+        contentCleaned << lineContent << "\n";
+        for(const auto pair: words){
+            results.push_back({pair.first, line, pair.second});
         }
+        line++;
     }
-    return false;
+    fileTemplate.close();
+
+    std::ofstream fileTemplateWrite(path);
+    
+    if(fileTemplateWrite.is_open()){
+        fileTemplateWrite << contentCleaned.str();
+        fileTemplateWrite.close();
+    }
+
+    std::string configContent = "";
+    for(const auto configLine : results){
+        configContent += 
+            path + "/" 
+            + std::get<0>(configLine) + "/" 
+            + std::to_string(std::get<1>(configLine)) + "/" 
+            + std::to_string(std::get<2>(configLine)) + "\n";
+    }
+
+    return Templi::saveOrUpdate(configPath, configContent);
 }
