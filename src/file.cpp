@@ -1,6 +1,9 @@
 #include <Templi/file.hpp>
 #include <Templi/string.hpp>
 #include <cstdio>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 void Templi::writeLine(std::ofstream *file, std::string text){
     *file << text << "\n";
@@ -64,4 +67,16 @@ std::vector<std::tuple<std::string, std::string,std::string, int, int>> Templi::
     configFile.close();
     
     return extraced;
+}
+
+std::vector<std::string> Templi::getFolderContent(std::string path){
+    std::vector<std::string> result;
+    
+    if(fs::exists(path) && fs::is_directory(path)){
+        for(const auto &file: fs::directory_iterator(path)){
+            result.push_back(file.path().filename());
+        }
+    }
+
+    return result;
 }

@@ -9,7 +9,7 @@ void Templi::optionHandler(const char *optionChar){
     if(option == "--version" || option == "-v")
         Templi::writeVersion();
     else if(option == "--configure" || option == "-c")
-        Templi::writeVersion();
+        Templi::takeConfiguration();
     else
         Templi::writeHelp();
 }

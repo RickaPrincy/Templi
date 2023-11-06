@@ -18,7 +18,9 @@
         void writeTitle(std::string title);
         std::string getVersion();       
         void optionHandler(const char*);
+        void cleanInput(std::string &text);
 
-        void configure();
+        void takeConfiguration();
+        void launchConfiguration(std::string config, std::vector<std::pair<std::string, std::string>> &files);
     }
 #endif

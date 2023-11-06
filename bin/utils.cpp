@@ -1,6 +1,7 @@
 #include <Templi/Cli/Templi_Cli.hpp>
 #include <Templi/TempliConfig.hpp>
 #include <TColor/TColor.hpp>
+#include <algorithm>
 
 std::string Templi::repeat(std::string text, int number){
     return number < 1 ? text : text + Templi::repeat(text, --number);
@@ -48,4 +49,11 @@ void Templi::writeVersion(){
         {"Author", "RickaPrincy <https://github.com/RickaPrincy>"}
     });
     Templi::writeLine();
+}
+
+void Templi::cleanInput(std::string &text){
+    TColor::set_color(TColor::YELLOW);
+    std::getline(std::cin, text);
+    text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
+    TColor::set_color(TColor::BLUE);
 }
