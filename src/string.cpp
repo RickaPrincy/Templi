@@ -1,6 +1,6 @@
 #include <Templi/string.hpp>
 
-std::vector<std::pair<std::string, int>> Templi::getWordWithIndex(std::string text){
+std::vector<std::pair<std::string, int>> Templi::getWordWithIndex(std::string &text){
     std::vector<std::pair<std::string, int>> results;
     
     size_t pos = text.find("{{");
@@ -13,7 +13,9 @@ std::vector<std::pair<std::string, int>> Templi::getWordWithIndex(std::string te
             size_t wordLength = endPos - startPos;
             std::string word = text.substr(startPos, wordLength);
             results.push_back(std::make_pair(word, static_cast<int>(pos)));
-            pos = text.find("{{", endPos);
+
+            text.erase(pos, endPos - pos + 2);
+            pos = text.find("{{", pos);
         } else {
             break;
         }

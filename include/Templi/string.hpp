@@ -5,6 +5,6 @@
     #include <vector>
 
     namespace Templi{
-        std::vector<std::pair<std::string, int>> getWordWithIndex(std::string text);
+        std::vector<std::pair<std::string, int>> getWordWithIndex(std::string &text);
     }
 #endif

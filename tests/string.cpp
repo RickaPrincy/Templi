@@ -4,7 +4,7 @@
 
 using TempliResult = std::vector<std::pair<std::string, int>>;
 
-void testResults(std::string text, TempliResult outputs){
+void testResults(std::string &text, TempliResult outputs){
     TempliResult results = Templi::getWordWithIndex(text);
 
     ASSERT_EQ(results.size(),outputs.size());
@@ -24,6 +24,7 @@ TEST(TempliStringTest, no_word){
 
     //Act && Assert
     testResults(text, outputs);
+    ASSERT_EQ("I have no value", text);
 }
 
 TEST(TempliStringTest, one_word){
@@ -33,6 +34,7 @@ TEST(TempliStringTest, one_word){
 
     //Act && Assert
     testResults(text, outputs);
+    ASSERT_EQ("I'mone test for so tell me", text);
 }
 
 TEST(TempliStringTest, one_word_at_end){
@@ -42,6 +44,7 @@ TEST(TempliStringTest, one_word_at_end){
 
     //Act && Assert
     testResults(text, outputs);
+    ASSERT_EQ("mone", text);
 }
 
 TEST(TempliStringTest, one_word_at_begin){
@@ -51,6 +54,7 @@ TEST(TempliStringTest, one_word_at_begin){
     
     //Act && Assert
     testResults(text, outputs);
+    ASSERT_EQ("test", text);
 }
 
 TEST(TempliStringTest, one_word_only){
@@ -60,6 +64,7 @@ TEST(TempliStringTest, one_word_only){
 
     //Act && Assert
     testResults(text, outputs);
+    ASSERT_EQ("", text);
 }
 
 TEST(TempliStringTest, two_words){
@@ -67,11 +72,12 @@ TEST(TempliStringTest, two_words){
     std::string text = "{{cool}}I'm happy{{lol}}";
     TempliResult outputs = {
         {"cool", 0},
-        {"lol", 17}
+        {"lol", 9}
     };
 
     //Act && Assert
     testResults(text, outputs);
+    ASSERT_EQ("I'm happy", text);
 }
 
 TEST(TempliStringTest, many_words){
@@ -79,11 +85,24 @@ TEST(TempliStringTest, many_words){
     std::string text = "je{{cool}}I'm happy{{lol}},!no\\ motion{{number1}}, things, {{nice}}";
     TempliResult outputs = {
         {"cool", 2},
-        {"lol", 19},
-        {"number1", 38},
-        {"nice", 59}
+        {"lol", 11},
+        {"number1", 23},
+        {"nice", 33}
     };
 
     //Act && Assert
     testResults(text, outputs);
+    ASSERT_EQ("jeI'm happy,!no\\ motion, things, ", text);
+}
+
+TEST(TempliStringTest, with_no_close){
+    //Arrange
+    std::string text = "je{{cool{{nice}}, {{je";
+    TempliResult outputs = {
+        {"cool{{nice", 2}
+    };
+
+    //Act && Assert
+    testResults(text, outputs);
+    ASSERT_EQ("je, {{je", text);
 }

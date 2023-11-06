@@ -7,6 +7,5 @@
     
     namespace Templi{
         bool fileExists(std::string path);
-        std::vector<std::map<std::string,std::pair<int, int>>> findPosition(std::string filePath, std::string word);
     }
 #endif
