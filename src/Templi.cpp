@@ -6,6 +6,11 @@
 #include <tuple>
 #include <vector>
 
+void saveContent(std::string path, std::string content){
+    Templi::deleteFile(path);
+    Templi::saveOrUpdate(path, content);
+}
+
 bool Templi::configureFile(std::string path, std::string configPath){
     std::ifstream fileTemplate(path);
     std::stringstream contentCleaned;
@@ -43,4 +48,47 @@ bool Templi::configureFile(std::string path, std::string configPath){
     }
 
     return Templi::saveOrUpdate(configPath, configContent);
+}
+
+
+bool Templi::writeFile(std::string configPath, std::map<std::string, std::string> values){
+    std::vector<std::tuple<std::string, std::string, int, int >> configs = Templi::extractConfigValue(configPath, values);
+    std::stringstream fileContent;
+    std::string lastFile = "";
+    std::ifstream templateFile;
+    int line{1};
+
+    for(const auto config: configs){
+        const std::string fileName = std::get<0>(config);
+        const int index = std::get<3>(config);
+        std::string lineContent;
+
+        if(fileName != lastFile){
+            if(lastFile != ""){
+                saveContent(lastFile, fileContent.str());
+            }
+            fileContent.str("");
+            lastFile = fileName;
+            templateFile.close();
+            templateFile.open(fileName);
+
+        }
+
+        if(templateFile.is_open()){
+            while(std::getline(templateFile,lineContent)){
+               if(line == std::get<2>(config)){
+                    if(index <= lineContent.size()){
+                        lineContent.insert(std::get<3>(config), std::get<1>(config));
+                    }
+                    fileContent << lineContent << "\n";
+                    break;
+                }else{
+                    fileContent << lineContent << "\n";
+                }
+            }
+        }
+    }
+    
+    saveContent(lastFile, fileContent.str());
+    return true;
 }
