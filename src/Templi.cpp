@@ -11,7 +11,8 @@ void saveContent(std::string path, std::string content){
     Templi::saveOrUpdate(path, content);
 }
 
-bool Templi::configureFile(std::string path,std::string outputPath, std::string configPath){
+std::set<std::string> Templi::configureFile(std::string path,std::string outputPath, std::string configPath){
+    std::set<std::string> wordsConfig;
     std::ifstream fileTemplate(path);
     std::stringstream contentCleaned;
     std::string lineContent;
@@ -19,13 +20,14 @@ bool Templi::configureFile(std::string path,std::string outputPath, std::string 
     std::vector<std::tuple<std::string, int, int>> results;
 
     if(!fileTemplate.is_open())
-        return false;
+        wordsConfig;
 
     while(std::getline(fileTemplate, lineContent)){
         std::vector<std::pair<std::string, int>> words = Templi::getWordWithIndex(lineContent);
         contentCleaned << lineContent << "\n";
         for(const auto pair: words){
             results.push_back({pair.first, line, pair.second});
+            wordsConfig.insert(pair.first);
         }
         line++;
     }
@@ -48,16 +50,16 @@ bool Templi::configureFile(std::string path,std::string outputPath, std::string 
             + std::to_string(std::get<2>(configLine)) + "\n";
     }
 
-    return Templi::saveOrUpdate(configPath, configContent);
+    Templi::saveOrUpdate(configPath, configContent);
+    return wordsConfig;
 }
-
 
 bool Templi::writeFile(std::string configPath, std::map<std::string, std::string> values){
     std::vector<std::tuple<std::string, std::string,std::string, int, int >> configs = Templi::extractConfigValue(configPath, values);
     std::stringstream fileContent;
     std::string lastFile = "";
     std::ifstream templateFile;
-    int line{1};
+    int line{0};
 
     for(const auto config: configs){
         const std::string fileName = std::get<0>(config), outputFile = std::get<1>(config);
@@ -76,7 +78,7 @@ bool Templi::writeFile(std::string configPath, std::map<std::string, std::string
 
         if(templateFile.is_open()){
             while(std::getline(templateFile,lineContent)){
-               if(line == std::get<3>(config)){
+                if(++line == std::get<3>(config)){
                     if(index <= lineContent.size()){
                         lineContent.insert(std::get<4>(config), std::get<2>(config));
                     }

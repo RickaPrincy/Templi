@@ -4,9 +4,10 @@
     #include <string>
     #include <fstream>
     #include <map>
+    #include <set>
     
     namespace Templi{
-        bool configureFile(std::string path,std::string outputPath, std::string configPath);
+        std::set<std::string> configureFile(std::string path,std::string outputPath, std::string configPath);
         bool writeFile(std::string configPath, std::map<std::string, std::string> values);
     }
 

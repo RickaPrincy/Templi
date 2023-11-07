@@ -41,12 +41,25 @@ void Templi::takeConfiguration(){
 }
 
 void Templi::launchConfiguration(std::string config, std::vector<std::pair<std::string, std::string>> &files){
+    std::set<std::string> wordsConfig;
+
     for(const auto &file: files){
-        TColor::write_endl(TColor::YELLOW, "Configuring " + file.first + " ...");
-        Templi::configureFile(file.first, file.second, config);
+        TColor::write_endl(TColor::YELLOW, "Configuring " + file.first + "...");
+        std::set<std::string> configResult = Templi::configureFile(file.first, file.second, config);
+        for(const auto words: configResult){
+            wordsConfig.insert(words);
+        }
+    }
+    
+    TColor::write(TColor::YELLOW, "Configuration words files...");
+
+    std::string wordsConfigContent = "";
+    for(const auto word: wordsConfig){
+        wordsConfigContent += word + "\n";
     }
 
+    Templi::saveOrUpdate(config + ".words", wordsConfigContent);
     TColor::write(TColor::GREEN, "Configuration finished!, run ");
     TColor::write(TColor::YELLOW, "templi --generate ");
-    TColor::write_endl(TColor::GREEN, "to create tempalte");
+    TColor::write_endl(TColor::GREEN, "to create template");
 }

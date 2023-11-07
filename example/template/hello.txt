@@ -1,3 +1,0 @@
-je suis {{author}} et ravi d'^etre ici{{place}}
-je suis {{verision}}{{lol}}
-this is not correct {{

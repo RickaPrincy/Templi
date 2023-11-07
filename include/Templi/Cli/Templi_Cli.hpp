@@ -22,5 +22,6 @@
 
         void takeConfiguration();
         void launchConfiguration(std::string config, std::vector<std::pair<std::string, std::string>> &files);
+        void generate();
     }
 #endif

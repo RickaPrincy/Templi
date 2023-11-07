@@ -12,3 +12,4 @@ add_subdirectory(external/googletest)
 add_subdirectory(src)
 add_subdirectory(bin)
 add_subdirectory(tests)
+

@@ -14,6 +14,7 @@
         bool testAndWrite(std::ofstream *file,std::string &text);
 
         std::vector<std::string> getFolderContent(std::string path);
+        std::vector<std::string> getValuesNames(std::string path);
         std::vector<std::tuple<std::string, std::string,std::string, int, int>> extractConfigValue(std::string configPath, std::map<std::string, std::string> &values);
     }
 #endif

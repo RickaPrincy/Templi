@@ -10,6 +10,8 @@ void Templi::optionHandler(const char *optionChar){
         Templi::writeVersion();
     else if(option == "--configure" || option == "-c")
         Templi::takeConfiguration();
+    else if(option == "--generate" || option == "-g")
+        Templi::generate();
     else
         Templi::writeHelp();
 }

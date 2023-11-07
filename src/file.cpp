@@ -80,3 +80,17 @@ std::vector<std::string> Templi::getFolderContent(std::string path){
 
     return result;
 }
+
+std::vector<std::string> Templi::getValuesNames(std::string path){
+    std::vector<std::string> result;
+    std::ifstream file(path);
+    std::string lineContent;
+    
+    if(file.is_open()){
+        while(std::getline(file, lineContent)){
+            result.push_back(lineContent);
+        }
+    }
+
+    return result;
+}
