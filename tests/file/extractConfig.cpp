@@ -6,13 +6,15 @@
 using TempliConfigExtracted = std::vector<std::tuple<std::string,std::string, std::string, int ,int>>;
 
 static void launchTest(std::string configContent,std::map<std::string, std::string> &values, TempliConfigExtracted &outputs){
-    Templi::deleteFile("templi_test_config.templi");
-    Templi::saveOrUpdate("templi_test_config.templi", configContent);
+    if(!Templi::saveFile("templi_test_config.templi", configContent)){
+        std::cerr << "SaveFile failed"  << std::endl;
+        return;
+    }
 
     TempliConfigExtracted results = Templi::extractConfigValue("templi_test_config.templi", values);
-
+    
     ASSERT_EQ(results.size(),outputs.size());
-
+    
     if(results.size() != outputs.size())
         return;
 

@@ -2,11 +2,10 @@
 #include <iostream>
 #include <regex>
 
-std::vector<std::pair<std::string, int>> Templi::getWordWithIndex(std::string &text){
+std::vector<std::pair<std::string, int>> Templi::parseTemplateString(std::string &text){
     std::vector<std::pair<std::string, int>> results;
     
     size_t pos = text.find("{{");
-
     while (pos != std::string::npos) {
         size_t startPos = pos + 2;
         size_t endPos = text.find("}}", startPos); 
@@ -26,7 +25,7 @@ std::vector<std::pair<std::string, int>> Templi::getWordWithIndex(std::string &t
     return results;
 }
 
-std::tuple<std::string,std::string,std::string, int, int> Templi::extractValues(std::string &config){
+std::tuple<std::string,std::string,std::string, int, int> Templi::parseConfigString(std::string &config){
     std::tuple<std::string,std::string,std::string, int, int> result = {"","","",-1,-1};
     std::regex pattern(R"((.+?) (.+?) (.+?) (\d+) (\d+))");
     std::smatch matches;

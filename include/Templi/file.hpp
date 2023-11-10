@@ -8,13 +8,12 @@
     #include <tuple>
     
     namespace Templi{
-        void writeLine(std::ofstream *file, std::string text);
-        bool saveOrUpdate(std::string path, std::string &text);
+        bool saveFile(std::string path, std::string &text);
         bool deleteFile(std::string path);
-        bool testAndWrite(std::ofstream *file,std::string &text);
+        bool writeOpenedFile(std::ofstream *file,std::string &text);
 
-        std::vector<std::string> getFolderContent(std::string path);
-        std::vector<std::string> getValuesNames(std::string path);
-        std::vector<std::tuple<std::string, std::string,std::string, int, int>> extractConfigValue(std::string configPath, std::map<std::string, std::string> &values);
+        std::vector<std::string> readFileByLine(std::string path);
+        std::vector<std::string> getFolderFiles(std::string path);
+        std::vector<std::tuple<std::string, std::string,std::string, int, int>> parseConfigFile(std::string configPath, std::map<std::string, std::string> &values);
     }
 #endif

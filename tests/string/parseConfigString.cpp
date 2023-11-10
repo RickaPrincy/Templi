@@ -5,8 +5,8 @@
 
 using TempliExtracted = std::tuple<std::string,std::string,std::string,int,int>;
 
-static void testResults(std::string &text, TempliExtracted outputs){
-    TempliExtracted results = Templi::extractValues(text);
+static void launchTest(std::string &text, TempliExtracted outputs){
+    TempliExtracted results = Templi::parseConfigString(text);
 
     ASSERT_EQ(std::get<0>(results), std::get<0>(outputs));
     ASSERT_EQ(std::get<1>(results), std::get<1>(outputs));
@@ -21,23 +21,23 @@ TEST(TempliStringExtractConfig, error_config){
     std::string text = "dfdfdf/dfdfdfdfdkfdjfk";
 
     //Act && Assert
-    testResults(text, outputs);
+    launchTest(text, outputs);
 }
 
 TEST(TempliStringExtractConfig, simple_config){
     //Arrange
-    TempliExtracted outputs = { "hello.txt","hello.txt.output","ricka", 5, 6};
     std::string text = "hello.txt hello.txt.output ricka 5 6";
+    TempliExtracted outputs = { "hello.txt","hello.txt.output","ricka", 5, 6};
 
     //Act && Assert
-    testResults(text, outputs);
+    launchTest(text, outputs);
 }
 
 TEST(TempliStringExtractConfig, another_simple_config){
     //Arrange
-    TempliExtracted outputs = { "main.txt","main.txt.output","author", 1, 6};
     std::string text = "main.txt main.txt.output author 1 6";
+    TempliExtracted outputs = { "main.txt","main.txt.output","author", 1, 6};
 
     //Act && Assert
-    testResults(text, outputs);
+    launchTest(text, outputs);
 }

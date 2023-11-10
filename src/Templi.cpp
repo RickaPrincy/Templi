@@ -6,12 +6,7 @@
 #include <tuple>
 #include <vector>
 
-void saveContent(std::string path, std::string content){
-    Templi::deleteFile(path);
-    Templi::saveOrUpdate(path, content);
-}
-
-std::set<std::string> Templi::configureFile(std::string path,std::string outputPath, std::string configPath){
+std::set<std::string> Templi::configure(std::string path,std::string outputPath, std::string configPath){
     std::set<std::string> wordsConfig;
     std::ifstream fileTemplate(path);
     std::stringstream contentCleaned;
@@ -23,7 +18,7 @@ std::set<std::string> Templi::configureFile(std::string path,std::string outputP
         wordsConfig;
 
     while(std::getline(fileTemplate, lineContent)){
-        std::vector<std::pair<std::string, int>> words = Templi::getWordWithIndex(lineContent);
+        std::vector<std::pair<std::string, int>> words = Templi::parseTemplateString(lineContent);
         contentCleaned << lineContent << "\n";
         for(const auto pair: words){
             results.push_back({pair.first, line, pair.second});
@@ -50,12 +45,12 @@ std::set<std::string> Templi::configureFile(std::string path,std::string outputP
             + std::to_string(std::get<2>(configLine)) + "\n";
     }
 
-    Templi::saveOrUpdate(configPath, configContent);
+    Templi::saveFile(configPath, configContent);
     return wordsConfig;
 }
 
-bool Templi::writeFile(std::string configPath, std::map<std::string, std::string> values){
-    std::vector<std::tuple<std::string, std::string,std::string, int, int >> configs = Templi::extractConfigValue(configPath, values);
+bool Templi::generate(std::string configPath, std::map<std::string, std::string> values){
+    std::vector<std::tuple<std::string, std::string,std::string, int, int >> configs = Templi::parseConfigFile(configPath, values);
     std::stringstream fileContent;
     std::string lastFile = "";
     std::ifstream templateFile;
@@ -67,8 +62,9 @@ bool Templi::writeFile(std::string configPath, std::map<std::string, std::string
         std::string lineContent;
 
         if(outputFile != lastFile){
+            std::string fileContentString = fileContent.str();
             if(lastFile != ""){
-                saveContent(lastFile, fileContent.str());
+                Templi::saveFile(lastFile, fileContentString);
             }
             fileContent.str("");
             lastFile = outputFile;
@@ -90,7 +86,8 @@ bool Templi::writeFile(std::string configPath, std::map<std::string, std::string
             }
         }
     }
-    
-    saveContent(lastFile, fileContent.str());
+
+    std::string fileContentString = fileContent.str();
+    Templi::saveFile(lastFile, fileContentString);
     return true;
 }
