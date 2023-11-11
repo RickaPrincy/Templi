@@ -10,4 +10,5 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 
 add_subdirectory(external/googletest)
 add_subdirectory(src)
+add_subdirectory(bin)
 add_subdirectory(tests)

@@ -1,5 +1,6 @@
 #include <Templi/Cli/Templi_Cli.hpp>
 #include <Templi/TempliConfig.hpp>
+#include <Templi/file.hpp>
 #include <TColor/TColor.hpp>
 #include <algorithm>
 
@@ -51,9 +52,29 @@ void Templi::writeVersion(){
     Templi::writeLine();
 }
 
-void Templi::cleanInput(std::string &text){
+void Templi::getInput(std::string text, std::string &value, bool cleanOutput, std::string defaultValue){
+    TColor::write(TColor::BLUE, text + ": ");
     TColor::set_color(TColor::YELLOW);
-    std::getline(std::cin, text);
-    text.erase(std::remove(text.begin(), text.end(), ' '), text.end());
+    std::getline(std::cin, value);
+    
+    if(cleanOutput)
+        value.erase(std::remove(value.begin(), value.end(), ' '), value.end());
+    if(!defaultValue.empty() && value.empty())
+        value = defaultValue;
     TColor::set_color(TColor::BLUE);
+}
+
+std::map<std::string, std::string> Templi::getAllValues(std::vector<std::string> valuesName, std::string text, bool cleanText){
+    std::map<std::string, std::string> results;
+
+    for(const auto name: valuesName){
+        std::string value = "";
+        Templi::getInput(text + " " + name, value, cleanText);
+        
+        if(!value.empty()){
+            results.insert({name, value});
+        }
+    }
+
+    return results;
 }

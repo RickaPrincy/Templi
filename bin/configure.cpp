@@ -15,50 +15,32 @@ void Templi::takeConfiguration(){
     std::string configFileName, templateFolder;
 
     Templi::writeLine();
-    std::cout << "Config file (default: 'config.templi'): ";
-    Templi::cleanInput(configFileName);
+    Templi::getInput("Config file (default: 'config.templi')",configFileName,true,"config.templi");
+    Templi::getInput("Template folder(default: 'template')",templateFolder,true,"template");
 
-    std::cout << "Template folder(default: 'template'): ";
-    Templi::cleanInput(templateFolder);
-
-    if(configFileName.empty())
-        configFileName = "config.templi";
-    if(templateFolder.empty())
-        templateFolder= "template";
-
-    filePaths = Templi::getFolderContent(templateFolder);
-
-    for(const auto &path : filePaths){
-        std::string fileOutput;
-        std::cout << "Enter output path for " << path << ": ";
-        Templi::cleanInput(fileOutput);
-        if(!fileOutput.empty()){
-            files.push_back({templateFolder +"/" + path, fileOutput});
-        }
-    }
-
-    launchConfiguration(configFileName, files);
+    filePaths = Templi::getFolderFiles(templateFolder);
+    
+    launchConfiguration(configFileName,templateFolder,filePaths);
 }
 
-void Templi::launchConfiguration(std::string config, std::vector<std::pair<std::string, std::string>> &files){
+void Templi::launchConfiguration(std::string config,std::string folderTemplate,std::vector<std::string> &files){
     std::set<std::string> wordsConfig;
 
-    for(const auto &file: files){
-        TColor::write_endl(TColor::YELLOW, "Configuring " + file.first + "...");
-        std::set<std::string> configResult = Templi::configureFile(file.first, file.second, config);
-        for(const auto words: configResult){
-            wordsConfig.insert(words);
-        }
+    for(size_t i = 0; i < files.size() ; i++){
+        TColor::write_endl(TColor::YELLOW, "This file will be configured " + files.at(i) + "...");
+        //TODO: change / to \ for windows using cmake
+        files.at(i) = folderTemplate + "/" + files.at(i);
     }
+
+    TColor::write_endl(TColor::YELLOW, "Configuration launched...");
+    wordsConfig = Templi::configure(files, config);
     
-    TColor::write(TColor::YELLOW, "Configuration words files...");
-
-    std::string wordsConfigContent = "";
-    for(const auto word: wordsConfig){
-        wordsConfigContent += word + "\n";
-    }
-
-    Templi::saveOrUpdate(config + ".words", wordsConfigContent);
+    TColor::write_endl(TColor::YELLOW, "Memorization of the found files...");
+    Templi::saveIterator(config +".files", files);
+    
+    TColor::write_endl(TColor::YELLOW, "Memorization of the found words...");
+    Templi::saveIterator(config +".words", wordsConfig);
+    
     TColor::write(TColor::GREEN, "Configuration finished!, run ");
     TColor::write(TColor::YELLOW, "templi --generate ");
     TColor::write_endl(TColor::GREEN, "to create template");
