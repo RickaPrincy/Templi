@@ -7,5 +7,6 @@ target_include_directories(templi
 target_link_directories(templi PUBLIC ${CMAKE_SOURCE_DIR}/build/src)
 target_link_libraries(templi PUBLIC ${PROJECT_NAME})
 
-
-install(TARGETS templi DESTINATION bin)
+if(TEMPLI_CLI_INSTALL)
+    install(TARGETS templi DESTINATION bin)
+endif()
