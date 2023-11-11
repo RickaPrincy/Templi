@@ -6,88 +6,114 @@
 #include <tuple>
 #include <vector>
 
-std::set<std::string> Templi::configure(std::string path,std::string outputPath, std::string configPath){
+std::set<std::string> Templi::configure(std::vector<std::string> paths, std::string configPath){
     std::set<std::string> wordsConfig;
-    std::ifstream fileTemplate(path);
-    std::stringstream contentCleaned;
-    std::string lineContent;
-    size_t line{1};
-    std::vector<std::tuple<std::string, int, int>> results;
-
-    if(!fileTemplate.is_open())
-        wordsConfig;
-
-    while(std::getline(fileTemplate, lineContent)){
-        std::vector<std::pair<std::string, int>> words = Templi::parseTemplateString(lineContent);
-        contentCleaned << lineContent << "\n";
-        for(const auto pair: words){
-            results.push_back({pair.first, line, pair.second});
-            wordsConfig.insert(pair.first);
-        }
-        line++;
-    }
-    fileTemplate.close();
-
-    std::ofstream fileTemplateWrite(path);
+    std::vector<Templi::TempliConfig> results;
     
-    if(fileTemplateWrite.is_open()){
-        fileTemplateWrite << contentCleaned.str();
-        fileTemplateWrite.close();
-    }
+    for(const auto path: paths){
+        size_t line{1};
+        std::ifstream fileTemplate(path);
+        std::stringstream contentCleaned;
+        std::string lineContent;
 
+        if(!fileTemplate.is_open())
+            continue;
+
+        while(std::getline(fileTemplate, lineContent)){
+            std::vector<std::pair<std::string, int>> words = Templi::parseTemplateString(lineContent);
+            contentCleaned << lineContent << "\n";
+            results.push_back({path,line,words});
+            line++;
+        }
+        
+        fileTemplate.close();
+        std::ofstream fileTemplateWrite(path);
+        
+        if(fileTemplateWrite.is_open()){
+            fileTemplateWrite << contentCleaned.str();
+            fileTemplateWrite.close();
+        }
+    }
+    
     std::string configContent = "";
     for(const auto configLine : results){
-        configContent += 
-            path + " " 
-            + outputPath + " " 
-            + std::get<0>(configLine) + " " 
-            + std::to_string(std::get<1>(configLine)) + " "
-            + std::to_string(std::get<2>(configLine)) + "\n";
-    }
+        configContent +=  std::get<0>(configLine) + " " 
+            + std::to_string(std::get<1>(configLine));
 
+        for(const auto word : std::get<2>(configLine)){
+            configContent += " " + word.first + " " + std::to_string(word.second);
+            wordsConfig.insert(word.first);
+        }
+        configContent += "\n";
+    }
+    
     Templi::saveFile(configPath, configContent);
     return wordsConfig;
 }
 
-bool Templi::generate(std::string configPath, std::map<std::string, std::string> values){
-    std::vector<std::tuple<std::string, std::string,std::string, int, int >> configs = Templi::parseConfigFile(configPath, values);
+void Templi::generate(std::string configPath, std::map<std::string, std::string> values, std::map<std::string, std::string> outputs){
+    std::vector<Templi::TempliConfig> configs = Templi::parseConfigFile(configPath);
+    std::ifstream templateFile;
     std::stringstream fileContent;
     std::string lastFile = "";
-    std::ifstream templateFile;
-    int line{0};
-
-    for(const auto config: configs){
-        const std::string fileName = std::get<0>(config), outputFile = std::get<1>(config);
-        const int index = std::get<4>(config);
+    size_t line{1};
+    
+    for(const auto config : configs){
         std::string lineContent;
+        std::string fileName = std::get<0>(config);
+        size_t fileLine = std::get<1>(config);
+        bool findConfig = false;
 
-        if(outputFile != lastFile){
-            std::string fileContentString = fileContent.str();
-            if(lastFile != ""){
-                Templi::saveFile(lastFile, fileContentString);
-            }
-            fileContent.str("");
-            lastFile = outputFile;
-            templateFile.close();
-            templateFile.open(fileName);
-        }
-
-        if(templateFile.is_open()){
-            while(std::getline(templateFile,lineContent)){
-                if(++line == std::get<3>(config)){
-                    if(index <= lineContent.size()){
-                        lineContent.insert(std::get<4>(config), std::get<2>(config));
-                    }
-                    fileContent << lineContent << "\n";
-                    break;
-                }else{
+        if(outputs.find(fileName) == outputs.end())
+            continue;
+        
+        if(lastFile != "" && fileName != lastFile){
+            if(templateFile.is_open()){
+                while(std::getline(templateFile, lineContent)){
                     fileContent << lineContent << "\n";
                 }
+                std::string fileContentString = fileContent.str();
+                Templi::saveFile(outputs.at(lastFile), fileContentString);
+                templateFile.close();
+            }
+            
+            templateFile.open(fileName);
+            lastFile = fileName;
+            fileContent.str("");
+            line = 1;
+            if(!templateFile.is_open()){
+                //TODO: ERROR
+                continue;
             }
         }
-    }
+        
+        while(std::getline(templateFile, lineContent)){
+            if(line == fileLine){
+                size_t additionalIndex = 0;
+                for(const auto pair: std::get<2>(config)){
+                    if(values.find(pair.first) != values.end()){
+                        const auto value = values.at(pair.first);
+                        if(pair.second <= lineContent.size()){
+                            lineContent.insert(pair.second, value);
+                            additionalIndex += value.size();
+                        }
+                    }else{
+                        //TODO: when one value is missing
+                    }
+                }
+                findConfig = true;
+            }
+            fileContent << lineContent << "\n";
+            line++;
 
-    std::string fileContentString = fileContent.str();
-    Templi::saveFile(lastFile, fileContentString);
-    return true;
+            if(findConfig)
+                break;
+        }
+
+        if(!findConfig){
+            std::string fileContentString = fileContent.str();
+            Templi::saveFile(outputs.at(fileName),fileContentString);
+        }
+    }
+    templateFile.close();
 }

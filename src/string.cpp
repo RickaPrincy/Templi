@@ -25,23 +25,27 @@ std::vector<std::pair<std::string, int>> Templi::parseTemplateString(std::string
     return results;
 }
 
-std::tuple<std::string,std::string,std::string, int, int> Templi::parseConfigString(std::string &config){
-    std::tuple<std::string,std::string,std::string, int, int> result = {"","","",-1,-1};
-    std::regex pattern(R"((.+?) (.+?) (.+?) (\d+) (\d+))");
-    std::smatch matches;
+Templi::TempliConfig Templi::parseConfigString(std::string &config) {
+    std::string fileName = "";
+    int fileLine = -1;
+    std::vector<std::pair<std::string, int>> pairs = {};
+    std::regex configPattern(R"((\S+)\s+(\d+)\s+((\S+\s+\d+\s*)+))");
 
-    if(std::regex_match(config, matches, pattern)){
-        std::string inputFile = matches[1].str();
-        std::string outputFile = matches[2].str();
-        std::string word = matches[3].str();
-        int line = std::stoi(matches[4].str());
-        int column = std::stoi(matches[5].str());
+    std::smatch match;
+    if (std::regex_search(config, match, configPattern)) {
+        fileName = match[1];
+        fileLine = std::stoi(match[2]);
 
-        result = std::make_tuple(inputFile,outputFile, word, line, column);
-    }else{
-        //TODO : should throw error here
-        std::cerr << "Config file syntax error" << std::endl;
+        std::regex pairPattern(R"((\S+)\s+(\d+))");
+        std::sregex_iterator pairIterator(match[3].first, match[3].second, pairPattern);
+        std::sregex_iterator end;
+
+        for (; pairIterator != end; ++pairIterator) {
+            std::string value = (*pairIterator)[1];
+            int column = std::stoi((*pairIterator)[2]);
+            pairs.push_back({value, column});
+        }
     }
 
-    return result;
+    return std::make_tuple(fileName, fileLine, pairs);
 }

@@ -6,7 +6,8 @@
     #include <tuple>
 
     namespace Templi{
+        using TempliConfig = std::tuple<std::string, int, std::vector<std::pair<std::string, int>>>;
         std::vector<std::pair<std::string, int>> parseTemplateString(std::string &text);
-        std::tuple<std::string,std::string,std::string, int, int> parseConfigString(std::string &config);
+        TempliConfig parseConfigString(std::string &config);
     }
 #endif

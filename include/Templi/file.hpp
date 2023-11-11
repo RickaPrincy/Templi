@@ -6,6 +6,7 @@
     #include <map> 
     #include <fstream>
     #include <tuple>
+    #include <Templi/string.hpp>
     
     namespace Templi{
         bool saveFile(std::string path, std::string &text);
@@ -14,6 +15,6 @@
 
         std::vector<std::string> readFileByLine(std::string path);
         std::vector<std::string> getFolderFiles(std::string path);
-        std::vector<std::tuple<std::string, std::string,std::string, int, int>> parseConfigFile(std::string configPath, std::map<std::string, std::string> &values);
+        std::vector<Templi::TempliConfig> parseConfigFile(std::string configPath);
     }
 #endif

@@ -2,6 +2,7 @@
 #include <Templi/string.hpp>
 #include <cstdio>
 #include <filesystem>
+#include <iostream>
 
 namespace fs = std::filesystem;
 
@@ -49,35 +50,24 @@ std::vector<std::string> Templi::getFolderFiles(std::string path){
     return result;
 }
 
-std::vector<std::tuple<std::string, std::string,std::string, int, int>> Templi::parseConfigFile(std::string configPath, std::map<std::string, std::string> &values){
-    std::vector<std::tuple<std::string,std::string, std::string, int, int>> extracted;
+std::vector<Templi::TempliConfig> Templi::parseConfigFile(std::string configPath){
+    std::vector<Templi::TempliConfig> extracted;
     std::ifstream configFile(configPath);
-    std::string lineContent, lastFileName = "";
-    int line{1}, lastLine{-1}, sameFileSameLine{1};
+    std::string lineContent;
 
     if(!configFile.is_open())
         extracted;
     
     while(std::getline(configFile, lineContent)){
-        std::tuple<std::string, std::string,std::string, int, int> value = Templi::parseConfigString(lineContent);
-        const std::string fileNameValue = std::get<0>(value),fileOutput = std::get<1>(value), wordValue = std::get<2>(value);
-        size_t lineValue = std::get<3>(value), indexValue = std::get<4>(value);
-
-        if(fileNameValue != "" && values.find(wordValue) != values.end()){
-            const std::string wordContent = values.at(wordValue);
-            if( lastFileName == fileNameValue && lastLine == lineValue){
-                indexValue += sameFileSameLine;
-                sameFileSameLine += wordContent.size();
-            }else{
-                sameFileSameLine = wordContent.size();
-            }
-            
-            extracted.push_back(std::make_tuple(fileNameValue,fileOutput,wordContent, lineValue, indexValue));
-            lastFileName = fileNameValue;
-            lastLine = lineValue;
+        Templi::TempliConfig value = Templi::parseConfigString(lineContent);
+        if(std::get<0>(value) != ""){
+            extracted.push_back(value);
+        }
+        else{
+            //TODO: should throw error
+            std::cerr << "Config file error" << std::endl;
         }
     }
     configFile.close();
-    
     return extracted;
 }
