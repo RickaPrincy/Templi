@@ -69,7 +69,7 @@ std::map<std::string, std::string> Templi::getAllValues(std::vector<std::string>
 
     for(const auto name: valuesName){
         std::string value = "";
-        Templi::getInput(text + " " + name, value, cleanText);
+        Templi::getInput(text + " \"" + name + "\"", value, cleanText);
         
         if(!value.empty()){
             results.insert({name, value});

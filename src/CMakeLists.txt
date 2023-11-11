@@ -3,5 +3,7 @@ file(GLOB HEADERS "${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/*.hpp")
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADERS})
 
-install(TARGETS ${PROJECT_NAME} DESTINATION lib)
-install(FILES ${HEADERS} DESTINATION include/Templi)
+if(TEMPLI_LIB_INSTALL)
+    install(TARGETS ${PROJECT_NAME} DESTINATION lib)
+    install(FILES ${HEADERS} DESTINATION include/Templi)
+endif()

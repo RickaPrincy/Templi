@@ -36,10 +36,10 @@ void Templi::launchConfiguration(std::string config,std::string folderTemplate,s
     wordsConfig = Templi::configure(files, config);
     
     TColor::write_endl(TColor::YELLOW, "Memorization of the found files...");
-    Templi::saveIterator(config +".files", files);
+    Templi::saveIterator(config +".files", files, "\n");
     
     TColor::write_endl(TColor::YELLOW, "Memorization of the found words...");
-    Templi::saveIterator(config +".words", wordsConfig);
+    Templi::saveIterator(config +".words", wordsConfig, "\n");
     
     TColor::write(TColor::GREEN, "Configuration finished!, run ");
     TColor::write(TColor::YELLOW, "templi --generate ");
