@@ -22,7 +22,9 @@ std::set<std::string> Templi::configure(std::vector<std::string> paths, std::str
         while(std::getline(fileTemplate, lineContent)){
             std::vector<std::pair<std::string, int>> words = Templi::parseTemplateString(lineContent);
             contentCleaned << lineContent << "\n";
-            results.push_back({path,line,words});
+            if(words.size() > 0){
+                results.push_back({path,line,words});
+            }
             line++;
         }
         
@@ -58,7 +60,8 @@ void Templi::generate(std::string configPath, std::map<std::string, std::string>
     std::string lastFile = "";
     size_t line{1};
     
-    for(const auto config : configs){
+    for(size_t i =0; i < configs.size(); i++){
+        const auto config = configs.at(i);
         std::string lineContent;
         std::string fileName = std::get<0>(config);
         size_t fileLine = std::get<1>(config);
@@ -67,7 +70,7 @@ void Templi::generate(std::string configPath, std::map<std::string, std::string>
         if(outputs.find(fileName) == outputs.end())
             continue;
         
-        if(lastFile != "" && fileName != lastFile){
+        if(fileName != lastFile){
             if(templateFile.is_open()){
                 while(std::getline(templateFile, lineContent)){
                     fileContent << lineContent << "\n";
@@ -94,7 +97,7 @@ void Templi::generate(std::string configPath, std::map<std::string, std::string>
                     if(values.find(pair.first) != values.end()){
                         const auto value = values.at(pair.first);
                         if(pair.second <= lineContent.size()){
-                            lineContent.insert(pair.second, value);
+                            lineContent.insert(pair.second + additionalIndex, value);
                             additionalIndex += value.size();
                         }
                     }else{
@@ -110,7 +113,7 @@ void Templi::generate(std::string configPath, std::map<std::string, std::string>
                 break;
         }
 
-        if(!findConfig){
+        if(!findConfig || i == configs.size() - 1){
             std::string fileContentString = fileContent.str();
             Templi::saveFile(outputs.at(fileName),fileContentString);
         }
