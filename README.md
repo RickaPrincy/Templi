@@ -8,9 +8,26 @@ Templi is a groundbreaking tool designed to expedite the template file generatio
 
 Its unparalleled speed is attributed to a unique approach—preemptive identification of {{}} tags within template files. This process occurs in advance through template configuration and position memorization in configuration files. During template generation (word replacement), Templi simply references these configurations, seamlessly inserting the values that replace the {{}} tags.
 
+# Installation :seedling:
+
+For the moment, you have to build templi to use it
+
+- Dependancies
+
+    - CMake (Version 3.27 or later)
+    - C++ Compiler with C++17 support
+
+- You can run the following command to build templi, but if you want other options of building templi, read [this](BUILD_INSTALL.md).
+
+```bash
+bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/Templi/main/install.sh)
+```
+
+- You can also simply clone and use Templi as a submodule.
+
 # Getting started :rocket:
 
-## Writing a template :pencil2:
+## Writing a template
 
 - Insert the names of the words you wish to replace within the `{{}}` placeholders.
 
@@ -28,22 +45,6 @@ echo "hello {{name}}"
     "description": {{version}}
 }
 ```
-## Using the Templi Cli :bookmark: 
-
-- To use the Templi CLI, you need to install it on your machine or have the binary. 
-
-### 1. Configure templates : `templi --configure` or `templi -c`
-
-- Place your template files in a folder and run `templi --configure` or `templi -c`, then respond to all prompts, as shown in the following image: 
-
-![configure template](images/configure.png)
-
-### 2. Generating templates: `templi --generate` or `templi -c`
-
-- Just run `templi --generate` or `templi -g` to generate templates. It will prompt you for all the values and outputs paths specified in the library. 
-
-![configure template](images/generate.png)
-
 ## Using the library :blue_book:
 
 - To use the Templi library, you just need to include it in your project. I recommend using `cmake` for library integration. 
@@ -107,8 +108,21 @@ Templi::generate("config.templi", values, outptusFiles);
 - **type**: std::map\<std::string, std::string\>
 - **description**: The map contains output file paths for all configured template files. The key is the configured template file path.
 
-# Build :hammer:
-The build instruction is [here](./BUILD_INSTALL.md)
+## Using the Templi Cli :bookmark: 
+
+- To use the Templi CLI, you need to install it on your machine or have the binary. 
+
+### 1. Configure templates : `templi --configure` or `templi -c`
+
+- Place your template files in a folder and run `templi --configure` or `templi -c`, then respond to all prompts, as shown in the following image: 
+
+![configure template](images/configure.png)
+
+### 2. Generating templates: `templi --generate` or `templi -c`
+
+- Just run `templi --generate` or `templi -g` to generate templates. It will prompt you for all the values and outputs paths specified in the library. 
+
+![configure template](images/generate.png)
 
 # License
 
