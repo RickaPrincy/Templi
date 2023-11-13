@@ -1,5 +1,5 @@
 #! /bin/bash
-git clone --recursive https://github.com/RickaPrincy
+git clone --recursive https://github.com/RickaPrincy/Templi.git
 cd Templi
 mkdir build
 cd build
