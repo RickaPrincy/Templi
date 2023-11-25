@@ -1,8 +1,6 @@
 [submodule "external/googletest"]
 	path = external/googletest
 	url = https://github.com/google/googletest.git
-	branch = v1.14.x
 [submodule "external/TColor"]
 	path = external/TColor
 	url = https://github.com/RickaPrincy/Tcolor.hpp
-	branch = v0.9.0
