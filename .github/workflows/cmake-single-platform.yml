@@ -15,6 +15,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    
+    - name: Get all dependancies
+      run: git submodule update --init --recursive
 
     - name: Configure CMake
       run: cmake -DBUILD_GMOCK=OFF -DINSTALL_GTEST=OFF -DTEMPLI_TEST=ON -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
@@ -24,5 +27,5 @@ jobs:
 
     - name: Test
       working-directory: ${{github.workspace}}/build/tests
-      run: Templi_test
+      run: ./Templi_test
 
