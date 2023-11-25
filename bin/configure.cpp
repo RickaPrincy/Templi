@@ -7,6 +7,7 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
+#include <filesystem>
 
 void Templi::takeConfiguration(){
     bool runConfigure = true;
@@ -25,11 +26,18 @@ void Templi::takeConfiguration(){
 
 void Templi::launchConfiguration(std::string config,std::string folderTemplate,std::vector<std::string> &files){
     std::set<std::string> wordsConfig;
+    std::string folderPath = "";
+    try{
+        folderPath = std::filesystem::canonical("./" + folderTemplate);
+    }catch(const std::filesystem::filesystem_error &error){
+        TColor::write_endl(TColor::RED, "[ ERROR ] : Template folder not found");
+        return;
+    }
 
     for(size_t i = 0; i < files.size() ; i++){
         TColor::write_endl(TColor::YELLOW, "This file will be configured " + files.at(i) + "...");
         //TODO: change / to \ for windows using cmake
-        files.at(i) = folderTemplate + "/" + files.at(i);
+        files.at(i) = folderPath + "/" + files.at(i);
     }
 
     TColor::write_endl(TColor::YELLOW, "Configuration launched...");
