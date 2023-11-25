@@ -9,8 +9,11 @@ option(TEMPLI_CLI_INSTALL "Install Templi cli" ON)
 option(TEMPLI_LIB "Build Templi lib" ON)
 option(TEMPLI_LIB_INSTALL "Install Templi lib" ON)
 option(TEMPLI_TEST "Build templi test" OFF)
+option(TEMPLI_VERSION_BUILD "Build templi version" OFF)
 
-configure_file(TempliConfig.h.in ${CMAKE_SOURCE_DIR}/include/Templi/TempliConfig.hpp)
+if(TEMPLI_VERSION_BUILD)
+    configure_file(TempliConfig.h.in ${CMAKE_SOURCE_DIR}/include/Templi/TempliConfig.hpp)
+endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
