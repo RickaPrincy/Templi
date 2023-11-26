@@ -20,4 +20,5 @@ void Templi::generateCli(){
     TColor::write_endl(TColor::YELLOW, "Generating template...");
     Templi::generate(configuredPath, generatedPath, valuesMap);
     TColor::write_endl(TColor::GREEN, "Generating template success !");
+    Templi::writeLine();
 }

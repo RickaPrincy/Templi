@@ -11,7 +11,7 @@ String Templi::repeat(String text, int number){
 }
 
 void Templi::writeLine(int number){
-    TColor::write_endl(TColor::BLUE,"\n" + Templi::repeat("*", number));
+    TColor::write_endl(TColor::BLUE,Templi::repeat("*", number));
 }
 
 void Templi::writeKeyValue(String key, String value){

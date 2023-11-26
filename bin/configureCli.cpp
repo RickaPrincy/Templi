@@ -18,8 +18,7 @@ void Templi::configureCli(){
     Templi::getInput("Configured path(default: '__configured__')", configuredPath, true,"__configured__");
 
     while (true) {
-        TColor::write(TColor::BLUE, "\tAdd Path to exclude (Empty if stop adding): ");
-        std::getline(std::cin, oneIgnoredPath);
+        Templi::getInput("Add Path to exclude (Empty if stop adding)", oneIgnoredPath, true);
         if (oneIgnoredPath.empty()) {
             break;
         }
@@ -30,4 +29,5 @@ void Templi::configureCli(){
     TColor::write(TColor::GREEN, "Configuration finished!, run ");
     TColor::write(TColor::YELLOW, "templi --generate ");
     TColor::write_endl(TColor::GREEN, "to create template");
+    Templi::writeLine(); 
 }

@@ -17,13 +17,13 @@ For the moment, you have to build templi to use it
     - CMake (Version 3.27 or later)
     - C++ Compiler with C++17 support
 
-- You can run the following command to build templi, but if you want other options of building templi, read [this](BUILD_INSTALL.md).
+- You can run the following command to build and install templi with cmake, but if you want other options of building templi, read [this](BUILD_INSTALL.md).
 
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/Templi/main/install.sh)
 ```
 
-- You can also simply clone and use Templi as a submodule.
+- You can also simply use Templi as a submodule.
 
 # Getting started :rocket:
 
@@ -54,7 +54,7 @@ echo "hello {{name}}"
 ```cpp
 //Signature
 namespace Templi{
-    std::set<std::string> configure(std::vector<std::string> paths, std::string configPath);
+    void configure();
 }
 
 //Example:
