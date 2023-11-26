@@ -36,8 +36,6 @@ void Templi::launchConfiguration(String config,String folderTemplate,VectorStrin
 
     for(size_t i = 0; i < files.size() ; i++){
         TColor::write_endl(TColor::YELLOW, "This file will be configured " + files.at(i) + "...");
-        //TODO: change / to \ for windows using cmake
-        files.at(i) = folderPath + "/" + files.at(i);
     }
 
     TColor::write_endl(TColor::YELLOW, "Configuration launched...");

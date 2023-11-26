@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.27)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-project(Templi VERSION 1.0.1)
+project(Templi VERSION 2.0.0)
 
 option(TEMPLI_CLI_BUILD "Build Templi cli" ON)
 option(TEMPLI_CLI_INSTALL "Install Templi cli" ON)
