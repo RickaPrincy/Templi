@@ -23,13 +23,5 @@
         void launchConfiguration(String config,String folderTemplate, VectorString &paths);
         void generate();
 
-        template <typename T>
-        void saveIterator(String path, T &values, String separator = ""){
-            String fileContent = "";
-            for(const auto value: values){
-                fileContent += value + separator;
-            }
-            saveFile(path, fileContent);
-        }
     }
 #endif

@@ -1,1 +1,1 @@
-console.log("not ignored {{lol}}");
+console.log("not ignored {{name}} ");

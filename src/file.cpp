@@ -87,14 +87,6 @@ VectorConfig Templi::parseConfigFile(String configPath){
     return extracted;
 }
 
-String Templi::absolutePath(String path){
-    try{
-        return std::filesystem::canonical("./" + path);
-    }catch(const std::filesystem::filesystem_error &error){
-        return "";
-    }
-}
-
 bool Templi::copyFolder(String source, String destination){
     try {
         fs::copy(source, destination, fs::copy_options::recursive | fs::copy_options::overwrite_existing);
@@ -102,4 +94,21 @@ bool Templi::copyFolder(String source, String destination){
     } catch (const std::exception& e) {
         return false;
     }
+}
+
+void Templi::writeConfigContent(String templateFolder, String configuredPath,VectorConfig &configs){
+    String configContent = "";
+    SetString wordsConfig;
+    for(const auto configLine : configs){
+        configContent +=  std::get<0>(configLine).substr(templateFolder.size()) + " " 
+            + std::to_string(std::get<1>(configLine));
+        for(const auto word : std::get<2>(configLine)){
+            configContent += " " + word.first + " " + std::to_string(word.second);
+            wordsConfig.insert(word.first);
+        }
+        configContent += "\n";
+    }
+    
+    Templi::saveFile( configuredPath + "/config.templi", configContent);
+    Templi::saveIterator(configuredPath + "/config.templi.words", wordsConfig, "\n");
 }
