@@ -11,8 +11,8 @@ void Templi::generateCli(){
     MapString valuesMap, filesMap;
 
     Templi::writeLine();
-    Templi::getInput("Configured template: (default: '__configured__'): ", configuredPath, true, "__configured__");
-    Templi::getInput("Generated path: (default: '__generated__'): ", generatedPath, true, "__generated__");
+    Templi::getInput("Configured template: (default: '__configured__')", configuredPath, true, "__configured__");
+    Templi::getInput("Generated path: (default: '__generated__')", generatedPath, true, "__generated__");
     
     words = Templi::readFileByLine(configuredPath + "/config.templi.words");
     valuesMap = Templi::getAllValues(words, "Enter value for");
