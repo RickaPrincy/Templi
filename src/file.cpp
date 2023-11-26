@@ -42,7 +42,16 @@ VectorString Templi::readFileByLine(String path){
 void Templi::getFolderFiles(String path,VectorString &result, VectorString excludePaths){
     if(fs::exists(path) && fs::is_directory(path)){
         for(const auto &file: fs::directory_iterator(path)){
-            result.push_back(file.path().filename());
+            for(const auto &exclude: excludePaths){
+                if(file.path().string() == exclude)
+                    continue;
+            }
+
+            if (fs::is_directory(file)) {
+                Templi::getFolderFiles(file.path().string(), result, excludePaths);
+            } else if (fs::is_regular_file(file)) {
+                result.push_back(file.path().string());
+            }
         }
     }
 }
