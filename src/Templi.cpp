@@ -45,6 +45,21 @@ SetString Templi::configure(String templateFolder,String configuredPath, VectorS
         }
     }
 
+    std::string configContent = "";
+    for(const auto configLine : results){
+        configContent +=  std::get<0>(configLine).substr(templateFolder.size()) + " " 
+            + std::to_string(std::get<1>(configLine));
+
+        for(const auto word : std::get<2>(configLine)){
+            configContent += " " + word.first + " " + std::to_string(word.second);
+            wordsConfig.insert(word.first);
+        }
+        configContent += "\n";
+    }
+    
+    Templi::saveFile(prefix + "/config.templi", configContent);
+    Templi::saveFile(prefix + "/config.templi.prefix", prefix);
+
     return wordsConfig;
 }
 
