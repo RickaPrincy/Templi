@@ -5,17 +5,18 @@
 #include <iostream>
 
 namespace fs = std::filesystem;
+using namespace Templi;
 
-bool Templi::saveFile(std::string path, std::string &text){
+bool Templi::saveFile(String path, String &text){
     std::ofstream file(path);
     return writeOpenedFile(&file, text);
 }
 
-bool Templi::deleteFile(std::string path){
+bool Templi::deleteFile(String path){
     return std::remove(path.c_str()) != 0;
 }
 
-bool Templi::writeOpenedFile(std::ofstream *file,std::string &text){
+bool Templi::writeOpenedFile(std::ofstream *file,String &text){
     if (file->is_open()) {
         *file << text;
         file->close();
@@ -24,10 +25,10 @@ bool Templi::writeOpenedFile(std::ofstream *file,std::string &text){
     return false;
 }
 
-std::vector<std::string> Templi::readFileByLine(std::string path){
-    std::vector<std::string> result;
+VectorString Templi::readFileByLine(String path){
+    VectorString result;
     std::ifstream file(path);
-    std::string lineContent;
+    String lineContent;
     
     if(file.is_open()){
         while(std::getline(file, lineContent)){
@@ -38,26 +39,24 @@ std::vector<std::string> Templi::readFileByLine(std::string path){
     return result;
 }
 
-void Templi::getFolderFiles(std::string path,std::vector<std::string> &result, std::vector<std::string> excludePaths){
+void Templi::getFolderFiles(String path,VectorString &result, VectorString excludePaths){
     if(fs::exists(path) && fs::is_directory(path)){
         for(const auto &file: fs::directory_iterator(path)){
             result.push_back(file.path().filename());
         }
     }
-    
-    return result;
 }
 
-std::vector<Templi::TempliConfig> Templi::parseConfigFile(std::string configPath){
-    std::vector<Templi::TempliConfig> extracted;
+VectorConfig Templi::parseConfigFile(String configPath){
+    VectorConfig extracted;
     std::ifstream configFile(configPath);
-    std::string lineContent;
+    String lineContent;
 
     if(!configFile.is_open())
         extracted;
     
     while(std::getline(configFile, lineContent)){
-        Templi::TempliConfig value = Templi::parseConfigString(lineContent);
+        TempliConfig value = parseConfigString(lineContent);
         if(std::get<0>(value) != ""){
             extracted.push_back(value);
         }

@@ -3,24 +3,24 @@
 #include <Templi/string.hpp>
 #include <Templi/file.hpp>
 #include <sstream>
-#include <tuple>
-#include <vector>
 
-std::set<std::string> Templi::configure(std::vector<std::string> paths, std::string configPath){
-    std::set<std::string> wordsConfig;
-    std::vector<Templi::TempliConfig> results;
+using namespace Templi;
+
+SetString Templi::configure(VectorString paths, String configPath){
+    SetString wordsConfig;
+    VectorConfig results;
     
     for(const auto path: paths){
         size_t line{1};
         std::ifstream fileTemplate(path);
         std::stringstream contentCleaned;
-        std::string lineContent;
+        String lineContent;
 
         if(!fileTemplate.is_open())
             continue;
 
         while(std::getline(fileTemplate, lineContent)){
-            std::vector<std::pair<std::string, int>> words = Templi::parseTemplateString(lineContent);
+            VectorPairSI words = parseTemplateString(lineContent);
             contentCleaned << lineContent << "\n";
             if(words.size() > 0){
                 results.push_back({path,line,words});
@@ -37,7 +37,7 @@ std::set<std::string> Templi::configure(std::vector<std::string> paths, std::str
         }
     }
     
-    std::string configContent = "";
+    String configContent = "";
     for(const auto configLine : results){
         configContent +=  std::get<0>(configLine) + " " 
             + std::to_string(std::get<1>(configLine));
@@ -53,17 +53,17 @@ std::set<std::string> Templi::configure(std::vector<std::string> paths, std::str
     return wordsConfig;
 }
 
-void Templi::generate(std::string configPath, std::map<std::string, std::string> values, std::map<std::string, std::string> outputs){
-    std::vector<Templi::TempliConfig> configs = Templi::parseConfigFile(configPath);
+void Templi::generate(String configPath, std::map<String, String> values, std::map<String, String> outputs){
+    VectorConfig configs = parseConfigFile(configPath);
     std::ifstream templateFile;
     std::stringstream fileContent;
-    std::string lastFile = "";
+    String lastFile = "";
     size_t line{1};
     
     for(size_t i =0; i < configs.size(); i++){
         const auto config = configs.at(i);
-        std::string lineContent;
-        std::string fileName = std::get<0>(config);
+        String lineContent;
+        String fileName = std::get<0>(config);
         size_t fileLine = std::get<1>(config);
         bool findConfig = false;
 
@@ -75,8 +75,8 @@ void Templi::generate(std::string configPath, std::map<std::string, std::string>
                 while(std::getline(templateFile, lineContent)){
                     fileContent << lineContent << "\n";
                 }
-                std::string fileContentString = fileContent.str();
-                Templi::saveFile(outputs.at(lastFile), fileContentString);
+                String fileContentString = fileContent.str();
+                saveFile(outputs.at(lastFile), fileContentString);
                 templateFile.close();
             }
             
@@ -114,8 +114,8 @@ void Templi::generate(std::string configPath, std::map<std::string, std::string>
         }
 
         if(!findConfig || i == configs.size() - 1){
-            std::string fileContentString = fileContent.str();
-            Templi::saveFile(outputs.at(fileName),fileContentString);
+            String fileContentString = fileContent.str();
+            saveFile(outputs.at(fileName),fileContentString);
         }
     }
     templateFile.close();

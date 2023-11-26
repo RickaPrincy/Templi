@@ -13,6 +13,8 @@
         using VectorString = std::vector<String>;
         using MapString = std::map<String, String>;
         using SetString = std::set<String>;
+        using VectorPairSI = std::vector<std::pair<std::string, int>>;
+        using VectorConfig = std::vector<TempliConfig>;
     } 
  
 #endif

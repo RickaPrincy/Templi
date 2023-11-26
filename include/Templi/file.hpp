@@ -11,7 +11,7 @@
         bool writeOpenedFile(std::ofstream *file,String &text);
 
         VectorString readFileByLine(String path);
-        VectorString getFolderFiles(String path,VectorString &result, VectorString excludePath = {});
-        std::vector<Templi::TempliConfig> parseConfigFile(String configPath);
+        void getFolderFiles(String path,VectorString &result, VectorString excludePath = {});
+        VectorConfig parseConfigFile(String configPath);
     }
 #endif

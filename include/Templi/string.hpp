@@ -3,7 +3,7 @@
 
     #include <Templi/types.hpp>
     namespace Templi{
-        std::vector<std::pair<String, int>> parseTemplateString(String &text);
+        VectorPairSI parseTemplateString(String &text);
         TempliConfig parseConfigString(String &config);
     }
 
