@@ -2,10 +2,10 @@
 #include <Templi/string.hpp>
 #include <iostream>
 
-using TempliResult = std::vector<std::pair<std::string, int>>;
+using namespace Templi;
 
-static void testResults(std::string &text, TempliResult outputs){
-    TempliResult results = Templi::parseTemplateString(text);
+static void testResults(String &text, VectorPairSI outputs){
+    VectorPairSI results = Templi::parseTemplateString(text);
 
     ASSERT_EQ(results.size(),outputs.size());
     if(results.size() != outputs.size())
@@ -19,8 +19,8 @@ static void testResults(std::string &text, TempliResult outputs){
 
 TEST(TempliStringGetPosition, no_word){
     //Arrange
-    TempliResult outputs = {};
-    std::string text = "I have no value";
+    VectorPairSI outputs = {};
+    String text = "I have no value";
 
     //Act && Assert
     testResults(text, outputs);
@@ -29,8 +29,8 @@ TEST(TempliStringGetPosition, no_word){
 
 TEST(TempliStringGetPosition, one_word){
     //Arrange 
-    std::string text = "I'mone test for{{you}} so tell me";
-    TempliResult outputs = {{"you",15}};
+    String text = "I'mone test for{{you}} so tell me";
+    VectorPairSI outputs = {{"you",15}};
 
     //Act && Assert
     testResults(text, outputs);
@@ -39,8 +39,8 @@ TEST(TempliStringGetPosition, one_word){
 
 TEST(TempliStringGetPosition, one_word_at_end){
     //Arrange
-    std::string text = "mone{{name}}";
-    TempliResult outputs = {{"name", 4}};
+    String text = "mone{{name}}";
+    VectorPairSI outputs = {{"name", 4}};
 
     //Act && Assert
     testResults(text, outputs);
@@ -49,8 +49,8 @@ TEST(TempliStringGetPosition, one_word_at_end){
 
 TEST(TempliStringGetPosition, one_word_at_begin){
     //Arrange
-    std::string text = "{{cool}}test";
-    TempliResult outputs = {{"cool", 0}};
+    String text = "{{cool}}test";
+    VectorPairSI outputs = {{"cool", 0}};
     
     //Act && Assert
     testResults(text, outputs);
@@ -59,8 +59,8 @@ TEST(TempliStringGetPosition, one_word_at_begin){
 
 TEST(TempliStringGetPosition, one_word_only){
     //Arrange
-    std::string text = "{{cool}}";
-    TempliResult outputs = {{"cool", 0}};
+    String text = "{{cool}}";
+    VectorPairSI outputs = {{"cool", 0}};
 
     //Act && Assert
     testResults(text, outputs);
@@ -69,8 +69,8 @@ TEST(TempliStringGetPosition, one_word_only){
 
 TEST(TempliStringGetPosition, two_words){
     //Arrange
-    std::string text = "{{cool}}I'm happy{{lol}}";
-    TempliResult outputs = {
+    String text = "{{cool}}I'm happy{{lol}}";
+    VectorPairSI outputs = {
         {"cool", 0},
         {"lol", 9}
     };
@@ -82,8 +82,8 @@ TEST(TempliStringGetPosition, two_words){
 
 TEST(TempliStringGetPosition, many_words){
     //Arrange
-    std::string text = "je{{cool}}I'm happy{{lol}},!no\\ motion{{number1}}, things, {{nice}}";
-    TempliResult outputs = {
+    String text = "je{{cool}}I'm happy{{lol}},!no\\ motion{{number1}}, things, {{nice}}";
+    VectorPairSI outputs = {
         {"cool", 2},
         {"lol", 11},
         {"number1", 23},
@@ -97,8 +97,8 @@ TEST(TempliStringGetPosition, many_words){
 
 TEST(TempliStringGetPosition, with_no_close){
     //Arrange
-    std::string text = "je{{cool{{nice}}, {{je";
-    TempliResult outputs = {
+    String text = "je{{cool{{nice}}, {{je";
+    VectorPairSI outputs = {
         {"cool{{nice", 2}
     };
 
