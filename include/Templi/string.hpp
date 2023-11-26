@@ -1,13 +1,10 @@
 #ifndef __TEMPLI_STRING__
 #define __TEMPLI_STRING__
 
-    #include <string>
-    #include <vector>
-    #include <tuple>
-
+    #include <Templi/types.hpp>
     namespace Templi{
-        using TempliConfig = std::tuple<std::string, int, std::vector<std::pair<std::string, int>>>;
-        std::vector<std::pair<std::string, int>> parseTemplateString(std::string &text);
-        TempliConfig parseConfigString(std::string &config);
+        std::vector<std::pair<String, int>> parseTemplateString(String &text);
+        TempliConfig parseConfigString(String &config);
     }
+
 #endif

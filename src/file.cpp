@@ -38,15 +38,13 @@ std::vector<std::string> Templi::readFileByLine(std::string path){
     return result;
 }
 
-std::vector<std::string> Templi::getFolderFiles(std::string path){
-    std::vector<std::string> result;
-    
+void Templi::getFolderFiles(std::string path,std::vector<std::string> &result, std::vector<std::string> excludePaths){
     if(fs::exists(path) && fs::is_directory(path)){
         for(const auto &file: fs::directory_iterator(path)){
             result.push_back(file.path().filename());
         }
     }
-
+    
     return result;
 }
 
