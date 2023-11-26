@@ -12,7 +12,8 @@
 
         String absolutePath(String path);
         VectorString readFileByLine(String path);
-        void getFolderFiles(String path,VectorString &result, VectorString excludePath = {});
+        void getFolderFiles(String path, VectorString &result, VectorString excludePath = {});
+        bool copyFolder(String source, String destination);
         VectorConfig parseConfigFile(String configPath);
     }
 #endif

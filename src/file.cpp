@@ -42,10 +42,19 @@ VectorString Templi::readFileByLine(String path){
 void Templi::getFolderFiles(String path,VectorString &result, VectorString excludePaths){
     if(fs::exists(path) && fs::is_directory(path)){
         for(const auto &file: fs::directory_iterator(path)){
-            for(const auto &exclude: excludePaths){
-                if(file.path().string() == exclude)
-                    continue;
+            int i = 0;
+            bool notExclude = true;
+            
+            while( i < excludePaths.size()){
+                if(file.path().string() == excludePaths.at(i)){
+                    notExclude = false;
+                    break;
+                }
+                i++;
             }
+
+            if(!notExclude)
+                continue;
 
             if (fs::is_directory(file)) {
                 Templi::getFolderFiles(file.path().string(), result, excludePaths);
@@ -83,5 +92,14 @@ String Templi::absolutePath(String path){
         return std::filesystem::canonical("./" + path);
     }catch(const std::filesystem::filesystem_error &error){
         return "";
+    }
+}
+
+bool Templi::copyFolder(String source, String destination){
+    try {
+        fs::copy(source, destination, fs::copy_options::recursive | fs::copy_options::overwrite_existing);
+        return true;
+    } catch (const std::exception& e) {
+        return false;
     }
 }
