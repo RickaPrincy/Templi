@@ -16,6 +16,9 @@ void Templi::generate(String configuredPath,String outputFolder, MapString value
     if(!copyFolder(configuredPath, outputFolder))
         return;
 
+    Templi::deleteFile(outputFolder + "/config.templi");
+    Templi::deleteFile(outputFolder + "/config.templi.words");
+
     for(size_t i = 0; i < configs.size(); i++){
         const auto config = configs.at(i);
         String lineContent;
@@ -29,7 +32,7 @@ void Templi::generate(String configuredPath,String outputFolder, MapString value
                     fileContent << lineContent << "\n";
                 }
                 String fileContentString = fileContent.str();
-                Templi::saveFile(outputFolder + fileName, fileContentString);
+                Templi::saveFile(outputFolder + lastFile, fileContentString);
                 templateFile.close();
             }
             
@@ -67,9 +70,13 @@ void Templi::generate(String configuredPath,String outputFolder, MapString value
         }
 
         if(!findConfig || i == configs.size() - 1){
+            while(std::getline(templateFile, lineContent)){
+                fileContent << lineContent << "\n";
+            }
             String fileContentString = fileContent.str();
             Templi::saveFile(outputFolder + fileName,fileContentString);
         }
     }
+
     templateFile.close();
 }

@@ -1,1 +1,5 @@
-console.log("not ignored {{name}} ");
+console.log(`
+    Name: {{name}},
+    Version: {{version}},
+    Date: {{date}},
+`);

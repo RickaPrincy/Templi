@@ -1,1 +1,5 @@
-console.log("not ignored  ");
+console.log(`
+    Name: ,
+    Version: ,
+    Date: ,
+`);
