@@ -3,30 +3,30 @@
 #include <Templi/file.hpp>
 #include <Templi/Templi.hpp>
 
-#include <vector>
-#include <string>
 #include <iostream>
 #include <algorithm>
 #include <filesystem>
 
+using namespace Templi;
+
 void Templi::takeConfiguration(){
     bool runConfigure = true;
-    std::vector<std::string> filePaths;
-    std::vector<std::pair<std::string, std::string>> files;
-    std::string configFileName, templateFolder;
+    VectorString filePaths;
+    std::vector<std::pair<String, String>> files;
+    String configFileName, templateFolder;
 
-    Templi::writeLine();
-    Templi::getInput("Config file (default: 'config.templi')",configFileName,true,"config.templi");
-    Templi::getInput("Template folder(default: 'template')",templateFolder,true,"template");
+    writeLine();
+    getInput("Config file (default: 'config.templi')",configFileName,true,"config.templi");
+    getInput("Template folder(default: 'template')",templateFolder,true,"template");
 
-    filePaths = Templi::getFolderFiles(templateFolder);
+    getFolderFiles(templateFolder, filePaths);
     
     launchConfiguration(configFileName,templateFolder,filePaths);
 }
 
-void Templi::launchConfiguration(std::string config,std::string folderTemplate,std::vector<std::string> &files){
-    std::set<std::string> wordsConfig;
-    std::string folderPath = "";
+void Templi::launchConfiguration(String config,String folderTemplate,VectorString &files){
+    SetString wordsConfig;
+    String folderPath = "";
     try{
         folderPath = std::filesystem::canonical("./" + folderTemplate);
     }catch(const std::filesystem::filesystem_error &error){
@@ -41,13 +41,13 @@ void Templi::launchConfiguration(std::string config,std::string folderTemplate,s
     }
 
     TColor::write_endl(TColor::YELLOW, "Configuration launched...");
-    wordsConfig = Templi::configure(files, config);
+    wordsConfig = configure(files, config);
     
     TColor::write_endl(TColor::YELLOW, "Memorization of the found files...");
-    Templi::saveIterator(config +".files", files, "\n");
+    saveIterator(config +".files", files, "\n");
     
     TColor::write_endl(TColor::YELLOW, "Memorization of the found words...");
-    Templi::saveIterator(config +".words", wordsConfig, "\n");
+    saveIterator(config +".words", wordsConfig, "\n");
     
     TColor::write(TColor::GREEN, "Configuration finished!, run ");
     TColor::write(TColor::YELLOW, "templi --generate ");
