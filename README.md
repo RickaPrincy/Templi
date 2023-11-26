@@ -17,13 +17,13 @@ For the moment, you have to build templi to use it
     - CMake (Version 3.27 or later)
     - C++ Compiler with C++17 support
 
-- You can run the following command to build templi, but if you want other options of building templi, read [this](BUILD_INSTALL.md).
+- You can run the following command to build and install templi with cmake, but if you want other options of building templi, read [this](BUILD_INSTALL.md).
 
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/Templi/main/install.sh)
 ```
 
-- You can also simply clone and use Templi as a submodule.
+- You can also simply use Templi as a submodule.
 
 # Getting started :rocket:
 
@@ -54,59 +54,59 @@ echo "hello {{name}}"
 ```cpp
 //Signature
 namespace Templi{
-    std::set<std::string> configure(std::vector<std::string> paths, std::string configPath);
+    void configure(String templateFolder, String configuredPath, VectorString ignoredPaths = {});
 }
 
 //Example:
-std::set<std::string> wordsFounded;
-wordsFounded = Templi::configure({"main.js", "hello.txt", "function.cpp"}, "config.templi");
+Templi::configure("__template__", "__configured__", {
+    "__template__/main.js",
+    "__template__/all_ignored"
+});
+
 ```
 
 #### Param1:
-- **type**: std::vector\<std::string\>
-- **Description**: A vector that contains all the paths to your templates for configuration. 
+- **type**: using String = **std::string**
+- **Description**: string representing the path to the folder containing the template to be configured.
 
 #### Param2: 
-- **type**: std::string
-- **Description**: The name of your config file to generate
+- **type**: using String = **std::string**
+- **Description**: Destination path to copy the template after configuration.
 
-#### Return
-- **type**: std::set\<std::string\>
-- **Description**: A set containing all unique words found in all configured template files. 
+#### Param3(Optional):
+- **type**: using VectorString = **std::vector\<std::string\>**
+
+- **Description**: A vector containing all paths not to be configured. 
 
 ### 2. Generate templates: `Templi::generate()`
 
 ```c++
 //Signature
 nampespace Templi{
-    void generate(std::string configPath, std::map<std::string, std::string> values, std::map<std::string, std::string> outputs);
+    void generate(String configuredPath,String outputFolder, MapString values);
 }
 
 //Example
-std::map<std::string, std::string> 
-    outptusFiles = {
-        {"main.js", "main.output"},
-        {"echo.sh", "echo.output.sh"}
-    }, 
-    values = { 
-        {"name", "User name"},
-        {"version", "LOL"}
-    };
-
-Templi::generate("config.templi", values, outptusFiles);
+Templi::generate("__configured__", "__generated__", {
+    {"name", "Templi"},
+    {"version", "1.0.0"},
+    {"date", "2023-01-01"},
+    {"Me", "RickaPrincy"},
+    {"functionName", "sayHelloWorld"}
+});
 ```
 
 #### Param1
-- **type**: std::string 
-- **description**: The name of the config file of the template
+- **type**: using String = **std::string**
+- **description**: Path to the configured template
 
-#### Param2
-- **type**: std::map\<std::string, std::string\>
-- **description**: The map contains values for the words found in all templates during the configuration process. The map key is the word's name. 
+#### Param1
+- **type**: using String = **std::string**
+- **description**: Path to copy the generated template
 
 #### Param3
-- **type**: std::map\<std::string, std::string\>
-- **description**: The map contains output file paths for all configured template files. The key is the configured template file path.
+- **type**: using VectorString = **std::map\<std::string, std::string\>**
+- **description**: The map contains values for the words found in all templates during the configuration process. The map key is the word's name. 
 
 ## Using the Templi Cli :bookmark: 
 
@@ -114,7 +114,7 @@ Templi::generate("config.templi", values, outptusFiles);
 
 ### 1. Configure templates : `templi --configure` or `templi -c`
 
-- Place your template files in a folder and run `templi --configure` or `templi -c`, then respond to all prompts, as shown in the following image: 
+- Place your template in a folder and run `templi --configure` or `templi -c`, then respond to all prompts, as shown in the following image: 
 
 ![configure template](images/configure.png)
 

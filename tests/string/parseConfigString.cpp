@@ -3,12 +3,12 @@
 #include <iostream>
 #include <tuple>
 
-using TempliWordsConfig = std::vector<std::pair<std::string,int>>;
+using namespace Templi;
 
-static void launchTest(std::string &text, Templi::TempliConfig outputs){
-    Templi::TempliConfig results = Templi::parseConfigString(text);
-    TempliWordsConfig resultWords = std::get<2>(results);
-    TempliWordsConfig outputWords = std::get<2>(outputs);
+static void launchTest(String &text, TempliConfig outputs){
+    TempliConfig results = Templi::parseConfigString(text);
+    VectorPairSI resultWords = std::get<2>(results);
+    VectorPairSI outputWords = std::get<2>(outputs);
 
     ASSERT_EQ(std::get<0>(results), std::get<0>(outputs));
     ASSERT_EQ(std::get<1>(results), std::get<1>(outputs));
@@ -24,8 +24,8 @@ static void launchTest(std::string &text, Templi::TempliConfig outputs){
 
 TEST(TempliStringExtractConfig, error_config){
     //Arrange
-    Templi::TempliConfig outputs  = { "", -1 , {}};
-    std::string text = "dfdfdf/dfdfdfdfdkfdjfk";
+    TempliConfig outputs  = { "", -1 , {}};
+    String text = "dfdfdf/dfdfdfdfdkfdjfk";
 
     //Act && Assert
     launchTest(text, outputs);
@@ -33,8 +33,8 @@ TEST(TempliStringExtractConfig, error_config){
 
 TEST(TempliStringExtractConfig, simple_config){
     //Arrange
-    std::string text = "hello.txt 5 ricka 5";
-    Templi::TempliConfig outputs = {"hello.txt", 5 , {{"ricka", 5}}};
+    String text = "hello.txt 5 ricka 5";
+    TempliConfig outputs = {"hello.txt", 5 , {{"ricka", 5}}};
 
     //Act && Assert
     launchTest(text, outputs);
@@ -42,8 +42,8 @@ TEST(TempliStringExtractConfig, simple_config){
 
 TEST(TempliStringExtractConfig, another_simple_config){
     //Arrange
-    std::string text = "main.txt 1 author 6";
-    Templi::TempliConfig outputs = { "main.txt",1, {{"author",6}}};
+    String text = "main.txt 1 author 6";
+    TempliConfig outputs = { "main.txt",1, {{"author",6}}};
 
     //Act && Assert
     launchTest(text, outputs);

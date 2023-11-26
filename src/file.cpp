@@ -5,17 +5,18 @@
 #include <iostream>
 
 namespace fs = std::filesystem;
+using namespace Templi;
 
-bool Templi::saveFile(std::string path, std::string &text){
+bool Templi::saveFile(String path, String &text){
     std::ofstream file(path);
     return writeOpenedFile(&file, text);
 }
 
-bool Templi::deleteFile(std::string path){
+bool Templi::deleteFile(String path){
     return std::remove(path.c_str()) != 0;
 }
 
-bool Templi::writeOpenedFile(std::ofstream *file,std::string &text){
+bool Templi::writeOpenedFile(std::ofstream *file,String &text){
     if (file->is_open()) {
         *file << text;
         file->close();
@@ -24,10 +25,10 @@ bool Templi::writeOpenedFile(std::ofstream *file,std::string &text){
     return false;
 }
 
-std::vector<std::string> Templi::readFileByLine(std::string path){
-    std::vector<std::string> result;
+VectorString Templi::readFileByLine(String path){
+    VectorString result;
     std::ifstream file(path);
-    std::string lineContent;
+    String lineContent;
     
     if(file.is_open()){
         while(std::getline(file, lineContent)){
@@ -38,28 +39,42 @@ std::vector<std::string> Templi::readFileByLine(std::string path){
     return result;
 }
 
-std::vector<std::string> Templi::getFolderFiles(std::string path){
-    std::vector<std::string> result;
-    
+void Templi::getFolderFiles(String path,VectorString &result, VectorString excludePaths){
     if(fs::exists(path) && fs::is_directory(path)){
         for(const auto &file: fs::directory_iterator(path)){
-            result.push_back(file.path().filename());
+            int i = 0;
+            bool notExclude = true;
+            
+            while( i < excludePaths.size()){
+                if(file.path().string() == excludePaths.at(i)){
+                    notExclude = false;
+                    break;
+                }
+                i++;
+            }
+
+            if(!notExclude)
+                continue;
+
+            if (fs::is_directory(file)) {
+                Templi::getFolderFiles(file.path().string(), result, excludePaths);
+            } else if (fs::is_regular_file(file)) {
+                result.push_back(file.path().string());
+            }
         }
     }
-
-    return result;
 }
 
-std::vector<Templi::TempliConfig> Templi::parseConfigFile(std::string configPath){
-    std::vector<Templi::TempliConfig> extracted;
+VectorConfig Templi::parseConfigFile(String configPath){
+    VectorConfig extracted;
     std::ifstream configFile(configPath);
-    std::string lineContent;
+    String lineContent;
 
     if(!configFile.is_open())
         extracted;
     
     while(std::getline(configFile, lineContent)){
-        Templi::TempliConfig value = Templi::parseConfigString(lineContent);
+        TempliConfig value = parseConfigString(lineContent);
         if(std::get<0>(value) != ""){
             extracted.push_back(value);
         }
@@ -70,4 +85,30 @@ std::vector<Templi::TempliConfig> Templi::parseConfigFile(std::string configPath
     }
     configFile.close();
     return extracted;
+}
+
+bool Templi::copyFolder(String source, String destination){
+    try {
+        fs::copy(source, destination, fs::copy_options::recursive | fs::copy_options::overwrite_existing);
+        return true;
+    } catch (const std::exception& e) {
+        return false;
+    }
+}
+
+void Templi::writeConfigContent(String templateFolder, String configuredPath,VectorConfig &configs){
+    String configContent = "";
+    SetString wordsConfig;
+    for(const auto configLine : configs){
+        configContent +=  std::get<0>(configLine).substr(templateFolder.size()) + " " 
+            + std::to_string(std::get<1>(configLine));
+        for(const auto word : std::get<2>(configLine)){
+            configContent += " " + word.first + " " + std::to_string(word.second);
+            wordsConfig.insert(word.first);
+        }
+        configContent += "\n";
+    }
+    
+    Templi::saveFile( configuredPath + "/config.templi", configContent);
+    Templi::saveIterator(configuredPath + "/config.templi.words", wordsConfig, "\n");
 }

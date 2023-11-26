@@ -4,14 +4,14 @@
 using namespace Templi;
 
 void Templi::optionHandler(const char *optionChar){
-    const std::string option = optionChar;
+    const String option = optionChar;
    
     if(option == "--version" || option == "-v")
-        Templi::writeVersion();
+        writeVersion();
     else if(option == "--configure" || option == "-c")
-        Templi::takeConfiguration();
+        configureCli();
     else if(option == "--generate" || option == "-g")
-        Templi::generate();
+        generateCli();
     else
-        Templi::writeHelp();
+        writeHelp();
 }

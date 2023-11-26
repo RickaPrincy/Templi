@@ -2,7 +2,6 @@ file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.hpp *.h *.cpp)
 file(GLOB HEADERS "${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/*.hpp")
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADERS})
-
 if(TEMPLI_LIB_INSTALL)
     install(TARGETS ${PROJECT_NAME} DESTINATION lib)
     install(FILES ${HEADERS} DESTINATION include/Templi)

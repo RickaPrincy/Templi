@@ -2,17 +2,19 @@
 #include <iostream>
 #include <regex>
 
-std::vector<std::pair<std::string, int>> Templi::parseTemplateString(std::string &text){
-    std::vector<std::pair<std::string, int>> results;
+using namespace Templi;
+
+VectorPairSI Templi::parseTemplateString(String &text){
+    VectorPairSI results;
     
     size_t pos = text.find("{{");
-    while (pos != std::string::npos) {
+    while (pos != String::npos) {
         size_t startPos = pos + 2;
         size_t endPos = text.find("}}", startPos); 
 
-        if (endPos != std::string::npos) {
+        if (endPos != String::npos) {
             size_t wordLength = endPos - startPos;
-            std::string word = text.substr(startPos, wordLength);
+            String word = text.substr(startPos, wordLength);
             results.push_back(std::make_pair(word, static_cast<int>(pos)));
 
             text.erase(pos, endPos - pos + 2);
@@ -25,10 +27,10 @@ std::vector<std::pair<std::string, int>> Templi::parseTemplateString(std::string
     return results;
 }
 
-Templi::TempliConfig Templi::parseConfigString(std::string &config) {
-    std::string fileName = "";
+TempliConfig Templi::parseConfigString(String &config) {
+    String fileName = "";
     int fileLine = -1;
-    std::vector<std::pair<std::string, int>> pairs = {};
+    VectorPairSI pairs = {};
     std::regex configPattern(R"((\S+)\s+(\d+)\s+((\S+\s+\d+\s*)+))");
 
     std::smatch match;
@@ -41,7 +43,7 @@ Templi::TempliConfig Templi::parseConfigString(std::string &config) {
         std::sregex_iterator end;
 
         for (; pairIterator != end; ++pairIterator) {
-            std::string value = (*pairIterator)[1];
+            String value = (*pairIterator)[1];
             int column = std::stoi((*pairIterator)[2]);
             pairs.push_back({value, column});
         }

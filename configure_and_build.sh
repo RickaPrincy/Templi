@@ -1,2 +1,2 @@
 #! /bin/bash
-cmake -DBUILD_GMOCK=OFF -DINSTALL_GTEST=OFF -DTEMPLI_TEST=ON -S . -B build && cd build; make
+cmake -DBUILD_GMOCK=OFF -DINSTALL_GTEST=OFF -DTEMPLI_TEST=ON -DTEMPLI_VERSION_BUILD=ON -S . -B build && cd build; make
