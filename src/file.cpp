@@ -77,3 +77,11 @@ VectorConfig Templi::parseConfigFile(String configPath){
     configFile.close();
     return extracted;
 }
+
+String Templi::absolutePath(String path){
+    try{
+        return std::filesystem::canonical("./" + path);
+    }catch(const std::filesystem::filesystem_error &error){
+        return "";
+    }
+}

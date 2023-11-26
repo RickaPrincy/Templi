@@ -10,6 +10,7 @@
         bool deleteFile(String path);
         bool writeOpenedFile(std::ofstream *file,String &text);
 
+        String absolutePath(String path);
         VectorString readFileByLine(String path);
         void getFolderFiles(String path,VectorString &result, VectorString excludePath = {});
         VectorConfig parseConfigFile(String configPath);

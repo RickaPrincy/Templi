@@ -5,8 +5,8 @@
     #include <Templi/types.hpp>    
 
     namespace Templi{
-        SetString configure(VectorString paths, String configPath);
-        void generate(String configPath, MapString values, MapString outputs);
+        SetString configure(String templateFolder, String configuredPath, VectorString ignoredPaths = {});
+        void generate(String configuredPath,String outputFolder, MapString values);
     }
 
 #endif
