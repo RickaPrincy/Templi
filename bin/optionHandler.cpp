@@ -9,9 +9,9 @@ void Templi::optionHandler(const char *optionChar){
     if(option == "--version" || option == "-v")
         writeVersion();
     else if(option == "--configure" || option == "-c")
-        takeConfiguration();
+        configureCli();
     else if(option == "--generate" || option == "-g")
-        generate();
+        generateCli();
     else
         writeHelp();
 }

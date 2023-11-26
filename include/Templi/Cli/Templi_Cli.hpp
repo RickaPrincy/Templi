@@ -19,9 +19,8 @@
         void getInput(String text, String &value, bool cleanOutput = false, String defaultValue = "");
         MapString getAllValues(VectorString valuesName, String text, bool cleanText = false);
         
-        void takeConfiguration();
-        void launchConfiguration(String config,String folderTemplate, VectorString &paths);
-        void generate();
+        void configureCli();
+        void generateCli();
 
     }
 #endif
