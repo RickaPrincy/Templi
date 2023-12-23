@@ -2,6 +2,7 @@
 #include <Templi/fs_utils.hpp>
 #include <Templi/parser.hpp>
 #include <Templi/TempliConfig.hpp>
+#include <Templi/config.hpp>
 #include <iostream>
 
 using namespace Templi;
@@ -31,6 +32,5 @@ void Templi::configure(String template_path, VectorString ignored_path){
             words.insert(word_found);
         }
     }
-
     save_iterator(template_path + TEMPLI_SEPARATOR + "templi.txt", words, "\n");
 }

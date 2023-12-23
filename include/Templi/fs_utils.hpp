@@ -13,7 +13,7 @@
         bool copy_folder(String source, String destination);
         void get_folder_files(String path, VectorString &result, VectorString exclude_path= {});
         bool process_for_each_line(String path, std::function<void(const String &line_content)> process);
-
+        
         template <typename T>
         void save_iterator(String path, T &values, String separator = ""){
             String file_content = "";

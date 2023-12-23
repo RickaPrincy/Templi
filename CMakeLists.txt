@@ -19,6 +19,7 @@ if(TEMPLI_VERSION_BUILD)
 endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/external/TColor/include)
 
 add_subdirectory(src)
 
