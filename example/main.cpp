@@ -4,6 +4,5 @@
 int main(int argc, char const *argv[]){
     Templi::configure("../template");
     
-    
     return 0;
 }

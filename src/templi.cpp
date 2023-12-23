@@ -26,14 +26,22 @@ void Templi::configure(String template_path, VectorString ignored_path){
     SetString words;
 
     get_folder_files(template_path, files, ignored_path);
+    json config_content = {
+        {"ignored_paths", ignored_path},
+        {"keys", json::array()}
+    };
     for(auto file: files){
-        SetString words_found = file_get_brackets_words(template_path + TEMPLI_SEPARATOR + file);
+        SetString words_found = file_get_brackets_words(file);
+        
+        if(words_found.empty()){
+            config_content["ignored_paths"].push_back(file.substr(template_path.size() + 1));
+        }        
+        
         for(auto word_found: words_found){
             words.insert(word_found);
         }
     }
 
-    json config_content = {{"keys", json::array()}};
     for(auto word: words) {
         json new_word = {
             {"key", word},
