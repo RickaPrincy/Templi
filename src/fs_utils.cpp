@@ -1,5 +1,6 @@
 #include <Templi/fs_utils.hpp>
 #include <Templi/parser.hpp>
+#include <Templi/TempliConfig.hpp>
 #include <cstdio>
 #include <filesystem>
 #include <iostream>
@@ -34,14 +35,14 @@ bool Templi::write_in_open_file(std::ofstream *file,String &text){
     return false;
 }
 
-void Templi::get_folder_files(String path,VectorString &result, VectorString excludePaths){
+void Templi::get_folder_files(String path,VectorString &result, VectorString exclude_paths){
     if(fs::exists(path) && fs::is_directory(path)){
         for(const auto &file: fs::directory_iterator(path)){
             int i = 0;
             bool notExclude = true;
             
-            while( i < excludePaths.size()){
-                if(file.path().string() == excludePaths.at(i)){
+            while( i < exclude_paths.size()){
+                if(file.path().string() == path + TEMPLI_SEPARATOR + exclude_paths.at(i)){
                     notExclude = false;
                     break;
                 }
@@ -52,7 +53,7 @@ void Templi::get_folder_files(String path,VectorString &result, VectorString exc
                 continue;
 
             if (fs::is_directory(file)) {
-                Templi::get_folder_files(file.path().string(), result, excludePaths);
+                Templi::get_folder_files(file.path().string(), result, exclude_paths);
             } else if (fs::is_regular_file(file)) {
                 result.push_back(file.path().string());
             }

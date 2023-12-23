@@ -14,8 +14,8 @@ void Templi::valid_templi_config(json &config_content){
     if(!config_content.contains("keys")){
         throw InvalidConfigNotFound("keys");
     }
-    if(!config_content.is_object()){
-        throw InvalidConfigTypeError("keys", "object");
+    if(!config_content.is_array()){
+        throw InvalidConfigTypeError("keys", "array");
     }
 }
 
@@ -37,24 +37,7 @@ json Templi::read_templi_config(String template_path){
         config_file.close();
         exit(EXIT_FAILURE);
     }
-
-    return config_json;
-}
-
-MapString Templi::get_values_from_config(String template_path){
-    json config_json = read_templi_config(template_path);
-    valid_templi_config(config_json);
-
-    json keys = config_json["keys"];
-    MapString result;
     
-    for (auto it = keys.begin(); it != keys.end(); ++it) {
-        if(it.value().is_string()){
-            result.insert(std::make_pair(it.key(), it.value()));
-        }else{
-            TColor::write_endl(TColor::RED, "[ ERROR ]: keys must be string value");
-            exit(EXIT_FAILURE);
-        }
-    }
-    return result;
+    valid_templi_config(config_json);
+    return config_json;
 }

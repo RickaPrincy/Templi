@@ -4,3 +4,6 @@
 [submodule "external/TColor"]
 	path = external/TColor
 	url = https://github.com/RickaPrincy/Tcolor.hpp
+[submodule "external/RCli"]
+	path = external/RCli
+	url = https://github.com/RickaPrincy/RCli
