@@ -2,7 +2,8 @@
 #include <iostream>
 
 int main(int argc, char const *argv[]){
-    Templi::json myjson = Templi::json::parse("{\"ricka\": {\"name\": }}");
-    std::cout << myjson["ricka"] << std::endl;
+    Templi::configure("../template");
+    
+    
     return 0;
 }

@@ -8,6 +8,7 @@
     
     namespace Templi{
         bool save_file(String path, String text);
+        bool save_file(String path, json text);
         bool delete_file(String path);
         bool write_in_open_file(std::ofstream *file,String &text);
         bool copy_folder(String source, String destination);

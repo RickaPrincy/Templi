@@ -7,6 +7,15 @@
 namespace fs = std::filesystem;
 using namespace Templi;
 
+bool Templi::save_file(String path, json text){
+    std::ofstream file(path);
+    if (file.is_open()) {
+        file << text.dump(2);
+        return true;
+    }
+    return false;
+}
+
 bool Templi::save_file(String path, String text){
     std::ofstream file(path);
     return write_in_open_file(&file, text);

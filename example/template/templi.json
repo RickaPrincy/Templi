@@ -1,4 +1,19 @@
 {
-    "keys": {
-        "lib": "RickaPrincy",
+  "keys": [
+    {
+      "key": "lib",
+      "label": "",
+      "type": ""
+    },
+    {
+      "key": "remove",
+      "label": "",
+      "type": ""
+    },
+    {
+      "key": "test",
+      "label": "",
+      "type": ""
     }
+  ]
+}

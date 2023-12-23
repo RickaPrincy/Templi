@@ -13,7 +13,7 @@ void Templi::generate(String template_path, String output_path, MapString values
     
     if(!files.empty()){
         copy_folder(template_path, output_path);
-        delete_file(output_path + TEMPLI_SEPARATOR + "templi.txt");
+        delete_file(output_path + TEMPLI_SEPARATOR + "templi.json");
     }
 
     for(auto file: files){
@@ -32,5 +32,15 @@ void Templi::configure(String template_path, VectorString ignored_path){
             words.insert(word_found);
         }
     }
-    save_iterator(template_path + TEMPLI_SEPARATOR + "templi.txt", words, "\n");
+
+    json config_content = {{"keys", json::array()}};
+    for(auto word: words) {
+        json new_word = {
+            {"key", word},
+            {"type", ""},
+            {"label", ""}
+        };
+        config_content["keys"].push_back(new_word);
+    }
+    save_file(template_path + TEMPLI_SEPARATOR + "templi.json", config_content);
 }
