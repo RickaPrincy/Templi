@@ -5,6 +5,7 @@ target_include_directories(templi
     PUBLIC ${TEMPLI_SOURCE_DIR}/external/TColor/include
     PUBLIC ${TEMPLI_SOURCE_DIR}/external/RCli/include
 )
+
 target_link_directories(templi 
     PUBLIC ${TEMPLI_SOURCE_DIR}/build/src
     PUBLIC ${TEMPLI_SOURCE_DIR}/external/RCli/src

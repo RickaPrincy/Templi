@@ -1,12 +1,16 @@
 {
   "ignored_paths": [
     "main.js",
-    "files/main.ts",
-    "main.cpp"
+    "files/main.ts"
   ],
   "keys": [
     {
       "key": "lib",
+      "label": "",
+      "type": ""
+    },
+    {
+      "key": "name",
       "label": "",
       "type": ""
     },
