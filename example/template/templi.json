@@ -9,5 +9,8 @@
       "default": "ricka"
     }
   ],
-  "ignored_paths":[5]
+  "ignored_paths":[
+    "ricka",
+    5
+  ]
 }
