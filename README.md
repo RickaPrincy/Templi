@@ -6,6 +6,11 @@ Templi is a groundbreaking tool designed to expedite the template file generatio
 
 # Installation :seedling:
 
+- Archlinux
+```bash
+yay -Sy templi
+```
+
 For the moment, you have to build templi to use it
 
 - Dependancies
