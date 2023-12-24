@@ -118,7 +118,7 @@ MapString Templi::vr_templi_keys(json &config_content){
             bool default_value = true;
             if(key.contains("default")) 
                 default_value = key["default"];
-            values.insert(std::make_pair(key["key"], std::to_string(RCli::ask_boolean(config._text, default_value))));
+            values.insert(std::make_pair(key["key"], RCli::ask_boolean(config._text, default_value) ? "true" : "false"));
         }
         else
             values.insert(std::make_pair(key["key"], RCli::ask_input_value(config)));

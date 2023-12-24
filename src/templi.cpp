@@ -4,6 +4,7 @@
 #include <Templi/TempliConfig.hpp>
 #include <Templi/config.hpp>
 #include <iostream>
+#include <TColor/TColor.hpp>
 
 using namespace Templi;
 
@@ -20,6 +21,8 @@ void Templi::generate(String template_path, String output_path, MapString values
         auto path = output_path + file.substr(template_path.size());
         file_brackets_parser(file, path, values);
     }
+
+    TColor::write_endl(TColor::YELLOW, "[ DONE ]: Your project was generated successfully");
 }
 
 void Templi::configure(String template_path, VectorString ignored_path){

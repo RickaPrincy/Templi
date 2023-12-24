@@ -48,7 +48,7 @@ void Templi::get_folder_files(String path,VectorString &result, VectorString exc
                 }
                 i++;
             }
-
+            
             if(!notExclude)
                 continue;
 
