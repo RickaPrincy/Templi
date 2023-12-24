@@ -8,5 +8,6 @@
       "clean": false,
       "default": "ricka"
     }
-  ]
+  ],
+  "ignored_paths":[5]
 }

@@ -7,6 +7,7 @@
         json vr_templi_file(String config_path);
         void v_templi_structure(json &config_content);
         MapString vr_templi_keys(json &config_content);
-        MapString read_templi_config(String template_path);
+        VectorString vr_templi_ignored_paths(json &config_content);
+        json read_templi_config(String template_path);
     }
 #endif

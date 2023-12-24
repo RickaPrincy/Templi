@@ -33,6 +33,22 @@ void Templi::v_templi_structure(json &config_content){
         Templi::exit("templi.json must contain \"keys\"");
     if (!config_content["keys"].is_array() || config_content["keys"].empty())
         Templi::exit("templi.json must contain \"keys\" and keys must be a non-empty array");
+    if (config_content.contains("ignored_paths") && (!config_content["ignored_paths"].is_array() || config_content["ignored_paths"].empty()))
+        Templi::exit("ignored_paths must be a non-empty array");
+}
+
+VectorString Templi::vr_templi_ignored_paths(json &config_content){
+    VectorString result;
+    if(!config_content.contains("ignored_paths"))
+        return result;
+    json ignored_paths = config_content["ignored_paths"];
+    
+    for(auto path: ignored_paths){
+        if(!path.is_string())
+            Templi::exit("Each path in ignored paths must be a string");
+        result.push_back(path);
+    }
+    return result;
 }
 
 MapString Templi::vr_templi_keys(json &config_content){
@@ -111,9 +127,9 @@ MapString Templi::vr_templi_keys(json &config_content){
     return values;
 }
 
-Templi::MapString Templi::read_templi_config(String template_path){
+json Templi::read_templi_config(String template_path){
     String config_path = template_path + TEMPLI_SEPARATOR + "templi.json";
-    Templi::json file_content = Templi::vr_templi_file(config_path);
+    json file_content = Templi::vr_templi_file(config_path);
     v_templi_structure(file_content);
-    return vr_templi_keys(file_content);
+    return file_content;
 }
