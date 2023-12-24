@@ -2,11 +2,7 @@
 
 ![templi](images/version.png)
 
-Templi is a groundbreaking tool designed to expedite the template file generation process. It operates as both a powerful library and an associated program for straightforward usage.
-
-# Why is Templi fast? How does it work ? :bulb:
-
-Its unparalleled speed is attributed to a unique approach—preemptive identification of {{}} tags within template files. This process occurs in advance through template configuration and position memorization in configuration files. During template generation (word replacement), Templi simply references these configurations, seamlessly inserting the values that replace the {{}} tags.
+Templi is a groundbreaking tool designed to expedite the template file generation process. It operates as both a powerful library and an associated program (CLI) for straightforward usage.
 
 # Installation :seedling:
 
@@ -25,11 +21,15 @@ bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/Templi/main/install
 
 - You can also simply use Templi as a submodule.
 
-# Getting started :rocket:
+# Getting started
 
-## Writing a template
+## How it works ???
 
-- Insert the names of the words you wish to replace within the `{{}}` placeholders.
+### 1. Writing a template :rocket:
+
+- First, create a folder for your template
+
+- Start to create some file and insert the names of the words you wish to replace within the `{{}}` placeholders.
 
 ```bash
 #ex: hello.sh 
@@ -45,38 +45,133 @@ echo "hello {{name}}"
     "description": {{version}}
 }
 ```
-## Using the library :blue_book:
+### 2. OptionA: Generate template with: `Templi::generate()`
 
-- To use the Templi library, you just need to include it in your project. I recommend using `cmake` for library integration. 
+```c++
+//Signature
+nampespace Templi{
+    void generate(String template_path,String output_path, MapString values, VectorString ignored_path = {});
+}
 
-### 1. Configure templates : `Templi::configure()`
+//Example
+Templi::generate("template", "output_path", {
+    {"name", "Templi"},
+    {"version", "1.0.0"},
+    {"date", "2023-01-01"},
+    {"Me", "RickaPrincy"},
+    {"functionName", "sayHelloWorld"}
+});
+```
+
+#### Param1
+- **type**: using String = **std::string**
+- **description**: Path to the configured template
+
+#### Param1
+- **type**: using String = **std::string**
+- **description**: Path to copy the generated template
+
+#### Param3
+- **type**: using VectorString = **std::map\<std::string, std::string\>**
+- **description**: The map contains values for the words found in all templates during the configuration process. The map key is the word's name. 
+
+#### Param4(Optional):
+- **type**: using VectorString = **std::vector\<std::string\>**
+- **Description**: A vector containing all paths not to be configured. 
+
+### 2. OptionB: Generate using: `templi.json`
+
+The best part of `templi` is that you can just use create a file `templi.json` on root of your template and templi will be interactive to ask the value all some keys specify in the `templi.json`
+
+#### a. templi.json structure
+`templi.json` attribute:
+- **keys**: 
+    - **description**: Array containing list of dinamics words in your template
+    - **type**: array
+    - **items**:
+        - **key**: 
+            - **description**: String which is the key name on your template and cannot be empty (ex: hello {{you}} -> the key is `you`)
+            - **type**: string 
+        - **type**: 
+            - **description**: Determine how the key value will be prompt to the user
+            - **type**: "input" | "bool" | array of string (array containing string)
+                - **input**: Will be normal input
+                - **bool**: Will ask for `y`(yes) or `n`(no) and get `true` or `false` as value
+                - **array of string**: Will ask which value inside the array the user want
+        - **label**: 
+            - **desciption**: Text will be printed on the prompt input
+            - **type**: string
+        - **default** (optional):
+            - **description**: default value if the user leave the input empty
+            - **type**: `string` if `type != bool` and `boolean` if `type == bool`
+        - **required** (optional):
+            - **description**:  Boolean specify if the user cannot leave the prompt empty (if default is given, then this will do anything)
+            - **type**: boolean 
+        - **clean** (optional):
+            - **description**: Will delete all space of the user input (utils if you want something clean without space)
+- **ignored_paths** (optional):
+    - **description**: Array containing files paths to exclude during parsing (utils if you have a huge template, so you can exclude some paths which is unecassry to parse)
+    - **type:**: Array of string
+
+#### b. Create templi.json from 0 :blue_book:
+
+You can retrieve key words in your template and create the templi.json manually. This is an example of `templi.json`
+
+```json
+{
+    "ignored_paths": [
+        "templi.json",
+        "ignored_file.txt"
+    ],
+    "keys": [
+        {
+            "key": "author_name",
+            "label": "Who is the author",
+            "type": "input",
+            "default": "RickaPrincy",
+            "required": true,
+            "clean": true
+        },
+        {
+            "key": "project_name",
+            "label": "What is your project",
+            "type": ["templi", "ctemplate"]
+        },
+        {
+            "key": "is_ok",
+            "label": "Are you ok ?",
+            "type": "bool",
+            "default": false
+        }
+    ]
+}
+```
+
+
+####  c. Create templi.json base using: `Templi::configure()`
+If you are a lit bit lazy to retrieve all the key words in your template, then you can just use `Templi::configure` to do it.
+`Templi::configure` will retrieve all key words in your template then write them in a `templi.json` and will add all file which doesn't contain a key word in your template.
 
 ```cpp
 //Signature
 namespace Templi{
-    void configure(String templateFolder, String configuredPath, VectorString ignoredPaths = {});
+    void configure(String template_path, VectorString ignored_path={});
 }
 
 //Example:
-Templi::configure("__template__", "__configured__", {
-    "__template__/main.js",
-    "__template__/all_ignored"
-});
+Templi::configure("template") /*as the ignored_path is {} by default*/;
 
 ```
-
 #### Param1:
 - **type**: using String = **std::string**
 - **Description**: string representing the path to the folder containing the template to be configured.
 
-#### Param2: 
-- **type**: using String = **std::string**
-- **Description**: Destination path to copy the template after configuration.
-
-#### Param3(Optional):
+#### Param2(Optional):
 - **type**: using VectorString = **std::vector\<std::string\>**
-
 - **Description**: A vector containing all paths not to be configured. 
+
+Example fo output:
+
 
 ### 2. Generate templates: `Templi::generate()`
 

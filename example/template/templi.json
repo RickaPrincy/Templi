@@ -13,6 +13,11 @@
       "clean": true
     },
     {
+      "key": "project_name",
+      "label": "What is your project",
+      "type": ["templi", "ctemplate"]
+    },
+    {
       "key": "is_ok",
       "label": "Are you ok ?",
       "type": "bool",
@@ -22,11 +27,6 @@
       "key": "name",
       "label": "Say me your name",
       "type": "input"
-    },
-    {
-      "key": "project_name",
-      "label": "What is your project",
-      "type": ["templi", "ctemplate"]
     }
   ]
 }

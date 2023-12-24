@@ -41,8 +41,8 @@ To build Templi, follow these steps:
     - Options
 
         ```cmake
-        option(TEMPLI_CLI_BUILD "Build Templi cli" ON)
-        option(TEMPLI_CLI_INSTALL "Install Templi cli" ON)
+        option(TEMPLI_CLI_BUILD "Build Templi cli" OFF)
+        option(TEMPLI_CLI_INSTALL "Install Templi cli" OFF)
         option(TEMPLI_LIB "Build Templi lib" ON)
         option(TEMPLI_LIB_INSTALL "Install Templi lib" ON)
         option(TEMPLI_TEST "Build templi test" OFF)
