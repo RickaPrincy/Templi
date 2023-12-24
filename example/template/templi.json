@@ -1,31 +1,31 @@
 {
   "ignored_paths": [
-    "templi.json",
-    "ignored_file.txt"
+    "templi.json"
   ],
   "keys": [
     {
       "key": "author_name",
-      "label": "Who is the author",
-      "type": "input",
-      "default": "RickaPrincy",
-      "required": true,
-      "clean": true
+      "label": "",
+      "type": "input"
     },
     {
-      "key": "project_name",
-      "label": "What is your project",
-      "type": ["templi", "ctemplate"]
+      "key": "ignored",
+      "label": "",
+      "type": "input"
     },
     {
       "key": "is_ok",
-      "label": "Are you ok ?",
-      "type": "bool",
-      "default": false
+      "label": "",
+      "type": "input"
     },
     {
       "key": "name",
-      "label": "Say me your name",
+      "label": "",
+      "type": "input"
+    },
+    {
+      "key": "project_name",
+      "label": "",
       "type": "input"
     }
   ]

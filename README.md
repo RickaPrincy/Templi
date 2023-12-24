@@ -148,14 +148,17 @@ You can retrieve key words in your template and create the templi.json manually.
 ```
 
 
-####  c. Create templi.json base using: `Templi::configure()`
+####  c. Create templi.json base using: `Templi::configure()` or `Templi::configure_process()`
 If you are a lit bit lazy to retrieve all the key words in your template, then you can just use `Templi::configure` to do it.
 `Templi::configure` will retrieve all key words in your template then write them in a `templi.json` and will add all file which doesn't contain a key word in your template.
 
+`Templi::configure_process` does the same thing as `templi:configure` but in configure_process, if the path is empty, it will be asked as a prompt (utils if you're creating your own CLI project starter)
+
 ```cpp
 //Signature
-namespace Templi{
-    void configure(String template_path, VectorString ignored_path={});
+namespace templi{
+    void configure(string template_path, vectorstring ignored_path={});
+    void configure_process(String template_path);
 }
 
 //Example:
@@ -171,51 +174,70 @@ Templi::configure("template") /*as the ignored_path is {} by default*/;
 - **Description**: A vector containing all paths not to be configured. 
 
 Example fo output:
+```json
+{
+    "ignored_paths": [
+        "templi.json"
+    ],
+    "keys": [
+        {
+        "key": "author_name",
+        "label": "",
+        "type": "input"
+        },
+        {
+        "key": "ignored",
+        "label": "",
+        "type": "input"
+        },
+        {
+        "key": "is_ok",
+        "label": "",
+        "type": "input"
+        }
+    ] 
+}
+```
 
+#### d. Generate template using templi.json with: `Templi::generate_process()`
 
-### 2. Generate templates: `Templi::generate()`
+To generate your project from a templi template using `templi.json` you have to use `Templi::generate_process` instead of `Templi::generate`
 
 ```c++
 //Signature
-nampespace Templi{
-    void generate(String configuredPath,String outputFolder, MapString values);
+namespace Templi {
+    void Templi::generate_process(Templi::String template_path, Templi::String output_path);
 }
 
 //Example
-Templi::generate("__configured__", "__generated__", {
-    {"name", "Templi"},
-    {"version", "1.0.0"},
-    {"date", "2023-01-01"},
-    {"Me", "RickaPrincy"},
-    {"functionName", "sayHelloWorld"}
-});
+Templi::generate("template", "ouptut");
 ```
-
-#### Param1
-- **type**: using String = **std::string**
-- **description**: Path to the configured template
-
-#### Param1
-- **type**: using String = **std::string**
-- **description**: Path to copy the generated template
-
-#### Param3
-- **type**: using VectorString = **std::map\<std::string, std::string\>**
-- **description**: The map contains values for the words found in all templates during the configuration process. The map key is the word's name. 
-
 ## Using the Templi Cli :bookmark: 
 
 - To use the Templi CLI, you need to install it on your machine or have the binary. 
 
-### 1. Configure templates : `templi --configure` or `templi -c`
+### 1. Configure templates with : `templi configure`
 
-- Place your template in a folder and run `templi --configure` or `templi -c`, then respond to all prompts, as shown in the following image: 
+- Place your template in a folder and run 
+```bash
+templi configure -t <path_to_the_template>` 
+# -t or --template
+#if path is not given from option, it will be prompted 
+```
+
+Example: 
 
 ![configure template](images/configure.png)
 
-### 2. Generating templates: `templi --generate` or `templi -c`
+### 2. Generating templates with: `templi generate` 
 
-- Just run `templi --generate` or `templi -g` to generate templates. It will prompt you for all the values and outputs paths specified in the library. 
+- Just run
+```bash
+templi generate -t <path_to_the_template> -o <path_to_the_output>
+# -t or --template
+# -o or --output
+# if one the option is not given, the it will be prompted 
+```  
 
 ![configure template](images/generate.png)
 
