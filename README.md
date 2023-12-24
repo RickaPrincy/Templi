@@ -46,7 +46,7 @@ echo "hello {{name}}"
 }
 ```
 ## Using the Templi Cli :bookmark: 
-#### warning: YOU CAN SCROLL DOWN A LITTLE TO READ HOW `TEMPLI.JSON` WORKS.
+#### :warning: YOU CAN SCROLL DOWN A LITTLE TO READ HOW `TEMPLI.JSON` WORKS.
 
 ### 1. Configure templates with : `templi configure` (or create templi.json from 0)
 
@@ -73,7 +73,9 @@ templi generate -t <path_to_the_template> -o <path_to_the_output>
 
 ![configure template](images/generate.png)
 
-### 2. OptionA: Generate template with: `Templi::generate()`
+## Using the Templi Library :bookmark: 
+
+### OptionA: Generate template with: `Templi::generate()`
 
 ```c++
 //Signature
@@ -107,7 +109,7 @@ Templi::generate("template", "output_path", {
 - **type**: using VectorString = **std::vector\<std::string\>**
 - **Description**: A vector containing all paths not to be configured. 
 
-### 2. OptionB: Generate using: `templi.json`
+### OptionB: Generate using: `templi.json`
 The best part of `templi` is that you can simply create a file named `templi.json` at the root of your template, and `templi` will interactively prompt you to provide values for the keys specified in the `templi.json`.
 #### a. `templi.json` Structure
 
