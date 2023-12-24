@@ -2,8 +2,11 @@
   "keys":[
     {
       "key": "test",
-      "label": "ricka",
-      "type": "input" 
+      "label": "Value of test",
+      "type": "input",
+      "required": true,
+      "clean": false,
+      "default": "ricka"
     }
   ]
 }
