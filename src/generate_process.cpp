@@ -9,5 +9,5 @@
 void Templi::generate_process(Templi::String template_path, Templi::String output_path){
     Templi::ask_path(template_path, "Path to the template");
     Templi::ask_path(output_path, "Path to the output");
-    Templi::VectorString keys_types = { "bool", "input" };
+    Templi::json config_content = read_templi_config(template_path);
 }

@@ -22,11 +22,11 @@ endif()
 include_directories(${TEMPLI_SOURCE_DIR}/include)
 include_directories(${TEMPLI_SOURCE_DIR}/external/TColor/include)
 
+add_subdirectory(external/RCli)
 add_subdirectory(src)
 
 if(TEMPLI_CLI_BUILD)
     add_subdirectory(cli)
-    add_subdirectory(external/RCli)
 endif()
 
 if(TEMPLI_TEST)

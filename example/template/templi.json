@@ -1,7 +1,9 @@
 {
   "keys":[
     {
-      "ricka": "rika"
+      "key": "test",
+      "label": "ricka",
+      "type": "input" 
     }
   ]
 }

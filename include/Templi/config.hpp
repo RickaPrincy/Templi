@@ -4,7 +4,7 @@
     #include <Templi/types.hpp> 
     
     namespace Templi{
-        void valid_templi_config(json &config_content);
+        void validate_templi_config(json &config_content);
         json read_templi_config(String template_path);
     }
 #endif
