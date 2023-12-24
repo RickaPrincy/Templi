@@ -11,8 +11,12 @@ option(TEMPLI_LIB_INSTALL "Install Templi lib" OFF)
 option(TEMPLI_TEST "Build templi test" OFF)
 option(TEMPLI_VERSION_BUILD "Build templi version" OFF)
 
-# TODO: CHECK SYSTEM FOR CREATING FOLDER
-set(TEMPLI_SEPARATOR "/")
+if (WIN32)
+    set(TEMPLI_SEPARATOR "\\")
+else ()
+    set(TEMPLI_SEPARATOR "/")
+endif()
+
 set(TEMPLI_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 if(TEMPLI_VERSION_BUILD)
