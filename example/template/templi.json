@@ -1,0 +1,32 @@
+{
+  "ignored_paths": [
+    "templi.json"
+  ],
+  "keys": [
+    {
+      "key": "author_name",
+      "label": "",
+      "type": "input"
+    },
+    {
+      "key": "ignored",
+      "label": "",
+      "type": "input"
+    },
+    {
+      "key": "is_ok",
+      "label": "",
+      "type": "input"
+    },
+    {
+      "key": "name",
+      "label": "",
+      "type": "input"
+    },
+    {
+      "key": "project_name",
+      "label": "",
+      "type": "input"
+    }
+  ]
+}

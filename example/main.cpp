@@ -1,19 +1,15 @@
 #include <Templi/Templi.hpp>
+#include <iostream>
 
 int main(int argc, char const *argv[]){
-    Templi::configure("__template__", "__configured__", {
-        "__template__/main.js",
-        "__template__/all_ignored"
-    });
-
-    Templi::generate("__configured__", "__generated__", {
-        {"name", "Templi"},
-        {"version", "1.0.0"},
-        {"date", "2023-01-01"},
-        {"Me", "RickaPrincy"},
-        {"functionName", "sayHelloWorld"}
-    });
-
-    //{{remove}}'value is not given so it will be removed simply 
+    Templi::configure("../template");
+    Templi::VectorString my_ignored_files = {"file.txt"};
+    
+    Templi::generate(
+        "../template", 
+        "../ctemplate", 
+        {{"my_key","my_value"}, {"my_other_key", "my_other_value"}}, 
+        my_ignored_files
+    );
     return 0;
 }
