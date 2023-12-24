@@ -45,6 +45,34 @@ echo "hello {{name}}"
     "description": {{version}}
 }
 ```
+## Using the Templi Cli :bookmark: 
+#### warning: YOU CAN SCROLL DOWN A LITTLE TO READ HOW `TEMPLI.JSON` WORKS.
+
+### 1. Configure templates with : `templi configure` (or create templi.json from 0)
+
+- Place your template in a folder and run  (this generate templi.json base to your template)
+```bash
+templi configure -t <path_to_the_template>` 
+# -t or --template
+#if path is not given from option, it will be prompted 
+```
+
+Example: 
+
+![configure template](images/configure.png)
+
+### 2. Generating templates with: `templi generate` 
+
+- Just run
+```bash
+templi generate -t <path_to_the_template> -o <path_to_the_output>
+# -t or --template
+# -o or --output
+# if one the option is not given, the it will be prompted 
+```  
+
+![configure template](images/generate.png)
+
 ### 2. OptionA: Generate template with: `Templi::generate()`
 
 ```c++
@@ -80,42 +108,42 @@ Templi::generate("template", "output_path", {
 - **Description**: A vector containing all paths not to be configured. 
 
 ### 2. OptionB: Generate using: `templi.json`
+The best part of `templi` is that you can simply create a file named `templi.json` at the root of your template, and `templi` will interactively prompt you to provide values for the keys specified in the `templi.json`.
+#### a. `templi.json` Structure
 
-The best part of `templi` is that you can just use create a file `templi.json` on root of your template and templi will be interactive to ask the value all some keys specify in the `templi.json`
+Attributes of `templi.json`:
 
-#### a. templi.json structure
-`templi.json` attribute:
-- **keys**: 
-    - **description**: Array containing list of dinamics words in your template
-    - **type**: array
-    - **items**:
-        - **key**: 
-            - **description**: String which is the key name on your template and cannot be empty (ex: hello {{you}} -> the key is `you`)
-            - **type**: string 
-        - **type**: 
-            - **description**: Determine how the key value will be prompt to the user
-            - **type**: "input" | "bool" | array of string (array containing string)
-                - **input**: Will be normal input
-                - **bool**: Will ask for `y`(yes) or `n`(no) and get `true` or `false` as value
-                - **array of string**: Will ask which value inside the array the user want
-        - **label**: 
-            - **desciption**: Text will be printed on the prompt input
-            - **type**: string
-        - **default** (optional):
-            - **description**: default value if the user leave the input empty
-            - **type**: `string` if `type != bool` and `boolean` if `type == bool`
-        - **required** (optional):
-            - **description**:  Boolean specify if the user cannot leave the prompt empty (if default is given, then this will do anything)
-            - **type**: boolean 
-        - **clean** (optional):
-            - **description**: Will delete all space of the user input (utils if you want something clean without space)
+- **keys**:
+  - **description**: An array containing a list of dynamic words in your template.
+  - **type**: array
+  - **items**:
+    - **key**:
+      - **description**: A string representing the key name in your template; it cannot be empty (e.g., hello {{you}} -> the key is `you`).
+      - **type**: string
+    - **type**:
+      - **description**: Determines how the key value will be prompted to the user.
+      - **type**: "input" | "bool" | array of string (array containing string)
+        - **input**: Will be a normal input.
+        - **bool**: Will ask for `y` (yes) or `n` (no) and get `true` or `false` as the value.
+        - **array of string**: Will ask which value inside the array the user wants.
+    - **label**:
+      - **description**: Text that will be printed on the prompt input.
+      - **type**: string
+    - **default** (optional):
+      - **description**: Default value if the user leaves the input empty.
+      - **type**: `string` if `type != bool` and `boolean` if `type == bool`
+    - **required** (optional):
+      - **description**: Boolean specifying if the user cannot leave the prompt empty (if default is given, then this will do nothing).
+      - **type**: boolean
+    - **clean** (optional):
+      - **description**: Will delete all spaces in the user input (useful if you want something clean without spaces).
 - **ignored_paths** (optional):
-    - **description**: Array containing files paths to exclude during parsing (utils if you have a huge template, so you can exclude some paths which is unecassry to parse)
-    - **type:**: Array of string
+  - **description**: An array containing file paths to exclude during parsing (useful if you have a huge template, so you can exclude some paths that are unnecessary to parse).
+  - **type**: Array of string
 
-#### b. Create templi.json from 0 :blue_book:
+#### b. Create templi.json from 0
 
-You can retrieve key words in your template and create the templi.json manually. This is an example of `templi.json`
+You can extract keywords from your template and manually create `templi.json`. Here is an example of `templi.json`:
 
 ```json
 {
@@ -146,13 +174,13 @@ You can retrieve key words in your template and create the templi.json manually.
     ]
 }
 ```
-
-
 ####  c. Create templi.json base using: `Templi::configure()` or `Templi::configure_process()`
-If you are a lit bit lazy to retrieve all the key words in your template, then you can just use `Templi::configure` to do it.
-`Templi::configure` will retrieve all key words in your template then write them in a `templi.json` and will add all file which doesn't contain a key word in your template.
+If you are a little bit lazy to retrieve all the keywords in your template, you can simply use `Templi::configure` to do it. 
 
-`Templi::configure_process` does the same thing as `templi:configure` but in configure_process, if the path is empty, it will be asked as a prompt (utils if you're creating your own CLI project starter)
+`Templi::configure` will extract all keywords in your template, write them to a `templi.json`, and include all files that don't contain a keyword in `ignored_paths` to your template.
+
+`Templi::configure_process` performs the same task as `Templi::configure`. However, in `configure_process`, if the path is empty, it will be prompted for input (useful if you're creating your own CLI project starter).
+
 
 ```cpp
 //Signature
@@ -201,7 +229,7 @@ Example fo output:
 
 #### d. Generate template using templi.json with: `Templi::generate_process()`
 
-To generate your project from a templi template using `templi.json` you have to use `Templi::generate_process` instead of `Templi::generate`
+To generate your project from a Templi template using `templi.json`, you should use `Templi::generate_process` instead of `Templi::generate`.
 
 ```c++
 //Signature
@@ -212,35 +240,6 @@ namespace Templi {
 //Example
 Templi::generate("template", "ouptut");
 ```
-## Using the Templi Cli :bookmark: 
-
-- To use the Templi CLI, you need to install it on your machine or have the binary. 
-
-### 1. Configure templates with : `templi configure`
-
-- Place your template in a folder and run 
-```bash
-templi configure -t <path_to_the_template>` 
-# -t or --template
-#if path is not given from option, it will be prompted 
-```
-
-Example: 
-
-![configure template](images/configure.png)
-
-### 2. Generating templates with: `templi generate` 
-
-- Just run
-```bash
-templi generate -t <path_to_the_template> -o <path_to_the_output>
-# -t or --template
-# -o or --output
-# if one the option is not given, the it will be prompted 
-```  
-
-![configure template](images/generate.png)
-
 # License
 
 This project is licensed under the [MIT License](License.txt).
