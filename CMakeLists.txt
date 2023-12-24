@@ -25,6 +25,7 @@ endif()
 
 include_directories(${TEMPLI_SOURCE_DIR}/include)
 include_directories(${TEMPLI_SOURCE_DIR}/external/TColor/include)
+include_directories(${TEMPLI_SOURCE_DIR}/external/RCli/include)
 
 add_subdirectory(external/RCli)
 add_subdirectory(src)

@@ -2,7 +2,7 @@
 #include <Templi/fs_utils.hpp>
 #include <Templi/parser.hpp>
 #include <Templi/TempliConfig.hpp>
-#include <Templi/config.hpp>
+#include <Templi/vr_config.hpp>
 #include <iostream>
 #include <TColor/TColor.hpp>
 

@@ -1,5 +1,4 @@
 #include <Templi/vr_config.hpp>
-#include <Templi/exception.hpp>
 #include <Templi/TempliConfig.hpp>
 #include <Templi/cli_utils.hpp>
 #include <TColor/TColor.hpp>

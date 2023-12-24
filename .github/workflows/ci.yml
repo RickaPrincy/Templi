@@ -23,6 +23,5 @@ jobs:
       run: sh ./configure_and_build.sh
     
     - name: Test
-      working-directory: ${{github.workspace}}/build/tests
-      run: ./Templi_test
+      run: sh ./run_test.sh 
 

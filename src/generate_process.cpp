@@ -2,7 +2,6 @@
 #include <RCli/RCli.hpp>
 #include <Templi/cli.hpp>
 #include <Templi/cli_utils.hpp>
-#include <Templi/exception.hpp>
 #include <Templi/vr_config.hpp>
 #include <TColor/TColor.hpp>
 
