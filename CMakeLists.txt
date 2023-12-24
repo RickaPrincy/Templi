@@ -9,7 +9,6 @@ option(TEMPLI_CLI_INSTALL "Install Templi cli" OFF)
 option(TEMPLI_LIB "Build Templi lib" ON)
 option(TEMPLI_LIB_INSTALL "Install Templi lib" OFF)
 option(TEMPLI_TEST "Build templi test" OFF)
-option(TEMPLI_VERSION_BUILD "Build templi version" OFF)
 
 if (WIN32)
     set(TEMPLI_SEPARATOR "\\")
@@ -19,9 +18,7 @@ endif()
 
 set(TEMPLI_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-if(TEMPLI_VERSION_BUILD)
-    configure_file(TempliConfig.h.in ${TEMPLI_SOURCE_DIR}/include/Templi/TempliConfig.hpp)
-endif()
+configure_file(TempliConfig.h.in ${TEMPLI_SOURCE_DIR}/include/Templi/TempliConfig.hpp)
 
 include_directories(${TEMPLI_SOURCE_DIR}/include)
 include_directories(${TEMPLI_SOURCE_DIR}/external/TColor/include)
