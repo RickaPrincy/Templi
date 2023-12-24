@@ -45,6 +45,9 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+    - name: Get all dependancies 
+      run: git submodule update --init --recursive
+
     - name: Configure CMake
     
       run: >
