@@ -17,7 +17,8 @@ void Templi::generate(String template_path, String output_path, MapString values
     }
 
     for(auto file: files){
-        file_brackets_parser(file, output_path + TEMPLI_SEPARATOR + file.substr(0, template_path.size()), values);
+        auto path = output_path + file.substr(template_path.size());
+        file_brackets_parser(file, path, values);
     }
 }
 
@@ -30,6 +31,8 @@ void Templi::configure(String template_path, VectorString ignored_path){
         {"ignored_paths", ignored_path},
         {"keys", json::array()}
     };
+    config_content["ignored_paths"].push_back("templi.json");
+    
     for(auto file: files){
         SetString words_found = file_get_brackets_words(file);
         
@@ -45,7 +48,7 @@ void Templi::configure(String template_path, VectorString ignored_path){
     for(auto word: words) {
         json new_word = {
             {"key", word},
-            {"type", ""},
+            {"type", "input"},
             {"label", ""}
         };
         config_content["keys"].push_back(new_word);

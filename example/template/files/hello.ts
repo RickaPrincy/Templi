@@ -1,3 +1,3 @@
 function sayHelloWorld(){
-    console.log("hello world");
-}{{remove}}
+    console.log("hello {{name}}");
+}

@@ -13,7 +13,7 @@ json Templi::vr_templi_file(String config_path){
     json config_json;    
 
     if(!config_file.is_open())
-        Templi::exit("[ ERROR ]: \"templi.json\" was not found");
+        Templi::exit("\"templi.json\" was not found");
 
     try{
         config_file >> config_json;

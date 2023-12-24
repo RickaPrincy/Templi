@@ -1,16 +1,33 @@
 {
-  "keys":[
+  "ignored_paths": [
+    "templi.json",
+    "main.js"
+  ],
+  "keys": [
+    {
+      "key": "ignored",
+      "label": "test",
+      "type": "input"
+    },
+    {
+      "key": "lib",
+      "label": "test",
+      "type": "input"
+    },
+    {
+      "key": "name",
+      "label": "test",
+      "type": "input"
+    },
     {
       "key": "test",
-      "label": "Value of test",
-      "type": "input",
-      "required": true,
-      "clean": false,
-      "default": "ricka"
+      "label": "test",
+      "type": "input"
+    },
+    {
+      "key": "version",
+      "label": "test",
+      "type": "input"
     }
-  ],
-  "ignored_paths":[
-    "ricka",
-    5
   ]
 }

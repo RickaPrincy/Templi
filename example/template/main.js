@@ -1,1 +1,1 @@
-console.log("should be ignoredTempli")
+console.log("should be {{ignored}}")
