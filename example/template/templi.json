@@ -1,28 +1,7 @@
 {
-  "ignored_paths": [
-    "main.js",
-    "files/main.ts"
-  ],
-  "keys": [
+  "keys":[
     {
-      "key": "lib",
-      "label": "",
-      "type": ""
-    },
-    {
-      "key": "name",
-      "label": "",
-      "type": ""
-    },
-    {
-      "key": "remove",
-      "label": "",
-      "type": ""
-    },
-    {
-      "key": "test",
-      "label": "",
-      "type": ""
+      "ricka": "rika"
     }
   ]
 }
