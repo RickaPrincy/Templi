@@ -20,6 +20,21 @@ set(TEMPLI_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 configure_file(TempliConfig.h.in ${TEMPLI_SOURCE_DIR}/include/Templi/TempliConfig.hpp)
 
+#Download deps
+set(SUBMODULES external/TColor external/RCli)
+find_package(Git REQUIRED)
+foreach(submodule ${SUBMODULES})
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} submodule update --init ${submodule} 
+        WORKING_DIRECTORY ${TEMPLI_SOURCE_DIR}
+        RESULT_VARIABLE GIT_SUBMOD_RESULT
+    )
+    if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+        message(FATAL_ERROR "git submodule update --init  ${submodule} failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
+    endif()
+endforeach()
+
+
 include_directories(${TEMPLI_SOURCE_DIR}/include)
 include_directories(${TEMPLI_SOURCE_DIR}/external/TColor/include)
 include_directories(${TEMPLI_SOURCE_DIR}/external/RCli/include)
