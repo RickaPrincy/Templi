@@ -1,18 +1,18 @@
-#include <Templi/vr_config.hpp>
-#include <Templi/TempliConfig.hpp>
-#include <Templi/cli_utils.hpp>
+#include <templi/vr_config.hpp>
+#include <templi/templiConfig.hpp>
+#include <templi/cli_utils.hpp>
 #include <TColor/TColor.hpp>
 #include <fstream>
 #include <iostream>
 
-using namespace Templi;
+using namespace templi;
 
-json Templi::vr_templi_file(String config_path){
+json templi::vr_templi_file(String config_path){
     std::ifstream config_file(config_path);
     json config_json;    
 
     if(!config_file.is_open())
-        Templi::exit("\"templi.json\" was not found");
+        templi::exit("\"templi.json\" was not found");
 
     try{
         config_file >> config_json;
@@ -25,18 +25,18 @@ json Templi::vr_templi_file(String config_path){
     return config_json;
 }
 
-void Templi::v_templi_structure(json &config_content){
+void templi::v_templi_structure(json &config_content){
     if (!config_content.is_object())
-        Templi::exit("templi.json must be an object");
+        templi::exit("templi.json must be an object");
     if (!config_content.contains("keys"))
-        Templi::exit("templi.json must contain \"keys\"");
+        templi::exit("templi.json must contain \"keys\"");
     if (!config_content["keys"].is_array() || config_content["keys"].empty())
-        Templi::exit("templi.json must contain \"keys\" and keys must be a non-empty array");
+        templi::exit("templi.json must contain \"keys\" and keys must be a non-empty array");
     if (config_content.contains("ignored_paths") && (!config_content["ignored_paths"].is_array() || config_content["ignored_paths"].empty()))
-        Templi::exit("ignored_paths must be a non-empty array");
+        templi::exit("ignored_paths must be a non-empty array");
 }
 
-VectorString Templi::vr_templi_ignored_paths(json &config_content){
+VectorString templi::vr_templi_ignored_paths(json &config_content){
     VectorString result;
     if(!config_content.contains("ignored_paths"))
         return result;
@@ -44,13 +44,13 @@ VectorString Templi::vr_templi_ignored_paths(json &config_content){
     
     for(auto path: ignored_paths){
         if(!path.is_string())
-            Templi::exit("Each path in ignored paths must be a string");
+            templi::exit("Each path in ignored paths must be a string");
         result.push_back(path);
     }
     return result;
 }
 
-MapString Templi::vr_templi_keys(json &config_content){
+MapString templi::vr_templi_keys(json &config_content){
     json keys = config_content["keys"];
     MapString values; 
 
@@ -59,27 +59,27 @@ MapString Templi::vr_templi_keys(json &config_content){
         VectorString options;
 
         if (!key.is_object())
-            Templi::exit("Each key [in keys list] must be an object");
+            templi::exit("Each key [in keys list] must be an object");
 
         if (!key.contains("key") || !key.contains("label") || !key.contains("type"))
-            Templi::exit("Each key [in keys list] must contain key, label, and type");
+            templi::exit("Each key [in keys list] must contain key, label, and type");
 
         if (!key["key"].is_string() || key["key"].empty() || !key["label"].is_string() || key["label"].empty())
-            Templi::exit("key and label [in keys list] have to be a non-empty string");
+            templi::exit("key and label [in keys list] have to be a non-empty string");
         
         if ((!key["type"].is_array() && !key["type"].is_string()) || key["type"].empty())
-            Templi::exit("type [in keys list] must be an array or string and not empty");
+            templi::exit("type [in keys list] must be an array or string and not empty");
 
         if (key["type"].is_array()) {
             for (auto type : key["type"])
                 if (!type.is_string())
-                    Templi::exit("type items [in keys list] must be a string");
+                    templi::exit("type items [in keys list] must be a string");
             options = key["type"];
         }
 
         if (key["type"].is_string()) {
             if (key["type"] != "input" && key["type"] != "bool")
-                Templi::exit("type [if string] [in keys list] must be \"input\" or \"bool\"");
+                templi::exit("type [if string] [in keys list] must be \"input\" or \"bool\"");
         }
         
         config.text(key["label"]);
@@ -90,14 +90,14 @@ MapString Templi::vr_templi_keys(json &config_content){
             if(key["required"].is_boolean())
                 config.required(key["required"]);
             else
-                Templi::exit("required [in key list] must be a boolean");
+                templi::exit("required [in key list] must be a boolean");
         }
 
         if(key.contains("clean")){
             if(key["clean"].is_boolean())
                 config.clean(key["clean"]);
             else
-                Templi::exit("clean [in key list] must be a boolean");
+                templi::exit("clean [in key list] must be a boolean");
         }
         
         if(key.contains("default")){
@@ -105,9 +105,9 @@ MapString Templi::vr_templi_keys(json &config_content){
                 if(key["default"].is_string())
                     config.default_value(key["default"]);
                 else
-                    Templi::exit("default [if type != bool] [in key list] must be a string");
+                    templi::exit("default [if type != bool] [in key list] must be a string");
             }else if(!key["default"].is_boolean()){
-                Templi::exit("default [if type == bool] [in key list] must be a boolean");
+                templi::exit("default [if type == bool] [in key list] must be a boolean");
             }
         }
         
@@ -126,9 +126,9 @@ MapString Templi::vr_templi_keys(json &config_content){
     return values;
 }
 
-json Templi::read_templi_config(String template_path){
+json templi::read_templi_config(String template_path){
     String config_path = template_path + TEMPLI_SEPARATOR + "templi.json";
-    json file_content = Templi::vr_templi_file(config_path);
+    json file_content = templi::vr_templi_file(config_path);
     v_templi_structure(file_content);
     return file_content;
 }

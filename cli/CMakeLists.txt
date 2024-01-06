@@ -11,7 +11,7 @@ target_link_directories(templi
     PUBLIC ${TEMPLI_SOURCE_DIR}/external/RCli/src
 )
 target_link_libraries(templi 
-    PUBLIC ${PROJECT_NAME}
+    PUBLIC ${TEMPLI_LIB_NAME}
     PUBLIC RCli 
 )
 

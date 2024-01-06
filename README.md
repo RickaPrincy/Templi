@@ -1,8 +1,8 @@
-# Templi :memo: 
+# templi :memo: 
 
 ![templi](images/version.png)
 
-Templi is a groundbreaking tool designed to expedite the template file generation process. It operates as both a powerful library and an associated program (CLI) for straightforward usage.
+templi is a groundbreaking tool designed to expedite the template file generation process. It operates as both a powerful library and an associated program (CLI) for straightforward usage.
 
 # Installation :seedling:
 
@@ -21,10 +21,10 @@ For the moment, you have to build templi to use it
 - You can run the following command to build and install templi with cmake, but if you want other options of building templi, read [this](BUILD_INSTALL.md).
 
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/Templi/main/install.sh)
+bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/templi/main/install.sh)
 ```
 
-- You can also simply use Templi as a submodule.
+- You can also simply use templi as a submodule.
 
 # Getting started
 
@@ -48,7 +48,7 @@ echo "hello {{name}}"
     "description": {{version}}
 }
 ```
-## Using the Templi Cli :first_quarter_moon: 
+## Using the templi Cli :first_quarter_moon: 
 #### :warning: Read this [file](./templi.json.md) to understand how templi.json works
 
 ### 1. Generate templi.json with with (or create it from 0) : `templi configure`
@@ -103,11 +103,11 @@ templi generate -t <path_to_the_template> -o <path_to_the_output>
 
 ![configure template](images/generate.png)
 
-# Using Templi library :palm_tree:
+# Using templi library :palm_tree:
 
 ```c++
 //Signature
-nampespace Templi{
+nampespace templi{
     //Simple configure
     void configure(string template_path, vectorstring ignored_path={});
 
@@ -118,12 +118,12 @@ nampespace Templi{
     void generate(String template_path,String output_path, MapString values, VectorString ignored_path = {});
 
     //Generate with templi.json
-    void Templi::generate_process(Templi::String template_path, Templi::String output_path);
+    void templi::generate_process(templi::String template_path, templi::String output_path);
 }
 
-//Example for Templi::generate
-Templi::generate("template", "output_path", {
-    {"name", "Templi"},
+//Example for templi::generate
+templi::generate("template", "output_path", {
+    {"name", "templi"},
     {"version", "1.0.0"},
     {"date", "2023-01-01"},
     {"Me", "RickaPrincy"},

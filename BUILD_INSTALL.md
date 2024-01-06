@@ -1,25 +1,25 @@
-# Build and install Templi :hammer:
+# Build and install templi :hammer:
 
 ## Dependencies :paperclip:
 
-Before building and using Templi, ensure that the following dependencies are met:
+Before building and using templi, ensure that the following dependencies are met:
 
 - CMake (Version 3.27 or later)
 - C++ Compiler with C++17 support
 
-## Building Templi :hammer:
+## Building templi :hammer:
 
-To build Templi, follow these steps:
+To build templi, follow these steps:
 
-1. Clone the Templi repository:
+1. Clone the templi repository:
 
     ```bash
-    git clone https://github.com/RickaPrincy/Templi.git
+    git clone https://github.com/RickaPrincy/templi.git
     cd templi
     git submodule update --init --recursive
     ```
 
-2. Navigate to the Templi directory:
+2. Navigate to the templi directory:
 
     ```bash
     cd templi
@@ -41,10 +41,10 @@ To build Templi, follow these steps:
     - Options
 
         ```cmake
-        option(TEMPLI_CLI_BUILD "Build Templi cli" OFF)
-        option(TEMPLI_CLI_INSTALL "Install Templi cli" OFF)
-        option(TEMPLI_LIB "Build Templi lib" ON)
-        option(TEMPLI_LIB_INSTALL "Install Templi lib" ON)
+        option(TEMPLI_CLI_BUILD "Build templi cli" OFF)
+        option(TEMPLI_CLI_INSTALL "Install templi cli" OFF)
+        option(TEMPLI_LIB "Build templi lib" ON)
+        option(TEMPLI_LIB_INSTALL "Install templi lib" ON)
         option(TEMPLI_TEST "Build templi test" OFF)
         ```
 
@@ -57,7 +57,7 @@ To build Templi, follow these steps:
         #example2: 
         cmake -DTEMPLI_TEST=ON -DTEMPLI_LIB_INSTALL=OFF -S .. -B
         ```
-5. Build Templi:
+5. Build templi:
     - Build only 
 
         ```bash
@@ -70,7 +70,7 @@ To build Templi, follow these steps:
         ```
 ## Usage
 
-Once built, you can use Templi by running the following commands:
+Once built, you can use templi by running the following commands:
 
 - To configure templates:
 
@@ -84,4 +84,4 @@ Once built, you can use Templi by running the following commands:
     ./templi --generate
     ```
 
-Templi will prompt you for necessary values during the configuration and generation processes.
+templi will prompt you for necessary values during the configuration and generation processes.

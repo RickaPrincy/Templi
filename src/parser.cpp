@@ -1,11 +1,11 @@
-#include <Templi/parser.hpp>
+#include <templi/parser.hpp>
 #include <iostream>
 #include <regex>
-#include <Templi/fs_utils.hpp>
+#include <templi/fs_utils.hpp>
 
-using namespace Templi;
+using namespace templi;
 
-String Templi::brackets_parser(String text, MapString values, SetString &words) {
+String templi::brackets_parser(String text, MapString values, SetString &words) {
     String result = text;
     size_t pos = result.find("{{");
 
@@ -33,18 +33,18 @@ String Templi::brackets_parser(String text, MapString values, SetString &words) 
     return result;
 }
 
-SetString Templi::get_brackets_words(String text){
+SetString templi::get_brackets_words(String text){
     SetString words;
     brackets_parser(text, {}, words);
     return words;
 }
 
-String Templi::replace_brackets_words(String text, MapString values){
+String templi::replace_brackets_words(String text, MapString values){
     SetString words;
     return brackets_parser(text, values, words);
 }
 
-SetString Templi::file_get_brackets_words(String file_path){
+SetString templi::file_get_brackets_words(String file_path){
     SetString words;
     process_for_each_line(file_path, [&](const String &line_content){
         for(auto word: get_brackets_words(line_content)){
@@ -54,7 +54,7 @@ SetString Templi::file_get_brackets_words(String file_path){
     return words;
 }
 
-void Templi::file_brackets_parser(String file_path,String output_path, MapString values){
+void templi::file_brackets_parser(String file_path,String output_path, MapString values){
     std::stringstream file_parsed_content;
     
     process_for_each_line(file_path, [&](const String &line_content){

@@ -1,14 +1,14 @@
-#include <Templi/Templi.hpp>
-#include <Templi/fs_utils.hpp>
-#include <Templi/parser.hpp>
-#include <Templi/TempliConfig.hpp>
-#include <Templi/vr_config.hpp>
+#include <templi/templi.hpp>
+#include <templi/fs_utils.hpp>
+#include <templi/parser.hpp>
+#include <templi/templiConfig.hpp>
+#include <templi/vr_config.hpp>
 #include <iostream>
 #include <TColor/TColor.hpp>
 
-using namespace Templi;
+using namespace templi;
 
-void Templi::generate(String template_path, String output_path, MapString values, VectorString ignored_path){
+void templi::generate(String template_path, String output_path, MapString values, VectorString ignored_path){
     VectorString files;
     get_folder_files(template_path, files, ignored_path);
     
@@ -25,7 +25,7 @@ void Templi::generate(String template_path, String output_path, MapString values
     TColor::write_endl(TColor::YELLOW, "[ DONE ]: Your project was generated successfully");
 }
 
-void Templi::configure(String template_path, VectorString ignored_path){
+void templi::configure(String template_path, VectorString ignored_path){
     VectorString files;
     SetString words;
 

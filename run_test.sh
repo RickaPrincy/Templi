@@ -1,2 +1,2 @@
 #! /bin/bash
-./build/tests/Templi_test
+./build/tests/templi_test

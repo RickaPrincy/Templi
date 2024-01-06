@@ -13,6 +13,6 @@ target_link_directories( ${BINARY}
 )
 
 target_link_libraries(${BINARY} 
-    PUBLIC ${CMAKE_PROJECT_NAME}
+    PUBLIC ${TEMPLI_LIB_NAME}
     PUBLIC gtest
 )

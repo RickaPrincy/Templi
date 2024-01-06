@@ -1,0 +1,4 @@
+#define templi_VERSION_MAJOR @templi_VERSION_MAJOR@
+#define templi_VERSION_MINOR @templi_VERSION_MINOR@
+#define templi_VERSION_PATCH @templi_VERSION_PATCH@
+#define templi_SEPARATOR "@templi_SEPARATOR@"

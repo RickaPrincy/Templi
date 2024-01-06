@@ -3,10 +3,10 @@
     
     #include <fstream>
     #include <functional>
-    #include <Templi/parser.hpp>
-    #include <Templi/types.hpp>
+    #include <templi/parser.hpp>
+    #include <templi/types.hpp>
     
-    namespace Templi{
+    namespace templi{
         bool save_file(String path, String text);
         bool save_file(String path, json text);
         bool delete_file(String path);

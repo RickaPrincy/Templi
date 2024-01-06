@@ -6,9 +6,9 @@
     #include <tuple> 
     #include <map> 
     #include <set> 
-    #include <Templi/json.hpp> 
+    #include <templi/json.hpp> 
     
-    namespace Templi{
+    namespace templi{
         using json = nlohmann::json;
         using String = std::string;
         using VectorString = std::vector<String>;

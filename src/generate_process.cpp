@@ -1,18 +1,18 @@
-#include <Templi/Templi.hpp>
+#include <templi/templi.hpp>
 #include <RCli/RCli.hpp>
-#include <Templi/cli.hpp>
-#include <Templi/cli_utils.hpp>
-#include <Templi/vr_config.hpp>
+#include <templi/cli.hpp>
+#include <templi/cli_utils.hpp>
+#include <templi/vr_config.hpp>
 #include <TColor/TColor.hpp>
 
-void Templi::generate_process(Templi::String template_path, Templi::String output_path){
-    Templi::ask_path(template_path, "Path to the template");
-    Templi::ask_path(output_path, "Path to the output");
+void templi::generate_process(templi::String template_path, templi::String output_path){
+    templi::ask_path(template_path, "Path to the template");
+    templi::ask_path(output_path, "Path to the output");
     
-    Templi::json config_content = read_templi_config(template_path);
+    templi::json config_content = read_templi_config(template_path);
     
-    Templi::MapString values = Templi::vr_templi_keys(config_content);
-    Templi::VectorString ignored_paths = Templi::vr_templi_ignored_paths(config_content);
+    templi::MapString values = templi::vr_templi_keys(config_content);
+    templi::VectorString ignored_paths = templi::vr_templi_ignored_paths(config_content);
 
-    Templi::generate(template_path, output_path, values, ignored_paths);
+    templi::generate(template_path, output_path, values, ignored_paths);
 }

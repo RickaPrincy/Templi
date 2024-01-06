@@ -1,11 +1,11 @@
-#include <Templi/Templi.hpp>
+#include <templi/templi.hpp>
 #include <iostream>
 
 int main(int argc, char const *argv[]){
-    Templi::configure("../template");
-    Templi::VectorString my_ignored_files = {"file.txt"};
+    templi::configure("../template");
+    templi::VectorString my_ignored_files = {"file.txt"};
     
-    Templi::generate(
+    templi::generate(
         "../template", 
         "../ctemplate", 
         {{"my_key","my_value"}, {"my_other_key", "my_other_value"}}, 

@@ -1,6 +1,6 @@
-# Templi.json :first_quarter_moon_with_face:
+# templi.json :first_quarter_moon_with_face:
 
-`templi.json` is like a file configuration for your template. Templi uses it to determine how your key's value will be prompted.
+`templi.json` is like a file configuration for your template. templi uses it to determine how your key's value will be prompted.
 
 Example:
 

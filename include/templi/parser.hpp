@@ -1,8 +1,8 @@
 #ifndef __TEMPLI_PARSER__
 #define __TEMPLI_PARSER__
 
-    #include <Templi/types.hpp>
-    namespace Templi{
+    #include <templi/types.hpp>
+    namespace templi{
         String brackets_parser(String text, MapString values, SetString &words);
         SetString get_brackets_words(String text);
         String replace_brackets_words(String text, MapString values);

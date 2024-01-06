@@ -1,14 +1,14 @@
-#include <Templi/fs_utils.hpp>
-#include <Templi/parser.hpp>
-#include <Templi/TempliConfig.hpp>
+#include <templi/fs_utils.hpp>
+#include <templi/parser.hpp>
+#include <templi/templiConfig.hpp>
 #include <cstdio>
 #include <filesystem>
 #include <iostream>
 
 namespace fs = std::filesystem;
-using namespace Templi;
+using namespace templi;
 
-bool Templi::save_file(String path, json text){
+bool templi::save_file(String path, json text){
     std::ofstream file(path);
     if (file.is_open()) {
         file << text.dump(2);
@@ -17,16 +17,16 @@ bool Templi::save_file(String path, json text){
     return false;
 }
 
-bool Templi::save_file(String path, String text){
+bool templi::save_file(String path, String text){
     std::ofstream file(path);
     return write_in_open_file(&file, text);
 }
 
-bool Templi::delete_file(String path){
+bool templi::delete_file(String path){
     return std::remove(path.c_str()) != 0;
 }
 
-bool Templi::write_in_open_file(std::ofstream *file,String &text){
+bool templi::write_in_open_file(std::ofstream *file,String &text){
     if (file->is_open()) {
         *file << text;
         file->close();
@@ -35,7 +35,7 @@ bool Templi::write_in_open_file(std::ofstream *file,String &text){
     return false;
 }
 
-void Templi::get_folder_files(String path,VectorString &result, VectorString exclude_paths){
+void templi::get_folder_files(String path,VectorString &result, VectorString exclude_paths){
     if(fs::exists(path) && fs::is_directory(path)){
         for(const auto &file: fs::directory_iterator(path)){
             int i = 0;
@@ -53,7 +53,7 @@ void Templi::get_folder_files(String path,VectorString &result, VectorString exc
                 continue;
 
             if (fs::is_directory(file)) {
-                Templi::get_folder_files(file.path().string(), result, exclude_paths);
+                templi::get_folder_files(file.path().string(), result, exclude_paths);
             } else if (fs::is_regular_file(file)) {
                 result.push_back(file.path().string());
             }
@@ -61,7 +61,7 @@ void Templi::get_folder_files(String path,VectorString &result, VectorString exc
     }
 }
 
-bool Templi::copy_folder(String source, String destination){
+bool templi::copy_folder(String source, String destination){
     try {
         fs::copy(source, destination, fs::copy_options::recursive | fs::copy_options::overwrite_existing);
         return true;
@@ -70,7 +70,7 @@ bool Templi::copy_folder(String source, String destination){
     }
 }
 
-bool Templi::process_for_each_line(String path, std::function<void(const String &line_content)> process){
+bool templi::process_for_each_line(String path, std::function<void(const String &line_content)> process){
     std::ifstream file(path);
     if (!file.is_open()) {
         std::cerr << "Unable to open file: " << path << std::endl;

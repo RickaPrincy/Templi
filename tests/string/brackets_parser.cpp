@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
-#include <Templi/parser.hpp>
+#include <templi/parser.hpp>
 
-using namespace Templi;
+using namespace templi;
 
 static void test_result(String &text, String output, MapString values){
-    String result = Templi::replace_brackets_words(text, values);
+    String result = templi::replace_brackets_words(text, values);
     ASSERT_EQ(result, output);
 }
 
