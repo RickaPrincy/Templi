@@ -1,9 +1,3 @@
 [submodule "external/googletest"]
 	path = external/googletest
 	url = https://github.com/google/googletest.git
-[submodule "external/TColor"]
-	path = external/TColor
-	url = https://github.com/RickaPrincy/Tcolor.hpp
-[submodule "external/RCli"]
-	path = external/RCli
-	url = https://github.com/RickaPrincy/RCli
