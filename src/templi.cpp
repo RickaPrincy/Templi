@@ -1,10 +1,10 @@
-#include <templi/templi.hpp>
-#include <templi/fs_utils.hpp>
-#include <templi/parser.hpp>
-#include <templi/templiConfig.hpp>
-#include <templi/vr_config.hpp>
 #include <iostream>
 #include <TColor/TColor.hpp>
+#include "templi/templi.hpp"
+#include "templi/fs_utils.hpp"
+#include "templi/parser.hpp"
+#include "templi/templiConfig.hpp"
+#include "templi/vr_config.hpp"
 
 using namespace templi;
 

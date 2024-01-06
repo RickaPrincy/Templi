@@ -1,8 +1,8 @@
-#include <templi/templi.hpp>
-#include <RCli/RCli.hpp>
-#include <templi/cli.hpp>
-#include <templi/cli_utils.hpp>
+#include <rcli/rcli.hpp>
 #include <TColor/TColor.hpp>
+#include "templi/templi.hpp"
+#include "templi/cli.hpp"
+#include "templi/cli_utils.hpp"
 
 void templi::configure_process(templi::String template_path){
     templi::ask_path(template_path, "Path to the template");

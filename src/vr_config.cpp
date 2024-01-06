@@ -1,9 +1,9 @@
-#include <templi/vr_config.hpp>
-#include <templi/templiConfig.hpp>
-#include <templi/cli_utils.hpp>
-#include <TColor/TColor.hpp>
 #include <fstream>
 #include <iostream>
+#include <TColor/TColor.hpp>
+#include "templi/vr_config.hpp"
+#include "templi/templiConfig.hpp"
+#include "templi/cli_utils.hpp"
 
 using namespace templi;
 
@@ -55,7 +55,7 @@ MapString templi::vr_templi_keys(json &config_content){
     MapString values; 
 
     for (const auto &key : keys) {
-        RCli::InputConfig config;
+        rcli::InputConfig config;
         VectorString options;
 
         if (!key.is_object())
@@ -112,15 +112,15 @@ MapString templi::vr_templi_keys(json &config_content){
         }
         
         if(!options.empty())
-            values.insert(std::make_pair(key["key"], RCli::ask_value_in_options(config._text, options)));
+            values.insert(std::make_pair(key["key"], rcli::ask_value_in_options(config._text, options)));
         else if(key["type"] == "bool"){
             bool default_value = true;
             if(key.contains("default")) 
                 default_value = key["default"];
-            values.insert(std::make_pair(key["key"], RCli::ask_boolean(config._text, default_value) ? "true" : "false"));
+            values.insert(std::make_pair(key["key"], rcli::ask_boolean(config._text, default_value) ? "true" : "false"));
         }
         else
-            values.insert(std::make_pair(key["key"], RCli::ask_input_value(config)));
+            values.insert(std::make_pair(key["key"], rcli::ask_input_value(config)));
     }
     
     return values;

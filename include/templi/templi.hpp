@@ -2,7 +2,7 @@
 #define __TEMPLI_TEMPLATE__
 
     #include <fstream>
-    #include <templi/types.hpp>    
+    #include "templi/types.hpp"
 
     namespace templi{
         void generate(String template_path,String output_path, MapString values, VectorString ignored_path = {});

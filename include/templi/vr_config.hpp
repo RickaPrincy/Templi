@@ -1,7 +1,7 @@
 #ifndef __TEMPLI_CONFIG__ 
 #define __TEMPLI_CONFIG__ 
     
-    #include <templi/types.hpp> 
+    #include "templi/types.hpp"
     
     namespace templi{
         json vr_templi_file(String config_path);

@@ -3,8 +3,8 @@
     
     #include <fstream>
     #include <functional>
-    #include <templi/parser.hpp>
-    #include <templi/types.hpp>
+    #include "templi/parser.hpp"
+    #include "templi/types.hpp"
     
     namespace templi{
         bool save_file(String path, String text);

@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
-#include <templi/parser.hpp>
+#include "templi/parser.hpp"
+#include "gtest/gtest.h"
 
 using namespace templi;
 

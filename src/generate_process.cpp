@@ -1,9 +1,9 @@
-#include <templi/templi.hpp>
-#include <RCli/RCli.hpp>
-#include <templi/cli.hpp>
-#include <templi/cli_utils.hpp>
-#include <templi/vr_config.hpp>
+#include <rcli/rcli.hpp>
 #include <TColor/TColor.hpp>
+#include "templi/templi.hpp"
+#include "templi/cli.hpp"
+#include "templi/cli_utils.hpp"
+#include "templi/vr_config.hpp"
 
 void templi::generate_process(templi::String template_path, templi::String output_path){
     templi::ask_path(template_path, "Path to the template");

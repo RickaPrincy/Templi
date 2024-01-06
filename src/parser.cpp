@@ -1,7 +1,7 @@
-#include <templi/parser.hpp>
 #include <iostream>
 #include <regex>
-#include <templi/fs_utils.hpp>
+#include "templi/parser.hpp"
+#include "templi/fs_utils.hpp"
 
 using namespace templi;
 

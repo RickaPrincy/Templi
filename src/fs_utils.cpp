@@ -1,9 +1,9 @@
-#include <templi/fs_utils.hpp>
-#include <templi/parser.hpp>
-#include <templi/templiConfig.hpp>
 #include <cstdio>
 #include <filesystem>
 #include <iostream>
+#include "templi/fs_utils.hpp"
+#include "templi/parser.hpp"
+#include "templi/templiConfig.hpp"
 
 namespace fs = std::filesystem;
 using namespace templi;
