@@ -1,12 +1,15 @@
-#ifndef __TEMPLI_TEMPLATE__
-#define __TEMPLI_TEMPLATE__
+#pragma once
 
-    #include <fstream>
-    #include <Templi/types.hpp>    
+#include <Templi/types.hpp>
 
-    namespace Templi{
-        void generate(String template_path,String output_path, MapString values, VectorString ignored_path = {});
-        void configure(String template_path, VectorString ignored_path={});
-    }
+namespace Templi
+{
+	bool generate(String template_path,
+		String output_path,
+		MapString values,
+		VectorString ignored_path = {});
 
-#endif
+	bool generate_with_templi_config(String template_path, String output_path);
+
+	bool configure(String template_path, VectorString ignored_path = {});
+}  // namespace Templi

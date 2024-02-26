@@ -1,18 +1,18 @@
-set(BINARY ${CMAKE_PROJECT_NAME}_test)
-file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp)
-add_executable(${BINARY} ${TEST_SOURCES})
+file(
+  GLOB_RECURSE TEST_SOURCES
+  LIST_DIRECTORIES false
+  *.h *.cpp)
+add_executable(${TEMPLI_TEST_NAME} ${TEST_SOURCES})
 
-target_include_directories(${BINARY} 
-    PUBLIC ${TEMPLI_SOURCE_DIR}/include
-    PUBLIC ${TEMPLI_SOURCE_DIR}/external/googleTest/include
-)
+target_include_directories(
+  ${TEMPLI_TEST_NAME}
+  PRIVATE "${TEMPLI_SOURCE_DIR}/include"
+  PRIVATE "${TEMPLI_SOURCE_DIR}/src"
+  PRIVATE "${TEMPLI_SOURCE_DIR}/external/googletest/include")
 
-target_link_directories( ${BINARY} 
-    PUBLIC ${TEMPLI_SOURCE_DIR}/build/src 
-    PUBLIC ${TEMPLI_SOURCE_DIR}/build/lib
-)
+target_link_directories(${TEMPLI_TEST_NAME} PUBLIC ${CMAKE_BINARY_DIR}/lib)
 
-target_link_libraries(${BINARY} 
-    PUBLIC ${CMAKE_PROJECT_NAME}
-    PUBLIC gtest
-)
+target_link_libraries(
+  ${TEMPLI_TEST_NAME}
+  PUBLIC ${TEMPLI_LIB_NAME}
+  PUBLIC gtest)

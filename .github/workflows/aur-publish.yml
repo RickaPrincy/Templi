@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Publish AUR package
+      - name: Publish AUR package cli
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
         with:
           pkgname: templi 

@@ -7,24 +7,35 @@ Templi is a groundbreaking tool designed to expedite the template file generatio
 # Installation :seedling:
 
 - Archlinux
+
 ```bash
 yay -Sy templi
 ```
-
-For the moment, you have to build templi to use it
+For the moment, you have to build templi to use it if you use another system (not archlinux)
 
 - Dependancies
 
     - CMake (Version 3.27 or later)
     - C++ Compiler with C++17 support
-
-- You can run the following command to build and install templi with cmake, but if you want other options of building templi, read [this](BUILD_INSTALL.md).
+    - [rcli](https://github.com/RickaPrincy/rcli)
 
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/Templi/main/install.sh)
 ```
 
 - You can also simply use Templi as a submodule.
+
+### If some libs are not found, determine the library installation Path
+
+Identify the installation path of the missing library. For example, let's assume the library is installed in `/usr/local/lib` (on linux it should be there).
+
+If you are using Linux, run the following command in your terminal, replacing `/usr/local/lib` with the actual installation path:
+
+```bash
+echo "export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH" >> ~/.zshrc
+# or
+echo "export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
+```
 
 # Getting started
 

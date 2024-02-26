@@ -1,20 +1,14 @@
-file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.hpp *.h *.cpp)
-add_executable(templi ${SOURCES})
+file(
+  GLOB_RECURSE SOURCES
+  LIST_DIRECTORIES TRUE
+  *.hpp *.h *.cpp)
 
-target_include_directories(templi 
-    PUBLIC ${TEMPLI_SOURCE_DIR}/external/TColor/include
-    PUBLIC ${TEMPLI_SOURCE_DIR}/external/RCli/include
-)
+add_executable(${TEMPLI_CLI_NAME} ${SOURCES})
 
-target_link_directories(templi 
-    PUBLIC ${TEMPLI_SOURCE_DIR}/build/src
-    PUBLIC ${TEMPLI_SOURCE_DIR}/external/RCli/src
-)
-target_link_libraries(templi 
-    PUBLIC ${PROJECT_NAME}
-    PUBLIC RCli 
-)
+target_include_directories(${TEMPLI_CLI_NAME} PRIVATE ${TEMPLI_SOURCE_DIR}/include)
+
+target_link_libraries(${TEMPLI_CLI_NAME} PRIVATE ${TEMPLI_LIB_NAME})
 
 if(TEMPLI_CLI_INSTALL)
-    install(TARGETS templi DESTINATION bin)
+  install(TARGETS ${TEMPLI_CLI_NAME} DESTINATION bin)
 endif()
