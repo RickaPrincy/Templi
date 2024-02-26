@@ -17,7 +17,7 @@ jobs:
       run: git submodule update --init --recursive
 
     - name: Configure And Build 
-      run: cmake -S -DBUILD_GMOCK=OFF . -B build
+      run: cmake  -DBUILD_GMOCK=OFF -S . -B build
     
     - name: Test
       run: cd build; make; ./tests/TempliTest  
