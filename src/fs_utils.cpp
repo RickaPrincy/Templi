@@ -28,7 +28,7 @@ bool Templi::save_file(String path, String text)
 
 bool Templi::delete_file(String path)
 {
-	return std::remove(path.c_str()) != 0;
+	return std::remove(path.c_str()) == 0;
 }
 
 bool Templi::write_in_open_file(std::ofstream *file, String &text)

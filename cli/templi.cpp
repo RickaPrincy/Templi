@@ -55,6 +55,8 @@ int main(int argc, const char *argv[])
 			if (result)
 			{
 				TColor::write_endl(TColor::B_GREEN, "\n[ DONE ]: Project generated successfully");
+			}else{
+				TColor::write_endl(TColor::B_RED, "\n[ ERROR ]: Verify your \"templi.json\"");
 			}
 		});
 

@@ -9,7 +9,6 @@
 
 using namespace Templi;
 
-// TODO: maybe return bool or can throw error on error
 bool Templi::generate(String template_path,
 	String output_path,
 	MapString values,
@@ -39,7 +38,6 @@ bool Templi::configure(String template_path, VectorString ignored_path)
 {
 	VectorString files;
 	SetString words;
-
 	get_folder_files(template_path, files, ignored_path);
 	json config_content = { { "ignored_paths", ignored_path }, { "keys", json::array() } };
 	config_content["ignored_paths"].push_back("templi.json");
@@ -76,12 +74,13 @@ bool Templi::generate_with_templi_config(String template_path, String output_pat
 	try
 	{
 		Templi::ask_and_get_templi_config_value(template_path, values, ignored_paths);
-		Templi::generate(template_path, output_path, values, ignored_paths);
-		return true;
+		return Templi::generate(template_path, output_path, values, ignored_paths);
 	}
 	catch (json::exception error)
 	{
-        TColor::write_endl(TColor::B_RED, "[ ERROR ]: \"templi.json\" is not valid (ref: https://github.com/RickaPrincy/Templi)");
+		TColor::write_endl(TColor::B_RED,
+			"[ ERROR ]: \"templi.json\" is not valid (ref: "
+			"https://github.com/RickaPrincy/Templi)");
 		return false;
 	}
 }

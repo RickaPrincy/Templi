@@ -2,12 +2,11 @@
 
 #include <TColor/TColor.hpp>
 #include <Templi/TempliConfig.hpp>
+#include <Templi/types.hpp>
 #include <fstream>
 #include <rcli/input_config.hpp>
 #include <rcli/inputs.hpp>
 #include <utility>
-
-#include "Templi/types.hpp"
 
 using namespace Templi;
 
@@ -18,7 +17,7 @@ static json get_templi_json(String config_path)
 
 	if (!config_file.is_open())
 	{
-        TColor::write_endl(TColor::B_RED, "[ ERROR ]: \"templi.json\" was not found");
+		TColor::write_endl(TColor::B_RED, "[ ERROR ]: \"templi.json\" was not found");
 		exit(EXIT_FAILURE);
 	}
 

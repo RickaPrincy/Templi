@@ -25,7 +25,7 @@ bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/Templi/main/install
 
 - You can also simply use Templi as a submodule.
 
-### If some libs are not found, determine the library installation Path
+### If some libs are not found
 
 Identify the installation path of the missing library. For example, let's assume the library is installed in `/usr/local/lib` (on linux it should be there).
 
