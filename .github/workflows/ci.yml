@@ -9,11 +9,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     
-    - name: Get all dependancies
+    - name: install rcli 
+      run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/rcli/main/install.sh)
+
+    - name: Get submodule dependancies
       run: git submodule update --init --recursive
 
     - name: Configure And Build 

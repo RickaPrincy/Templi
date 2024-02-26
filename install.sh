@@ -1,5 +1,5 @@
 #! /bin/bash
-git clone https://github.com/RickaPrincy/Templi.git
+git clone -b v3.1.0 https://github.com/RickaPrincy/Templi.git
 cd Templi
 mkdir build
 cd build

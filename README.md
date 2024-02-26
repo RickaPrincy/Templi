@@ -120,16 +120,13 @@ templi generate -t <path_to_the_template> -o <path_to_the_output>
 //Signature
 nampespace Templi{
     //Simple configure
-    void configure(string template_path, vectorstring ignored_path={});
-
-    //Ask the path if the given template_path is empty
-    void configure_process(String template_path);
+    bool configure(string template_path, vectorstring ignored_path={});
 
     //Generate without templi.json
-    void generate(String template_path,String output_path, MapString values, VectorString ignored_path = {});
+    bool generate(String template_path,String output_path, MapString values, VectorString ignored_path = {});
 
     //Generate with templi.json
-    void Templi::generate_process(Templi::String template_path, Templi::String output_path);
+    bool Templi::generate_with_templi_config(String template_path, String output_path);
 }
 
 //Example for Templi::generate
