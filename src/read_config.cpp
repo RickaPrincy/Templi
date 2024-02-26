@@ -13,7 +13,7 @@ using namespace Templi;
 
 static json get_templi_json(String config_path)
 {
-	std::ifstream config_file(config_path);
+	std::ifstream config_file(config_path + TEMPLI_SEPARATOR + "templi.json");
 	json config_json;
 
 	if (!config_file.is_open())
