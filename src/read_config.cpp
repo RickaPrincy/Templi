@@ -61,7 +61,7 @@ static String ask_input_value(json key)
 		config.default_value(key["default"]);
 
 	if (key["clean"].is_boolean())
-		config.default_value(key["clean"]);
+		config.clean(key["clean"]);
 
 	return rcli::ask_input_value(config);
 }

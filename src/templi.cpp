@@ -80,7 +80,7 @@ bool Templi::generate_with_templi_config(String template_path, String output_pat
 	{
 		TColor::write_endl(TColor::B_RED,
 			"[ ERROR ]: \"templi.json\" is not valid (ref: "
-			"https://github.com/RickaPrincy/Templi)");
+			"https://github.com/RickaPrincy/Templi/blob/main/templi.json.md)");
 		return false;
 	}
 }
