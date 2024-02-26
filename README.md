@@ -7,24 +7,35 @@ Templi is a groundbreaking tool designed to expedite the template file generatio
 # Installation :seedling:
 
 - Archlinux
+
 ```bash
 yay -Sy templi
 ```
-
-For the moment, you have to build templi to use it
+For the moment, you have to build templi to use it if you use another system (not archlinux)
 
 - Dependancies
 
     - CMake (Version 3.27 or later)
     - C++ Compiler with C++17 support
-
-- You can run the following command to build and install templi with cmake, but if you want other options of building templi, read [this](BUILD_INSTALL.md).
+    - [rcli](https://github.com/RickaPrincy/rcli)
 
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/Templi/main/install.sh)
 ```
 
 - You can also simply use Templi as a submodule.
+
+### If some libs are not found
+
+Identify the installation path of the missing library. For example, let's assume the library is installed in `/usr/local/lib` (on linux it should be there).
+
+If you are using Linux, run the following command in your terminal, replacing `/usr/local/lib` with the actual installation path:
+
+```bash
+echo "export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH" >> ~/.zshrc
+# or
+echo "export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
+```
 
 # Getting started
 
@@ -109,16 +120,13 @@ templi generate -t <path_to_the_template> -o <path_to_the_output>
 //Signature
 nampespace Templi{
     //Simple configure
-    void configure(string template_path, vectorstring ignored_path={});
-
-    //Ask the path if the given template_path is empty
-    void configure_process(String template_path);
+    bool configure(string template_path, vectorstring ignored_path={});
 
     //Generate without templi.json
-    void generate(String template_path,String output_path, MapString values, VectorString ignored_path = {});
+    bool generate(String template_path,String output_path, MapString values, VectorString ignored_path = {});
 
     //Generate with templi.json
-    void Templi::generate_process(Templi::String template_path, Templi::String output_path);
+    bool Templi::generate_with_templi_config(String template_path, String output_path);
 }
 
 //Example for Templi::generate
