@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 3.18)
 
 project(Templi VERSION 3.1.0)
 
@@ -26,7 +26,7 @@ option(BUILD_SHARED_LIBS "Build rcli as a shared library"
        ${TEMPLI_IS_MAIN_PROJECT})
 option(TEMPLI_CLI_BUILD "Build Templi cli" ${TEMPLI_IS_MAIN_PROJECT})
 option(TEMPLI_CLI_INSTALL "Install Templi cli" ${TEMPLI_IS_MAIN_PROJECT})
-option(TEMPLI_LIB "Build Templi lib" ON)
+option(TEMPLI_LIB_BUILD "Build Templi lib" ON)
 option(TEMPLI_LIB_INSTALL "Install Templi lib" ${TEMPLI_IS_MAIN_PROJECT})
 option(TEMPLI_TEST "Build templi test" ${TEMPLI_IS_MAIN_PROJECT})
 
@@ -46,11 +46,6 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
 endif()
 
 add_subdirectory(src)
-
-# for templi cli
-if(TEMPLI_CLI_BUILD)
-  add_subdirectory(cli)
-endif()
 
 # Test configuration
 if(TEMPLI_TEST)
@@ -78,8 +73,9 @@ endif()
 # clang-format configuration
 find_program(CLANG_FORMAT_EXECUTABLE NAMES clang-format)
 if(CLANG_FORMAT_EXECUTABLE)
-  file(GLOB_RECURSE ALL_SOURCE_FILES "${TEMPLI_SOURCE_DIR}/src/*.cpp"
-       "${TEMPLI_SOURCE_DIR}/include/*.hpp" "${TEMPLI_SOURCE_DIR}/cli/*.cpp")
+  file(GLOB_RECURSE ALL_SOURCE_FILES "${TEMPLI_SOURCE_DIR}/src/lib/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/src/cli/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/include/Templi/*.hpp")
   add_custom_target(
     clang-format
     COMMAND ${CLANG_FORMAT_EXECUTABLE} -i -style=file ${ALL_SOURCE_FILES}
