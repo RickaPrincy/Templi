@@ -4,12 +4,14 @@
 #include <fstream>
 #include <functional>
 
+#include "json.hpp"
+
 namespace Templi
 {
 	bool write_in_open_file(std::ofstream *file, String &text);
 
 	bool save_file(String path, String text);
-	bool save_file(String path, json text);
+	bool save_file(String path, nlohmann::json text);
 	bool delete_file(String path);
 
 	bool copy_folder(String source, String destination);

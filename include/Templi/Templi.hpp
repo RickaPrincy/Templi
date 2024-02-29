@@ -4,15 +4,26 @@
 
 namespace Templi
 {
-	bool generate(String template_path,
+	void generate(String template_path,
 		String output_path,
 		MapString values,
 		VectorString ignored_path = {});
 
-	bool generate_with_templi_config(String template_path, String output_path);
+	void generate_with_templi_config(String template_path, String output_path);
 
-	bool configure(String template_path, VectorString ignored_path = {});
+	void configure(String template_path, VectorString ignored_path = {});
 
-	void get_config_value(String template_path, MapString &values, VectorString &ignored_paths);
+	class JSONConfig
+	{
+	public:
+		VectorString _ignored_paths{};
+		std::vector<Key> _keys{};
+
+		void read_config(String template_path);
+		void save_config(String template_path);
+
+		JSONConfig(){};
+		JSONConfig(String template_path);
+	};	// JSONConfig
 
 }  // namespace Templi
