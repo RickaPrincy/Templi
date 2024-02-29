@@ -1,12 +1,11 @@
 #include "utils.hpp"
 
 #include <TColor/TColor.hpp>
+#include <Templi/Templi.hpp>
 #include <Templi/TempliConfig.hpp>
 #include <Templi/types.hpp>
 #include <rcli/input_config.hpp>
 #include <rcli/inputs.hpp>
-
-#include "Templi/Templi.hpp"
 
 using namespace Templi;
 
@@ -38,7 +37,5 @@ void Templi::ask_and_get_templi_config_value(String template_path,
 	ignored_paths = json_config._ignored_paths;
 
 	for (const auto &key : json_config._keys)
-	{
 		values.insert(std::make_pair(key._key, ask_input_value(key)));
-	}
 }

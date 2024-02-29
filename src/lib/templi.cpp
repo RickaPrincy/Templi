@@ -15,21 +15,18 @@ void Templi::generate(String template_path,
 	VectorString ignored_path)
 {
 	VectorString files;
-	get_folder_files(template_path, files, ignored_path);
+	Templi::get_folder_files(template_path, files, ignored_path);
 
 	if (files.empty())
 		throw Templi::Exception("Folder empty or no words inside {{}} was found");
 
-	if (!copy_folder(template_path, output_path) ||
-		!delete_file(Templi::create_config_path(output_path)))
-	{
-		throw Templi::Exception("Error when try to copy the templates");
-	}
+	Templi::copy_folder(template_path, output_path);
+	Templi::delete_file(Templi::create_config_path(output_path));
 
 	for (auto file : files)
 	{
 		auto path = output_path + file.substr(template_path.size());
-		file_brackets_parser(file, path, values);
+		Templi::file_brackets_parser(file, path, values);
 	}
 }
 
@@ -42,14 +39,14 @@ void Templi::configure(String template_path, VectorString ignored_path)
 	json_config._ignored_paths = ignored_path;
 	json_config._ignored_paths.push_back(TEMPLI_CONFIG_NAME);
 
-	get_folder_files(template_path, files, ignored_path);
+	Templi::get_folder_files(template_path, files, ignored_path);
 
 	if (files.empty())
 		throw Templi::Exception("Folder empty or no words inside {{}} was found");
 
 	for (auto file : files)
 	{
-		SetString words_found = file_get_brackets_words(file);
+		SetString words_found = Templi::file_get_brackets_words(file);
 
 		if (words_found.empty())
 			json_config._ignored_paths.push_back(file.substr(template_path.size() + 1));

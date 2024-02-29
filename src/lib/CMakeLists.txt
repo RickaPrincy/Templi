@@ -1,15 +1,11 @@
-# TODO: use explicit list of source code
-file(
-  GLOB_RECURSE SOURCES
-  LIST_DIRECTORIES TRUE
-  *.hpp *.h *.cpp)
-file(GLOB HEADERS "${TEMPLI_SOURCE_DIR}/include/${TEMPLI_LIB_NAME}/*.hpp")
+set(LIB_SOURCES fs_utils.cpp json_config.cpp parser.cpp templi.cpp types.cpp
+                utils.cpp)
 
 # Create the library
 if(BUILD_SHARED_LIBS)
-  add_library(${TEMPLI_LIB_NAME} SHARED ${SOURCES} ${HEADERS})
+  add_library(${TEMPLI_LIB_NAME} SHARED ${LIB_SOURCES})
 else()
-  add_library(${TEMPLI_LIB_NAME} STATIC ${SOURCES} ${HEADERS})
+  add_library(${TEMPLI_LIB_NAME} STATIC ${LIB_SOURCES})
 endif()
 
 # Set include directories for the library
@@ -56,7 +52,8 @@ if(TEMPLI_LIB_INSTALL)
 
   configure_file(
     ${TEMPLI_SOURCE_DIR}/${TEMPLI_LIB_NAME}Config.hpp.in
-    ${TEMPLI_SOURCE_DIR}/include/${TEMPLI_LIB_NAME}/${TEMPLI_LIB_NAME}Config.hpp @ONLY)
+    ${TEMPLI_SOURCE_DIR}/include/${TEMPLI_LIB_NAME}/${TEMPLI_LIB_NAME}Config.hpp
+    @ONLY)
 
   # Install the Config, ConfigVersion, and custom Find module files
   install(FILES ${CMAKE_BINARY_DIR}/cmake/${TEMPLI_LIB_NAME}Config.cmake

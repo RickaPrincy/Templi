@@ -11,30 +11,25 @@ String Templi::brackets_parser(String text, MapString values, SetString &words)
 
 	while (pos != String::npos)
 	{
-		size_t startPos = pos + 2;
-		size_t endPos = result.find("}}", startPos);
+		size_t start_pos = pos + 2;
+		size_t end_pos = result.find("}}", start_pos);
 
-		if (endPos != String::npos)
+		if (end_pos == String::npos)
+			break;
+
+		size_t wordLength = end_pos - start_pos;
+		String word = result.substr(start_pos, wordLength);
+
+		words.insert(word);
+		auto it = values.find(word);
+
+		if (it != values.end())
 		{
-			size_t wordLength = endPos - startPos;
-			String word = result.substr(startPos, wordLength);
-
-			words.insert(word);
-			auto it = values.find(word);
-			if (it != values.end())
-			{
-				result.replace(pos, endPos - pos + 2, it->second);
-				pos = result.find("{{", pos + it->second.length());
-			}
-			else
-			{
-				pos = result.find("{{", endPos);
-			}
+			result.replace(pos, end_pos - pos + 2, it->second);
+			pos = result.find("{{", pos + it->second.length());
 		}
 		else
-		{
-			break;
-		}
+			pos = result.find("{{", end_pos);
 	}
 
 	return result;
@@ -60,9 +55,7 @@ SetString Templi::file_get_brackets_words(String file_path)
 		[&](const String &line_content)
 		{
 			for (auto word : get_brackets_words(line_content))
-			{
 				words.insert(word);
-			}
 		});
 	return words;
 }
