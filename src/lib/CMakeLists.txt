@@ -49,12 +49,6 @@ if(TEMPLI_LIB_INSTALL)
 
   configure_file(${TEMPLI_SOURCE_DIR}/cmake/${TEMPLI_LIB_NAME}Config.cmake.in
                  ${CMAKE_BINARY_DIR}/cmake/${TEMPLI_LIB_NAME}Config.cmake @ONLY)
-
-  configure_file(
-    ${TEMPLI_SOURCE_DIR}/${TEMPLI_LIB_NAME}Config.hpp.in
-    ${TEMPLI_SOURCE_DIR}/include/${TEMPLI_LIB_NAME}/${TEMPLI_LIB_NAME}Config.hpp
-    @ONLY)
-
   # Install the Config, ConfigVersion, and custom Find module files
   install(FILES ${CMAKE_BINARY_DIR}/cmake/${TEMPLI_LIB_NAME}Config.cmake
                 ${CMAKE_BINARY_DIR}/cmake/${TEMPLI_LIB_NAME}Version.cmake

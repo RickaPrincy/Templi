@@ -16,3 +16,6 @@ target_link_libraries(
   ${TEMPLI_TEST_NAME}
   PUBLIC ${TEMPLI_LIB_NAME}
   PUBLIC gtest)
+
+set_target_properties(${TEMPLI_TEST_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+                                                     "${CMAKE_BINARY_DIR}/bin")

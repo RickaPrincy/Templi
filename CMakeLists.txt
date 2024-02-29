@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(templi_distribution VERSION 3.1.0)
+project(templi_tools VERSION 3.2.0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -43,6 +43,13 @@ endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
   set(TEMPLI_TEST OFF)
+endif()
+
+if(TEMPLI_IS_MAIN_PROJECT)
+  configure_file(
+    ${TEMPLI_SOURCE_DIR}/${TEMPLI_LIB_NAME}Config.hpp.in
+    ${TEMPLI_SOURCE_DIR}/include/${TEMPLI_LIB_NAME}/${TEMPLI_LIB_NAME}Config.hpp
+    @ONLY)
 endif()
 
 add_subdirectory(src)

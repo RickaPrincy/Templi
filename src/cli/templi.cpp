@@ -34,7 +34,8 @@ int main(int argc, const char *argv[])
 			}
 			catch (Templi::Exception error)
 			{
-				TColor::write_endl(TColor::B_RED, error.what());
+				String message = error.what();
+				TColor::write_endl(TColor::B_RED, "[ ERROR ]: " + message);
 			}
 		});
 
@@ -61,7 +62,8 @@ int main(int argc, const char *argv[])
 			}
 			catch (Templi::Exception error)
 			{
-				TColor::write_endl(TColor::B_RED, error.what());
+				String message = error.what();
+				TColor::write_endl(TColor::B_RED, "[ ERROR ]: " + message);
 			}
 		});
 
