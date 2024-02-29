@@ -4,7 +4,6 @@
 #include <map>
 #include <set>
 #include <string>
-#include <variant>
 #include <vector>
 
 #define TEMPLI_CONFIG_NAME "templi.json"
@@ -23,7 +22,7 @@ namespace Templi
 		String _message;
 
 	public:
-		TempliException(const char* message) : _message(message)
+		TempliException(String message) : _message(message)
 		{
 		}
 		const char* what() const noexcept override
@@ -43,22 +42,24 @@ namespace Templi
 	class Key
 	{
 	public:
-		String _key /*key_value*/ {}, label{};
+		String _key /*key_value*/ {}, _label{}, _default;
 		KeyType _type;
-		VectorString _choice{};
+		VectorString _choices{};
 		bool _required{ false }, _clean{ true };
-		std::variant<bool, String> _default;
 
 		Key(){};
+
+		static KeyType keytype_value_of(String type);
+		static String keytype_to_string(KeyType type);
 	};	// Key
 
 	class JSONConfig
 	{
 	public:
-		VectorString ignored_paths{};
+		VectorString _ignored_paths{};
 		std::vector<Key> _keys{};
-		
-        void read_config(String template_path);
+
+		void read_config(String template_path);
 		void save_config(String template_path);
 
 		JSONConfig(){};
