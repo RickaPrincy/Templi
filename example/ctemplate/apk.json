@@ -1,5 +1,5 @@
 {
-    "name": "RickaPrincy",
-    "is_ok": true,
-    "author": "ricka"
+    "name": "{{name}}",
+    "is_ok": {{is_ok}},
+    "author": "{{author_name}}"
 }
