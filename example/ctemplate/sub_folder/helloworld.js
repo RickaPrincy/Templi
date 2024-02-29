@@ -1,1 +1,1 @@
-console.log("Hello ctemplate")
+console.log("Hello {{project_name}}")
