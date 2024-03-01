@@ -119,14 +119,28 @@ templi generate -t <path_to_the_template> -o <path_to_the_output>
 ```c++
 //Signature
 nampespace Templi{
-    //Simple configure
-    bool configure(string template_path, vectorstring ignored_path={});
+    // Simple configure
+    void configure(string template_path, vectorstring ignored_path={});
 
-    //Generate without templi.json
-    bool generate(String template_path,String output_path, MapString values, VectorString ignored_path = {});
+    // Generate without templi.json
+    void generate(String template_path,String output_path, MapString values, VectorString ignored_path = {});
 
-    //Generate with templi.json
-    bool Templi::generate_with_templi_config(String template_path, String output_path);
+    // Generate with templi.json
+    void Templi::generate_with_templi_config(String template_path, String output_path);
+    
+    // Useful when you want to read a template.json file or save a config
+	class JSONConfig
+	{
+	public:
+		VectorString _ignored_paths{};
+		std::vector<Key> _keys{};
+
+		void read_config(String template_path);
+		void save_config(String template_path);
+
+		JSONConfig(){};
+		JSONConfig(String template_path);
+	};	// JSONConfig
 }
 
 //Example for Templi::generate
@@ -138,6 +152,11 @@ Templi::generate("template", "output_path", {
     {"functionName", "sayHelloWorld"}
 });
 ```
+
+# More example
+
+[templi-templates](https://github.com/RickaPrincy/templi-templates)
+
 # License
 
 This project is licensed under the [MIT License](License.txt).
