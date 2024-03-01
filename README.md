@@ -23,19 +23,36 @@ For the moment, you have to build templi to use it if you use another system (no
 bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/Templi/main/install.sh)
 ```
 
-- You can also simply use Templi as a submodule.
+- Build manually
 
-### If some libs are not found
+```bash
+git clone -b v3.1.0 https://github.com/RickaPrincy/Templi.git
+
+cd Templi
+
+mkdir build
+
+cd build
+
+cmake -DCMAKE_BUILD_TYPE=Release -S .. -B .
+
+sudo make install
+
+cd ../..
+
+rm -rf Templi
+```
+#### :warning: If some libs are not found after building manually
 
 Identify the installation path of the missing library. For example, let's assume the library is installed in `/usr/local/lib` (on linux it should be there).
 
-If you are using Linux, run the following command in your terminal, replacing `/usr/local/lib` with the actual installation path:
+If you are using Linux, add the following code to your `~/.zshrc` or `~/.bashrc` based on what you use (replacing `/usr/local/lib` with the actual installation path):
 
 ```bash
-echo "export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH" >> ~/.zshrc
-# or
-echo "export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
+export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH
 ```
+
+- You can also simply use Templi as a submodule.
 
 # Getting started
 
