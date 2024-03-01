@@ -61,7 +61,7 @@ void Templi::configure(String template_path, VectorString ignored_path)
 		new_key._key = word;
 		json_config._keys.push_back(new_key);
 	}
-	json_config.save_config(Templi::create_config_path(template_path));
+	json_config.save_config(template_path);
 }
 
 void Templi::generate_with_templi_config(String template_path, String output_path)

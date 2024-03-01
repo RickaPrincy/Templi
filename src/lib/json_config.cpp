@@ -11,7 +11,7 @@ using json = nlohmann::json;
 
 Templi::JSONConfig::JSONConfig(String template_path)
 {
-	read_config(template_path);
+	this->read_config(template_path);
 }
 
 // json config
@@ -36,7 +36,7 @@ void Templi::JSONConfig::read_config(String template_path)
 
 	try
 	{
-		_ignored_paths = config_json["_ignored_paths"];
+		_ignored_paths = config_json["ignored_paths"];
 		for (auto key : config_json["keys"])
 		{
 			Key new_key;
@@ -52,6 +52,7 @@ void Templi::JSONConfig::read_config(String template_path)
 				new_key._clean = key["clean"];
 			if (key["default"].is_string() && !key["default"].empty())
 				new_key._default = key["default"];
+			this->_keys.push_back(new_key);
 		}
 	}
 	catch (const json::exception &error)
@@ -76,10 +77,12 @@ void Templi::JSONConfig::save_config(String template_path)
 		new_key["key"] = key._key;
 		new_key["label"] = key._label;
 		new_key["type"] = Key::keytype_to_string(key._type);
-		new_key["required"] = key._required;
-		new_key["clean"] = key._clean;
 
-		if (!(key._type == KeyType::SELECT))
+		if (key._required)
+			new_key["required"] = key._required;
+		if (!key._clean)
+			new_key["clean"] = key._clean;
+		if (key._type == KeyType::SELECT)
 			new_key["choices"] = key._choices;
 		if (!key._default.empty())
 			new_key["default"] = key._default;

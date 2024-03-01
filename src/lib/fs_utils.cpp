@@ -14,7 +14,7 @@ void Templi::save_file(String path, nlohmann::json text)
 	std::ofstream file(path);
 	if (file.is_open())
 	{
-		file << text.dump(2);
+		file << text.dump(4);
 		return;
 	}
 	throw Templi::Exception("Cannot save " + path);

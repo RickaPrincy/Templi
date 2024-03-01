@@ -40,7 +40,7 @@ namespace Templi
 	class Key
 	{
 	public:
-		String _key /*key_value*/ {}, _label{}, _default;
+		String _key /*key_value*/ {}, _label{}, _default{};
 		KeyType _type;
 		VectorString _choices{};
 		bool _required{ false }, _clean{ true };

@@ -31,6 +31,7 @@ int main(int argc, const char *argv[])
 			try
 			{
 				Templi::configure(template_path);
+				TColor::write_endl(TColor::B_GREEN, "[ DONE ]: \"templi.json\" was generated");
 			}
 			catch (Templi::Exception error)
 			{
