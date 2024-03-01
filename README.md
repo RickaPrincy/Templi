@@ -23,19 +23,36 @@ For the moment, you have to build templi to use it if you use another system (no
 bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/Templi/main/install.sh)
 ```
 
-- You can also simply use Templi as a submodule.
+- Build manually
 
-### If some libs are not found
+```bash
+git clone -b v3.1.0 https://github.com/RickaPrincy/Templi.git
+
+cd Templi
+
+mkdir build
+
+cd build
+
+cmake -DCMAKE_BUILD_TYPE=Release -S .. -B .
+
+sudo make install
+
+cd ../..
+
+rm -rf Templi
+```
+#### :warning: If some libs are not found after building manually
 
 Identify the installation path of the missing library. For example, let's assume the library is installed in `/usr/local/lib` (on linux it should be there).
 
-If you are using Linux, run the following command in your terminal, replacing `/usr/local/lib` with the actual installation path:
+If you are using Linux, add the following code to your `~/.zshrc` or `~/.bashrc` based on what you use (replacing `/usr/local/lib` with the actual installation path):
 
 ```bash
-echo "export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH" >> ~/.zshrc
-# or
-echo "export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
+export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH
 ```
+
+- You can also simply use Templi as a submodule.
 
 # Getting started
 
@@ -119,14 +136,28 @@ templi generate -t <path_to_the_template> -o <path_to_the_output>
 ```c++
 //Signature
 nampespace Templi{
-    //Simple configure
-    bool configure(string template_path, vectorstring ignored_path={});
+    // Simple configure
+    void configure(string template_path, vectorstring ignored_path={});
 
-    //Generate without templi.json
-    bool generate(String template_path,String output_path, MapString values, VectorString ignored_path = {});
+    // Generate without templi.json
+    void generate(String template_path,String output_path, MapString values, VectorString ignored_path = {});
 
-    //Generate with templi.json
-    bool Templi::generate_with_templi_config(String template_path, String output_path);
+    // Generate with templi.json
+    void Templi::generate_with_templi_config(String template_path, String output_path);
+    
+    // Useful when you want to read a template.json file or save a config
+	class JSONConfig
+	{
+	public:
+		VectorString _ignored_paths{};
+		std::vector<Key> _keys{};
+
+		void read_config(String template_path);
+		void save_config(String template_path);
+
+		JSONConfig(){};
+		JSONConfig(String template_path);
+	};	// JSONConfig
 }
 
 //Example for Templi::generate
@@ -138,6 +169,11 @@ Templi::generate("template", "output_path", {
     {"functionName", "sayHelloWorld"}
 });
 ```
+
+# More example
+
+[templi-templates](https://github.com/RickaPrincy/templi-templates)
+
 # License
 
 This project is licensed under the [MIT License](License.txt).

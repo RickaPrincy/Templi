@@ -1,5 +1,0 @@
-{
-    "name": "{{name}}",
-    "is_ok": {{is_ok}},
-    "author": "{{author_name}}"
-}
