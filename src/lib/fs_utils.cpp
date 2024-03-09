@@ -94,3 +94,16 @@ void Templi::process_for_each_line(String path,
 
 	file.close();
 }
+
+void delete_folder(String path)
+{
+	try
+	{
+		fs::remove_all(path);
+	}
+	catch (const std::filesystem::filesystem_error &e)
+	{
+		String message = e.what();
+		throw new Templi::Exception("Cannot delete" + message);
+	}
+}

@@ -37,6 +37,7 @@ endif()
 
 if(WIN32)
   set(TEMPLI_SEPARATOR "\\")
+  add_compile_options(WIN32)
 else()
   set(TEMPLI_SEPARATOR "/")
 endif()
@@ -75,6 +76,15 @@ if(TEMPLI_TEST)
 
   add_subdirectory(external/googletest)
   add_subdirectory(tests)
+endif()
+
+execute_process(
+  COMMAND git --version
+  RESULT_VARIABLE GIT_RESULT
+  OUTPUT_QUIET)
+
+if(NOT GIT_RESULT EQUAL 0)
+  message(FATAL_ERROR "git is required")
 endif()
 
 # clang-format configuration

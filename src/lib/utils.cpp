@@ -4,9 +4,18 @@
 #include <Templi/Templi.hpp>
 #include <Templi/TempliConfig.hpp>
 #include <Templi/types.hpp>
+#include <chrono>
 #include <cstdlib>
+#include <random>
 #include <rcli/input_config.hpp>
 #include <rcli/inputs.hpp>
+#include <sstream>
+
+#ifdef WIN32
+#include <windows.h>
+#else
+#include <cstdlib>
+#endif	// WIN32
 
 #include "parser.hpp"
 
@@ -52,7 +61,56 @@ void Templi::execute_scripts(const MapString &values, const VectorString &script
 	for (const auto script : scripts)
 	{
 		String command = Templi::replace_brackets_words(script, values);
-		TColor::write(TColor::B_WHITE, command);
+		TColor::write_endl(TColor::B_WHITE, command);
 		std::system(script.c_str());
 	}
+}
+
+static String get_temporary_path()
+{
+#ifdef WIN32
+	char temp_dir[MAX_PATH];
+	DWORD result = GetTempPathA(MAX_PATH, temp_dir);
+
+	if (result > 0 && result <= MAX_PATH)
+	{
+		template_path;
+	}
+	return "";
+#else
+	const char *temp_dir = std::getenv("TMPDIR");
+	if (temp_dir == nullptr)
+	{
+		temp_dir = "/tmp";
+	}
+	String result = temp_dir;
+	return result;
+#endif	// WIN32
+}
+
+static String generate_unique_id()
+{
+	auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+	std::mt19937_64 generator(seed);
+
+	std::uniform_int_distribution<uint64_t> distribution;
+	uint64_t randomValue = distribution(generator);
+	std::stringstream ss;
+	ss << std::hex << randomValue;
+	return ss.str();
+}
+
+void Templi::clone_template(String &template_path)
+{
+	String temporary_path = get_temporary_path();
+	if (template_path.empty())
+	{
+		throw new Templi::Exception("Cannot get the temporary path");
+	}
+	const String new_template_path = temporary_path + TEMPLI_SEPARATOR + generate_unique_id();
+	const String clone_command = "git clone " + template_path + " " + new_template_path;
+	template_path = new_template_path;
+
+	TColor::write_endl(TColor::B_GREEN, "Cloning the template...");
+	std::system(clone_command.c_str());
 }

@@ -16,4 +16,6 @@ namespace Templi
 		VectorString &after_generating);
 
 	void execute_scripts(const MapString &values, const VectorString &scripts);
+
+	void clone_template(String &template_path);
 }  // namespace Templi
