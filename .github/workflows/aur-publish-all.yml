@@ -1,5 +1,5 @@
 
-name: aur-libtempli-publish
+name: aur-templi-all-publish
 on:
   workflow_dispatch:
 jobs:
@@ -7,12 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
-      - name: Create the all release tar and the tag
-        run: |
-          cmake -DCMAKE_BUILD_TYPE=Release -S . -B build 
-          chmod +x create_release.sh
-          ./create_release.sh LIB CLI ${{ secrets.GIT_URL }} 
       
       - name: Publish templi_cli AUR package
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.0

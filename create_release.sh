@@ -1,7 +1,9 @@
 #!/bin/bash
 
 RELEASE_TO_CREATE="$1"
+
 SHA_PGKBUILD_LINE=12
+release_path=()
 
 mkdir -p release
 cd release
@@ -18,7 +20,10 @@ create_tar_release(){
 }
 
 create_lib_release(){
+
     local RELEASE_NAME=libtempli_archlinux@1.0.0
+    release_path+=("${RELEASE_NAME}")
+    
     mkdir -p "${RELEASE_NAME}"
     mkdir -p "${RELEASE_NAME}/lib"
     mkdir -p "${RELEASE_NAME}/include"
@@ -33,6 +38,8 @@ create_lib_release(){
 
 create_cli_release(){
     local RELEASE_NAME=templi_cli_archlinux@1.0.0
+    release_path+=("${RELEASE_NAME}")
+
     mkdir -p "${RELEASE_NAME}"
     mkdir -p "${RELEASE_NAME}/bin"
 
@@ -54,12 +61,9 @@ for arg in "$@"; do
             create_cli_release
             ;;
         "QT")
-            echo "L'argument est égal à string3."
+            echo "..."
             ;;
         *)
             ;;
     esac
 done
-
-git add --all
-git commit -m "feat: templi@3.2.0"
