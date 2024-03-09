@@ -4,7 +4,7 @@
 
 using namespace Templi;
 
-String Templi::brackets_parser(String text, MapString values, SetString &words)
+String Templi::brackets_parser(String text, const MapString values, SetString &words)
 {
 	String result = text;
 	size_t pos = result.find("{{");

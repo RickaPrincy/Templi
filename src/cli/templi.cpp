@@ -27,7 +27,7 @@ int main(int argc, const char *argv[])
 		{
 			String template_path = _configure->get_option_value("template_path");
 			if (template_path.empty())
-				template_path = rcli::ask_input_value(config.text("Template path: "));
+				template_path = rcli::ask_input_value(config.text("Template path"));
 			try
 			{
 				Templi::configure(template_path);
@@ -51,10 +51,10 @@ int main(int argc, const char *argv[])
 			String output_path = _generate->get_option_value("output_path");
 
 			if (template_path.empty())
-				template_path = rcli::ask_input_value(config.text("Template path: "));
+				template_path = rcli::ask_input_value(config.text("Template path"));
 
 			if (output_path.empty())
-				output_path = rcli::ask_input_value(config.text("Output path: "));
+				output_path = rcli::ask_input_value(config.text("Output path"));
 
 			try
 			{

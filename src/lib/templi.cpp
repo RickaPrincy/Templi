@@ -66,8 +66,13 @@ void Templi::configure(String template_path, VectorString ignored_path)
 
 void Templi::generate_with_templi_config(String template_path, String output_path)
 {
-	MapString values{};
-	VectorString ignored_paths{};
-	Templi::ask_and_get_templi_config_value(template_path, values, ignored_paths);
+	MapString values{ { "TEMPLI_OUTPUT_FOLDER", output_path } };
+	VectorString ignored_paths{}, before_generating{}, after_generating{};
+
+	Templi::ask_and_get_templi_config_value(
+		template_path, values, ignored_paths, before_generating, after_generating);
+
+	Templi::execute_scripts(values, before_generating);
 	Templi::generate(template_path, output_path, values, ignored_paths);
+	Templi::execute_scripts(values, after_generating);
 }

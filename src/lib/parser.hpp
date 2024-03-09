@@ -4,7 +4,7 @@
 
 namespace Templi
 {
-	String brackets_parser(String text, MapString values, SetString &words);
+	String brackets_parser(String text,const MapString values, SetString &words);
 	SetString get_brackets_words(String text);
 	String replace_brackets_words(String text, MapString values);
 

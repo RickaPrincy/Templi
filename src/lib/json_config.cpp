@@ -36,7 +36,14 @@ void Templi::JSONConfig::read_config(String template_path)
 
 	try
 	{
-		_ignored_paths = config_json["ignored_paths"];
+		if (config_json["scripts"].is_object())
+		{
+			json scripts = config_json["scripts"];
+			_before = scripts["before"];
+			_after = scripts["after"];
+			_ignored_paths = config_json["ignored_paths"];
+		}
+
 		for (auto key : config_json["keys"])
 		{
 			Key new_key;

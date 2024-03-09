@@ -11,5 +11,9 @@ namespace Templi
 
 	void ask_and_get_templi_config_value(String template_path,
 		MapString &values,
-		VectorString &ignored_paths);
+		VectorString &ignored_paths,
+		VectorString &before_generating,
+		VectorString &after_generating);
+
+	void execute_scripts(const MapString &values, const VectorString &scripts);
 }  // namespace Templi

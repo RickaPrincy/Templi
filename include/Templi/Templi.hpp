@@ -16,7 +16,7 @@ namespace Templi
 	class JSONConfig
 	{
 	public:
-		VectorString _ignored_paths{};
+		VectorString _ignored_paths{}, _before{}, _after{};
 		std::vector<Key> _keys{};
 
 		void read_config(String template_path);
