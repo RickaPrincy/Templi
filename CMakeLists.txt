@@ -16,7 +16,13 @@ endif()
 
 # target names
 set(TEMPLI_LIB_NAME Templi)
+set(TEMPLI_LIB_VERSION 1.0.0)
+set(TEMPLI_LIB_VERSION_MAJOR 1)
+
 set(TEMPLI_CLI_NAME templi)
+set(TEMPLI_CLI_VERSION 1.0.0)
+set(TEMPLI_CLI_VERSION_MAJOR 1)
+
 set(TEMPLI_TEST_NAME TempliTest)
 set(TEMPLI_VERSION ${PROJECT_VERSION})
 set(TEMPLI_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
@@ -44,9 +50,14 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
 endif()
 
 if(TEMPLI_IS_MAIN_PROJECT)
+    configure_file(
+    ${TEMPLI_SOURCE_DIR}/release_config/create_release.sh
+    ${TEMPLI_SOURCE_DIR}/create_release.sh
+    @ONLY)
+
   configure_file(
-    ${TEMPLI_SOURCE_DIR}/${TEMPLI_LIB_NAME}Config.hpp.in
-    ${TEMPLI_SOURCE_DIR}/include/${TEMPLI_LIB_NAME}/${TEMPLI_LIB_NAME}Config.hpp
+      ${TEMPLI_SOURCE_DIR}/${TEMPLI_LIB_NAME}CliConfig.hpp.in
+      ${TEMPLI_SOURCE_DIR}/include/${TEMPLI_LIB_NAME}/${TEMPLI_LIB_NAME}Config.hpp
     @ONLY)
 endif()
 
@@ -103,6 +114,6 @@ endif()
 # CPack configuration
 set(CPACK_PACKAGE_VENDOR "RickaPrincy <https://github.com/RickaPrincy>")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
-    "Templi is a groundbreaking tool designed to expedite the template file generation process"
+    "Templi is a simple tool designed to expedite the template file generation process"
 )
 include(CPack)

@@ -17,3 +17,4 @@ example/build
 *cmake-tools*
 out
 ./src/build-templi_qt-Desktop-Debug/
+./release
