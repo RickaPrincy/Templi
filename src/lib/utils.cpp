@@ -61,8 +61,9 @@ void Templi::execute_scripts(const MapString &values, const VectorString &script
 	for (const auto script : scripts)
 	{
 		String command = Templi::replace_brackets_words(script, values);
+        String command_without_output = command + NULL_OUTPUT;
 		TColor::write_endl(TColor::B_WHITE, command);
-		std::system(script.c_str());
+        std::system(command_without_output.c_str());
 	}
 }
 

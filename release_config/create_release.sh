@@ -1,15 +1,11 @@
 #!/bin/bash
 
-GIT_USERNAME="$1"
-GIT_PASSWORD="$2"
-RELEASE_TO_CREATE="$3"
+RELEASE_TO_CREATE="$1"
+GIT_URL="$2"
 
 SHA_PGKBUILD_LINE=12
+release_path=()
 
-cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
-cd build 
-make
-cd ..
 mkdir -p release
 cd release
 
@@ -25,7 +21,10 @@ create_tar_release(){
 }
 
 create_lib_release(){
+
     local RELEASE_NAME=libtempli_archlinux@@TEMPLI_LIB_VERSION@
+    release_path+=("${RELEASE_NAME}")
+    
     mkdir -p "${RELEASE_NAME}"
     mkdir -p "${RELEASE_NAME}/lib"
     mkdir -p "${RELEASE_NAME}/include"
@@ -40,6 +39,8 @@ create_lib_release(){
 
 create_cli_release(){
     local RELEASE_NAME=templi_cli_archlinux@@TEMPLI_LIB_VERSION@
+    release_path+=("${RELEASE_NAME}")
+
     mkdir -p "${RELEASE_NAME}"
     mkdir -p "${RELEASE_NAME}/bin"
 
@@ -66,4 +67,28 @@ for arg in "$@"; do
         *)
             ;;
     esac
+done
+
+TAG_NAME=v@TEMPLI_VERSION@
+git add --all
+git commit -m "feat: templi@@TEMPLI_VERSION@"
+git config --global user.name "\"RickaPrincy\""; 
+git config --global user.email "\"rckprincy@gmail.com\""; 
+git remote add origin "${GIT_URL}"
+git push origin -u main
+
+git tag -a  -m "Templi ${TAG_NAME}" 
+git push origin v@TEMPLI_VERSION@
+
+# create release
+response=$(curl -s -X POST -u "RickaPrincy" https://api.github.com/repos/RickaPrincy/Templi/releases \
+    -d "{\"tag_name\":\"$TAG_NAME\",\"name\":\"$TAG_NAME\",\"draft\":false,\"prerelease\":false}")
+
+release_id=$(echo "$response" | jq -r '.id')
+
+for file in "${release_path[@]}"; do
+    filename=$(basename "$file")
+    curl -X POST -u "RickaPrincy" -H "Content-Type: $(file -b --mime-type "$file")" \
+        --data-binary "@$file" \
+        "https://uploads.github.com/repos/RickaPrincy/Templi/releases/$release_id/assets?name=$filename"
 done

@@ -1,4 +1,4 @@
-name: aur-publish
+name: aur-templi-cli-publish
 on:
   workflow_dispatch:
 jobs:
@@ -6,12 +6,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Publish AUR package cli
+      
+      - name: Create the cli tar release and the tag
+        run: |
+          cmake -DCMAKE_BUILD_TYPE=Release -S . -B build 
+          chmod +x create_release.sh
+          ./create_release.sh CLI ${{ secrets.GIT_URL }} 
+      
+      - name: Publish templi_cli AUR package
         uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
         with:
-          pkgname: templi 
-          pkgbuild: ./PKGBUILD
+          pkgname: templi_cli
+          pkgbuild: ./PKGBUILD/cli/PKGBUILD
           commit_username: ${{ secrets.AUR_USERNAME }}
           commit_email: ${{ secrets.AUR_EMAIL }}
           ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}

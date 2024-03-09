@@ -1,0 +1,37 @@
+
+name: aur-libtempli-publish
+on:
+  workflow_dispatch:
+jobs:
+  aur-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Create the all release tar and the tag
+        run: |
+          cmake -DCMAKE_BUILD_TYPE=Release -S . -B build 
+          chmod +x create_release.sh
+          ./create_release.sh LIB CLI ${{ secrets.GIT_URL }} 
+      
+      - name: Publish templi_cli AUR package
+        uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
+        with:
+          pkgname: templi_cli
+          pkgbuild: ./PKGBUILD/cli/PKGBUILD
+          commit_username: ${{ secrets.AUR_USERNAME }}
+          commit_email: ${{ secrets.AUR_EMAIL }}
+          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+          commit_message: Update AUR package
+          ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
+
+      - name: Publish libtempli AUR package
+        uses: KSXGitHub/github-actions-deploy-aur@v2.7.0
+        with:
+          pkgname: libtempli
+          pkgbuild: ./PKGBUILD/lib/PKGBUILD
+          commit_username: ${{ secrets.AUR_USERNAME }}
+          commit_email: ${{ secrets.AUR_EMAIL }}
+          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+          commit_message: Update AUR package
+          ssh_keyscan_types: rsa,dsa,ecdsa,ed25519

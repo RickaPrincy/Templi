@@ -1,15 +1,8 @@
 #!/bin/bash
 
-GIT_USERNAME="$1"
-GIT_PASSWORD="$2"
-RELEASE_TO_CREATE="$3"
-
+RELEASE_TO_CREATE="$1"
 SHA_PGKBUILD_LINE=12
 
-cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
-cd build 
-make
-cd ..
 mkdir -p release
 cd release
 
@@ -32,7 +25,7 @@ create_lib_release(){
     mkdir -p "${RELEASE_NAME}/lib/cmake"
     
     cp -r ../build/lib "${RELEASE_NAME}"
-    cp -r ../build/cmake "${RELEASE_NAME}/lib/cmake/rcli"
+    cp -r ../build/cmake "${RELEASE_NAME}/lib/cmake/Templi"
     cp -r ../include/Templi "${RELEASE_NAME}/include/Templi"
 
     create_tar_release "${RELEASE_NAME}" "../PKGBUILD/lib/PKGBUILD"
@@ -67,3 +60,6 @@ for arg in "$@"; do
             ;;
     esac
 done
+
+git add --all
+git commit -m "feat: templi@3.2.0"
