@@ -1,3 +1,5 @@
+project(${TEMPLI_CLI_NAME} VERSION 1.0.0 LANGUAGES CXX)
+
 set(CLI_SOURCES templi.cpp)
 add_executable(${TEMPLI_CLI_NAME} ${CLI_SOURCES})
 

@@ -6,6 +6,15 @@ Example:
 
 ```json
 {
+    "scripts": {
+        "before":[
+            "cp /home/user/file.txt ${{TEMPLI_OUTPUT_FOLDER}}/file.txt"
+        ],
+        "after": [
+            "cd ${{TEMPLI_OUTPUT_FOLDER}}",
+            "git init",
+        ],
+    },
     "ignored_paths": [
         "templi.json",
         "ignored_file.txt"
@@ -14,7 +23,7 @@ Example:
         {
             "key": "author_name",
             "label": "Who is the author",
-            "type": "input",
+            "type": "INPUT",
             "default": "RickaPrincy",
             "required": true,
             "clean": true
@@ -22,13 +31,14 @@ Example:
         {
             "key": "project_name",
             "label": "What is your project",
-            "type": ["templi", "ctemplate"]
+            "type": "SELECT"
+            "choices": ["templi", "ctemplate"]
         },
         {
             "key": "is_ok",
             "label": "Are you ok ?",
-            "type": "bool",
-            "default": false
+            "type": "BOOLEAN",
+            "default": "false"
         }
     ]
 }
@@ -46,9 +56,9 @@ Attributes of `templi.json`:
     - **type**:
       - **description**: Determines how the key value will be prompted to the user.
       - **type**: "input" | "bool" | array of string (array containing string)
-        - **input**: Will be a normal input.
-        - **bool**: Will ask for `y` (yes) or `n` (no) and get `true` or `false` as the value.
-        - **array of string**: Will ask which value inside the array the user wants.
+        - **INPUT**: Will be a normal input.
+        - **BOOLEAN**: Will ask for `y` (yes) or `n` (no) and get `true` or `false` as the value.
+        - **SELECT**: Will ask which value inside the array `choices` the user wants.
     - **label**:
       - **description**: Text that will be printed on the prompt input.
       - **type**: string

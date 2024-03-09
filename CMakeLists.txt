@@ -16,7 +16,13 @@ endif()
 
 # target names
 set(TEMPLI_LIB_NAME Templi)
+set(TEMPLI_LIB_VERSION 1.0.0)
+set(TEMPLI_LIB_VERSION_MAJOR 1)
+
 set(TEMPLI_CLI_NAME templi)
+set(TEMPLI_CLI_VERSION 1.0.0)
+set(TEMPLI_CLI_VERSION_MAJOR 1)
+
 set(TEMPLI_TEST_NAME TempliTest)
 set(TEMPLI_VERSION ${PROJECT_VERSION})
 set(TEMPLI_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
@@ -36,9 +42,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 if(WIN32)
-  set(TEMPLI_SEPARATOR "\\")
-else()
-  set(TEMPLI_SEPARATOR "/")
+  add_compile_options(WIN32)
 endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
@@ -46,8 +50,17 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
 endif()
 
 if(TEMPLI_IS_MAIN_PROJECT)
+  configure_file(${TEMPLI_SOURCE_DIR}/PKGBUILD/cli/PKGBUILD.in
+                 ${TEMPLI_SOURCE_DIR}/PKGBUILD/cli/PKGBUILD @ONLY)
+
+  configure_file(${TEMPLI_SOURCE_DIR}/PKGBUILD/lib/PKGBUILD.in
+                 ${TEMPLI_SOURCE_DIR}/PKGBUILD/lib/PKGBUILD @ONLY)
+
+  configure_file(${TEMPLI_SOURCE_DIR}/release_config/create_release.sh
+                 ${TEMPLI_SOURCE_DIR}/create_release.sh @ONLY)
+
   configure_file(
-    ${TEMPLI_SOURCE_DIR}/${TEMPLI_LIB_NAME}Config.hpp.in
+    ${TEMPLI_SOURCE_DIR}/${TEMPLI_LIB_NAME}CliConfig.hpp.in
     ${TEMPLI_SOURCE_DIR}/include/${TEMPLI_LIB_NAME}/${TEMPLI_LIB_NAME}Config.hpp
     @ONLY)
 endif()
@@ -77,6 +90,15 @@ if(TEMPLI_TEST)
   add_subdirectory(tests)
 endif()
 
+execute_process(
+  COMMAND git --version
+  RESULT_VARIABLE GIT_RESULT
+  OUTPUT_QUIET)
+
+if(NOT GIT_RESULT EQUAL 0)
+  message(FATAL_ERROR "git is required")
+endif()
+
 # clang-format configuration
 find_program(CLANG_FORMAT_EXECUTABLE NAMES clang-format)
 if(CLANG_FORMAT_EXECUTABLE)
@@ -96,6 +118,6 @@ endif()
 # CPack configuration
 set(CPACK_PACKAGE_VENDOR "RickaPrincy <https://github.com/RickaPrincy>")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
-    "Templi is a groundbreaking tool designed to expedite the template file generation process"
+    "Templi is a simple tool designed to expedite the template file generation process"
 )
 include(CPack)
