@@ -50,14 +50,18 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
 endif()
 
 if(TEMPLI_IS_MAIN_PROJECT)
-    configure_file(
-    ${TEMPLI_SOURCE_DIR}/release_config/create_release.sh
-    ${TEMPLI_SOURCE_DIR}/create_release.sh
-    @ONLY)
+  configure_file(${TEMPLI_SOURCE_DIR}/PKGBUILD/cli/PKGBUILD.in
+                 ${TEMPLI_SOURCE_DIR}/PKGBUILD/cli/PKGBUILD @ONLY)
+
+  configure_file(${TEMPLI_SOURCE_DIR}/PKGBUILD/lib/PKGBUILD.in
+                 ${TEMPLI_SOURCE_DIR}/PKGBUILD/lib/PKGBUILD @ONLY)
+
+  configure_file(${TEMPLI_SOURCE_DIR}/release_config/create_release.sh
+                 ${TEMPLI_SOURCE_DIR}/create_release.sh @ONLY)
 
   configure_file(
-      ${TEMPLI_SOURCE_DIR}/${TEMPLI_LIB_NAME}CliConfig.hpp.in
-      ${TEMPLI_SOURCE_DIR}/include/${TEMPLI_LIB_NAME}/${TEMPLI_LIB_NAME}Config.hpp
+    ${TEMPLI_SOURCE_DIR}/${TEMPLI_LIB_NAME}CliConfig.hpp.in
+    ${TEMPLI_SOURCE_DIR}/include/${TEMPLI_LIB_NAME}/${TEMPLI_LIB_NAME}Config.hpp
     @ONLY)
 endif()
 
