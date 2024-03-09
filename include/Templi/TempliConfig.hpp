@@ -2,4 +2,3 @@
 #define Templi_VERSION_MINOR 
 #define Templi_VERSION_PATCH 
 #define Templi_VERSION "3.2.0"
-#define TEMPLI_SEPARATOR "/"

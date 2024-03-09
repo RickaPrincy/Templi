@@ -49,16 +49,17 @@ int main(int argc, const char *argv[])
 		{
 			String template_path = _generate->get_option_value("template_path");
 			String output_path = _generate->get_option_value("output_path");
+			String path_suffix = _generate->get_option_value("path_suffix");
 
 			if (template_path.empty())
-				template_path = rcli::ask_input_value(config.text("Template path"));
+				template_path = rcli::ask_input_value(config.text("Template path (or github url)"));
 
 			if (output_path.empty())
 				output_path = rcli::ask_input_value(config.text("Output path"));
 
 			try
 			{
-				Templi::generate_with_templi_config(template_path, output_path);
+				Templi::generate_with_templi_config(template_path, output_path, path_suffix);
 				TColor::write_endl(TColor::B_GREEN, "\n[ DONE ]: Project generated successfully");
 			}
 			catch (Templi::Exception error)
@@ -70,6 +71,8 @@ int main(int argc, const char *argv[])
 
 	generate.add_option(&template_path_option);
 	generate.add_option("-o,--output", "Specify output path", "output_path");
+	generate.add_option(
+		"-p, --path-suffix", "Path suffix after template_path if you use monorepo", "path_suffix");
 
 	templi.add_subcommand(&configure);
 	templi.add_subcommand(&generate);

@@ -49,8 +49,8 @@ void Templi::ask_and_get_templi_config_value(String template_path,
 {
 	JSONConfig json_config(template_path);
 	ignored_paths = json_config._ignored_paths;
-	before_generating = before_generating;
-	after_generating = after_generating;
+	before_generating = json_config._before;
+	after_generating = json_config._after;
 
 	for (const auto &key : json_config._keys)
 		values.insert(std::make_pair(key._key, ask_input_value(key)));
@@ -108,9 +108,9 @@ void Templi::clone_template(String &template_path)
 		throw new Templi::Exception("Cannot get the temporary path");
 	}
 	const String new_template_path = temporary_path + TEMPLI_SEPARATOR + generate_unique_id();
-	const String clone_command = "git clone " + template_path + " " + new_template_path;
+	const String clone_command = "git clone " + template_path + " " + new_template_path + NULL_OUTPUT;
 	template_path = new_template_path;
 
-	TColor::write_endl(TColor::B_GREEN, "Cloning the template...");
+	TColor::write_endl(TColor::B_GREEN, " Cloning the template...\n");
 	std::system(clone_command.c_str());
 }

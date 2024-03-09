@@ -14,7 +14,7 @@ Example:
             "cd ${{TEMPLI_OUTPUT_FOLDER}}",
             "git init",
         ],
-    }
+    },
     "ignored_paths": [
         "templi.json",
         "ignored_file.txt"

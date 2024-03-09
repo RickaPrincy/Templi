@@ -7,6 +7,15 @@
 
 #define TEMPLI_CONFIG_NAME "templi.json"
 
+// utils to avoid showing command output
+#ifdef WIN32
+#define NULL_OUTPUT " > nul 2>&1"
+#define TEMPLI_SEPARATOR "\\"
+#else
+#define NULL_OUTPUT " > /dev/null 2>&1"
+#define TEMPLI_SEPARATOR "/"
+#endif
+
 namespace Templi
 {
 	using String = std::string;
@@ -16,8 +25,7 @@ namespace Templi
 
 	class Exception : public std::exception
 	{
-	private:
-		String _message;
+	private: String _message;
 
 	public:
 		Exception(String message) : _message(message)

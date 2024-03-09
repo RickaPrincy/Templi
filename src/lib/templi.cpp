@@ -66,7 +66,9 @@ void Templi::configure(String template_path, VectorString ignored_path)
 	json_config.save_config(template_path);
 }
 
-void Templi::generate_with_templi_config(String template_path, String output_path)
+void Templi::generate_with_templi_config(String template_path,
+	String output_path,
+	String path_suffix)
 {
 	MapString values{ { "TEMPLI_OUTPUT_FOLDER", output_path } };
 	VectorString ignored_paths{}, before_generating{}, after_generating{};
@@ -78,18 +80,29 @@ void Templi::generate_with_templi_config(String template_path, String output_pat
 		if (0 == template_path.compare(
 					 template_path.length() - GIT_SUFFIX.length(), GIT_SUFFIX.length(), GIT_SUFFIX))
 		{
-		Templi:
-			clone_template(template_path);
+			Templi::clone_template(template_path);
 			is_github_repository = true;
 		}
 	}
+	String json_template_path = template_path + path_suffix;
 
-	Templi::ask_and_get_templi_config_value(
-		template_path, values, ignored_paths, before_generating, after_generating);
-
-	Templi::execute_scripts(values, before_generating);
-	Templi::generate(template_path, output_path, values, ignored_paths);
-	Templi::execute_scripts(values, after_generating);
+	try
+	{
+		Templi::ask_and_get_templi_config_value(
+			json_template_path, values, ignored_paths, before_generating, after_generating);
+        Templi::execute_scripts(values, before_generating);
+		Templi::generate(json_template_path, output_path, values, ignored_paths);
+		Templi::execute_scripts(values, after_generating);
+	}
+	catch (Templi::Exception error)
+	{
+		if (is_github_repository)
+		{
+			Templi::delete_folder(template_path);
+		}
+        String message = error.what();
+		throw Templi::Exception(message);
+	}
 
 	if (is_github_repository)
 	{

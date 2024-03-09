@@ -36,10 +36,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 if(WIN32)
-  set(TEMPLI_SEPARATOR "\\")
   add_compile_options(WIN32)
-else()
-  set(TEMPLI_SEPARATOR "/")
 endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
