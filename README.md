@@ -9,7 +9,11 @@ Templi is a groundbreaking tool designed to expedite the template file generatio
 - Archlinux
 
 ```bash
-yay -Sy templi
+# install templi_cli and libtempli
+yay -Sy templi_cli
+or
+# install libtempli 
+yay -Sy libtempli
 ```
 For the moment, you have to build templi to use it if you use another system (not archlinux)
 
