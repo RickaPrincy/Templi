@@ -26,7 +26,7 @@ bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/Templi/main/install
 - Build manually
 
 ```bash
-git clone -b v3.1.0 https://github.com/RickaPrincy/Templi.git
+git clone -b v3.2.0 https://github.com/RickaPrincy/Templi.git
 
 cd Templi
 
@@ -123,12 +123,13 @@ Example fo output:
 
 - Just run
 ```bash
-templi generate -t <path_to_the_template> -o <path_to_the_output>
+templi generate -t <path-to-the-template> -o <path-to-the-output> -p <path-suffix>
 # -t or --template
 # -o or --output
+# -p or --path-suffix (optional) (for monorepo templates)
 # if one the option is not given, the it will be prompted 
 ```  
-
+## :warning: output_path can be retrieved to your template with {{TEMPLI_OUTPUT_FOLDER}}
 ![configure template](images/generate.png)
 
 # Using Templi library :palm_tree:
@@ -143,13 +144,13 @@ nampespace Templi{
     void generate(String template_path,String output_path, MapString values, VectorString ignored_path = {});
 
     // Generate with templi.json
-    void Templi::generate_with_templi_config(String template_path, String output_path);
+    void generate_with_templi_config(String template_path, String output_path, String path_suffix = "");
     
     // Useful when you want to read a template.json file or save a config
 	class JSONConfig
 	{
 	public:
-		VectorString _ignored_paths{};
+		VectorString _ignored_paths{}, _before{}, _after{};
 		std::vector<Key> _keys{};
 
 		void read_config(String template_path);

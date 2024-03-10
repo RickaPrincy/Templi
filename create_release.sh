@@ -1,9 +1,17 @@
 #!/bin/bash
+if [ "$#" -lt 1 ]; then
+    exit 1
+fi
 
 RELEASE_TO_CREATE="$1"
 
 SHA_PGKBUILD_LINE=12
 release_path=()
+
+cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
+cd build 
+make
+cd ..
 
 mkdir -p release
 cd release
@@ -67,3 +75,7 @@ for arg in "$@"; do
             ;;
     esac
 done
+
+git add --all
+git commit -m "release: libtempli@1.0.0 - templi_cli@1.0.0"
+git tag -a v3.2.0 -m "templi v3.2.0"

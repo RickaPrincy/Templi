@@ -73,3 +73,5 @@ Attributes of `templi.json`:
 - **ignored_paths** (optional):
   - **description**: An array containing file paths to exclude during parsing (useful if you have a huge template, so you can exclude some paths that are unnecessary to parse).
   - **type**: Array of string
+- **scripts** (optional)
+  - **description**: object containing scripts to execute before generating the project 
