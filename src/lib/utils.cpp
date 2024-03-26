@@ -61,9 +61,8 @@ void Templi::execute_scripts(const MapString &values, const VectorString &script
 	for (const auto script : scripts)
 	{
 		String command = Templi::replace_brackets_words(script, values);
-        String command_without_output = command + NULL_OUTPUT;
 		TColor::write_endl(TColor::B_WHITE, command);
-        std::system(command_without_output.c_str());
+		std::system(command.c_str());
 	}
 }
 
@@ -109,7 +108,8 @@ void Templi::clone_template(String &template_path)
 		throw new Templi::Exception("Cannot get the temporary path");
 	}
 	const String new_template_path = temporary_path + TEMPLI_SEPARATOR + generate_unique_id();
-	const String clone_command = "git clone " + template_path + " " + new_template_path + NULL_OUTPUT;
+	const String clone_command =
+		"git clone " + template_path + " " + new_template_path + NULL_OUTPUT;
 	template_path = new_template_path;
 
 	TColor::write_endl(TColor::B_GREEN, " Cloning the template...\n");

@@ -1,7 +1,7 @@
 # Author: RickaPrincy <rckprincy@gmail.com>
 pkgname=libtempli
 pkgver=@TEMPLI_LIB_VERSION@
-pkgrel=2
+pkgrel=1
 pkgdesc="Templi is a simple tool designed to expedite the template file generation process"
 arch=('x86_64')
 depends=('rcli' 'git')
