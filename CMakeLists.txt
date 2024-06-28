@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(templi_tools VERSION 3.2.1)
+project(templi_tools VERSION 3.2.2)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -16,7 +16,7 @@ endif()
 
 # target names
 set(TEMPLI_LIB_NAME Templi)
-set(TEMPLI_LIB_VERSION 1.0.1)
+set(TEMPLI_LIB_VERSION 1.0.2)
 set(TEMPLI_LIB_VERSION_MAJOR 1)
 
 set(TEMPLI_CLI_NAME templi)

@@ -6,38 +6,59 @@ using namespace Templi;
 
 String Templi::brackets_parser(String text, const MapString values, SetString &words)
 {
-	String result = text;
-	size_t pos = result.find("{{");
+	String result;
+	size_t pos = 0;
 
-	while (pos != String::npos)
+	while (pos < text.length())
 	{
-		size_t start_pos = pos + 2;
-		size_t end_pos = result.find("}}", start_pos);
+		size_t open_brace_pos = text.find("{{", pos);
 		size_t escape_pos = text.find("\\{", pos);
 
-		if (end_pos == String::npos)
-			break;
-
-		if (escape_pos != String::npos && escape_pos < start_pos)
+		// Handle \{
+		if (escape_pos != String::npos &&
+			(open_brace_pos == String::npos || escape_pos < open_brace_pos))
 		{
 			result += text.substr(pos, escape_pos - pos) + '{';
 			pos = escape_pos + 2;
 			continue;
 		}
 
+		// If there's no more {{, just add the remaining part of the text to result
+		if (open_brace_pos == String::npos)
+		{
+			result += text.substr(pos);
+			break;
+		}
+
+		// Add the text before {{ to the result
+		result += text.substr(pos, open_brace_pos - pos);
+
+		// Find the closing braces }}
+		size_t start_pos = open_brace_pos + 2;
+		size_t end_pos = text.find("}}", start_pos);
+
+		if (end_pos == String::npos)
+		{
+			result += text.substr(open_brace_pos);
+			break;
+		}
+
 		size_t wordLength = end_pos - start_pos;
-		String word = result.substr(start_pos, wordLength);
+		String word = text.substr(start_pos, wordLength);
 
 		words.insert(word);
 		auto it = values.find(word);
 
 		if (it != values.end())
 		{
-			result.replace(pos, end_pos - pos + 2, it->second);
-			pos = result.find("{{", pos + it->second.length());
+			result += it->second;
+			pos = end_pos + 2;
 		}
 		else
-			pos = result.find("{{", end_pos);
+		{
+			result += "{{" + word + "}}";
+			pos = end_pos + 2;
+		}
 	}
 
 	return result;
