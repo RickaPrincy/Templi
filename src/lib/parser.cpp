@@ -13,9 +13,17 @@ String Templi::brackets_parser(String text, const MapString values, SetString &w
 	{
 		size_t start_pos = pos + 2;
 		size_t end_pos = result.find("}}", start_pos);
+		size_t escape_pos = text.find("\\{", pos);
 
 		if (end_pos == String::npos)
 			break;
+
+		if (escape_pos != String::npos && escape_pos < start_pos)
+		{
+			result += text.substr(pos, escape_pos - pos) + '{';
+			pos = escape_pos + 2;
+			continue;
+		}
 
 		size_t wordLength = end_pos - start_pos;
 		String word = result.substr(start_pos, wordLength);
