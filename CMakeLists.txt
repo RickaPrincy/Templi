@@ -103,7 +103,9 @@ endif()
 find_program(CLANG_FORMAT_EXECUTABLE NAMES clang-format)
 if(CLANG_FORMAT_EXECUTABLE)
   file(GLOB_RECURSE ALL_SOURCE_FILES "${TEMPLI_SOURCE_DIR}/sources/lib/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/sources/lib/*.hpp"
        "${TEMPLI_SOURCE_DIR}/sources/cli/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/sources/cli/*.hpp"
        "${TEMPLI_SOURCE_DIR}/include/Templi/*.hpp")
   add_custom_target(
     clang-format
