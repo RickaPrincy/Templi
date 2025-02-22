@@ -13,6 +13,9 @@ jobs:
     - uses: actions/checkout@v3
     
     - name: install rcli 
+      run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/TColor.hpp/main/install.sh)
+
+    - name: install rcli 
       run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/rcli/main/install.sh)
 
     - name: Get submodule dependancies
@@ -22,4 +25,6 @@ jobs:
       run: cmake  -DBUILD_GMOCK=OFF -S . -B build
     
     - name: Test
-      run: cd build; make; ./bin/TempliTest  
+      run: |
+        export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH
+        cd build; make; ./bin/TempliTest  
