@@ -45,7 +45,7 @@ create_lib_release(){
 }
 
 create_cli_release(){
-    local RELEASE_NAME=templi_cli_archlinux@@TEMPLI_LIB_VERSION@
+    local RELEASE_NAME=templi_cli_archlinux@@TEMPLI_CLI_VERSION@
     release_path+=("${RELEASE_NAME}")
 
     mkdir -p "${RELEASE_NAME}"

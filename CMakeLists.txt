@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(templi_tools VERSION 3.2.2)
+project(templi_tools VERSION 3.2.3)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -16,11 +16,11 @@ endif()
 
 # target names
 set(TEMPLI_LIB_NAME Templi)
-set(TEMPLI_LIB_VERSION 1.0.2)
+set(TEMPLI_LIB_VERSION 1.0.3)
 set(TEMPLI_LIB_VERSION_MAJOR 1)
 
 set(TEMPLI_CLI_NAME templi)
-set(TEMPLI_CLI_VERSION 1.0.1)
+set(TEMPLI_CLI_VERSION 1.0.2)
 set(TEMPLI_CLI_VERSION_MAJOR 1)
 
 set(TEMPLI_TEST_NAME TempliTest)
@@ -28,7 +28,7 @@ set(TEMPLI_VERSION ${PROJECT_VERSION})
 set(TEMPLI_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 
 # list of options
-option(BUILD_SHARED_LIBS "Build rcli as a shared library"
+option(BUILD_SHARED_LIBS "Build Templi as a shared library"
        ${TEMPLI_IS_MAIN_PROJECT})
 option(TEMPLI_CLI_BUILD "Build Templi cli" ${TEMPLI_IS_MAIN_PROJECT})
 option(TEMPLI_CLI_INSTALL "Install Templi cli" ${TEMPLI_IS_MAIN_PROJECT})
