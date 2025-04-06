@@ -22,8 +22,8 @@ namespace Templi
 		std::vector<std::string> _ignored_paths{}, _before{}, _after{};
 		std::vector<Key> _keys{};
 
-		void read_config(std::string template_path);
-		void save_config(std::string template_path);
+		void read(std::string template_path);
+		void save(std::string template_path);
 
 		JSONConfig() = default;
 		JSONConfig(std::string template_path);

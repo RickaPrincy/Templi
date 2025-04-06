@@ -9,15 +9,14 @@
 
 using namespace Templi;
 
-const std::string GIT_SUFFIX = ".git";
+static const std::string GIT_SUFFIX = ".git";
 
 void Templi::generate(std::string template_path,
 	std::string output_path,
 	std::map<std::string, std::string> values,
 	std::vector<std::string> ignored_path)
 {
-	std::vector<std::string> files;
-	Templi::get_folder_files(template_path, files, ignored_path);
+	std::vector<std::string> files = Templi::get_folder_files(template_path, ignored_path);
 
 	if (files.empty())
 		throw Templi::Exception("Folder empty or no words inside {{}} was found");
@@ -34,14 +33,12 @@ void Templi::generate(std::string template_path,
 
 void Templi::configure(std::string template_path, std::vector<std::string> ignored_path)
 {
-	std::vector<std::string> files;
-	std::set<std::string> words;
 	JSONConfig json_config;
-
 	json_config._ignored_paths = ignored_path;
 	json_config._ignored_paths.push_back(TEMPLI_CONFIG_NAME);
 
-	Templi::get_folder_files(template_path, files, ignored_path);
+	std::vector<std::string> files = Templi::get_folder_files(template_path, ignored_path);
+	std::set<std::string> words{};
 
 	if (files.empty())
 		throw Templi::Exception("Folder empty or no words inside {{}} was found");
@@ -63,7 +60,7 @@ void Templi::configure(std::string template_path, std::vector<std::string> ignor
 		new_key._key = word;
 		json_config._keys.push_back(new_key);
 	}
-	json_config.save_config(template_path);
+	json_config.save(template_path);
 }
 
 void Templi::generate_with_templi_config(std::string template_path,

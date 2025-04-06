@@ -14,7 +14,7 @@ void Templi::save_file(std::string path, nlohmann::json text)
 	std::ofstream file(path);
 	if (file.is_open())
 	{
-		file << text.dump(4);
+		file << text.dump(2);
 		return;
 	}
 	throw Templi::Exception("Cannot save " + path);
@@ -41,30 +41,6 @@ void Templi::write_in_open_file(std::ofstream *file, std::string &text)
 		return;
 	}
 	throw Templi::Exception("Cannot save text to a file which is not open");
-}
-
-void Templi::get_folder_files(std::string path,
-	std::vector<std::string> &result,
-	std::vector<std::string> exclude_paths)
-{
-	if (!fs::exists(path) || !fs::is_directory(path))
-		throw Templi::Exception(path + " is a not a folder");
-
-	for (const auto &file : fs::directory_iterator(path))
-	{
-		auto is_exclude = std::find_if(exclude_paths.begin(),
-			exclude_paths.end(),
-			[&](const auto &exclude_path)
-			{ return file.path().string() == (path + "/" + exclude_path); });  // FIXME
-
-		if (is_exclude != exclude_paths.end())
-			continue;
-
-		if (fs::is_directory(file))
-			Templi::get_folder_files(file.path().string(), result, exclude_paths);
-		else if (fs::is_regular_file(file))
-			result.push_back(file.path().string());
-	}
 }
 
 void Templi::copy_folder(std::string source, std::string destination)
@@ -113,4 +89,39 @@ void Templi::delete_folder(std::string path)
 		std::string message = e.what();
 		throw Templi::Exception(message);
 	}
+}
+
+static void get_folder_files_process(std::string path,
+	std::vector<std::string> &result,
+	std::vector<std::string> exclude_paths)
+{
+	if (!fs::exists(path) || !fs::is_directory(path))
+		throw Templi::Exception(path + " is a not a folder");
+
+	for (const auto &file : fs::directory_iterator(path))
+	{
+		auto is_exclude = std::find_if(exclude_paths.begin(),
+			exclude_paths.end(),
+			[&](const auto &exclude_path)
+			{
+				return file.path().string() ==
+					   (std::filesystem::path(path) / std::filesystem::path(exclude_path)).string();
+			});
+
+		if (is_exclude != exclude_paths.end())
+			continue;
+
+		if (fs::is_directory(file))
+			get_folder_files_process(file.path().string(), result, exclude_paths);
+		else if (fs::is_regular_file(file))
+			result.push_back(file.path().string());
+	}
+}
+
+std::vector<std::string> Templi::get_folder_files(std::string path,
+	std::vector<std::string> exclude_paths)
+{
+	std::vector<std::string> results{};
+	get_folder_files_process(path, results, exclude_paths);
+	return results;
 }

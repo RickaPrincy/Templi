@@ -6,16 +6,11 @@
 #include <Templi/types.hpp>
 #include <chrono>
 #include <cstdlib>
+#include <filesystem>
 #include <random>
 #include <rcli/input_config.hpp>
 #include <rcli/inputs.hpp>
 #include <sstream>
-
-#ifdef WIN32
-#include <windows.h>
-#else
-#include <cstdlib>
-#endif	// WIN32
 
 #include "parser.hpp"
 
@@ -23,7 +18,7 @@ using namespace Templi;
 
 std::string Templi::create_config_path(std::string template_path)
 {
-	return template_path + "/" + TEMPLI_CONFIG_NAME;
+	return std::filesystem::path(template_path) / std::filesystem::path(TEMPLI_CONFIG_NAME);
 }
 
 std::string Templi::ask_input_value(const Key &key)
@@ -67,28 +62,6 @@ void Templi::execute_scripts(const std::map<std::string, std::string> &values,
 	}
 }
 
-static std::string get_temporary_path()
-{
-#ifdef WIN32
-	char temp_dir[MAX_PATH];
-	DWORD result = GetTempPathA(MAX_PATH, temp_dir);
-
-	if (result > 0 && result <= MAX_PATH)
-	{
-		template_path;
-	}
-	return "";
-#else
-	const char *temp_dir = std::getenv("TMPDIR");
-	if (temp_dir == nullptr)
-	{
-		temp_dir = "/tmp";
-	}
-	std::string result = temp_dir;
-	return result;
-#endif	// WIN32
-}
-
 static std::string generate_unique_id()
 {
 	auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -103,15 +76,15 @@ static std::string generate_unique_id()
 
 void Templi::clone_template(std::string &template_path)
 {
-	std::string temporary_path = get_temporary_path();
-	if (template_path.empty())
-	{
-		throw new Templi::Exception("Cannot get the temporary path");
-	}
-	const std::string new_template_path = temporary_path + "/" + generate_unique_id();
-	const std::string clone_command = "git clone " + template_path + " " + new_template_path;
-	template_path = new_template_path;
+	std::filesystem::path os_temp_path = std::filesystem::temp_directory_path();
+	const std::filesystem::path template_temp_path =
+		os_temp_path / std::filesystem::path(generate_unique_id());
+	const std::string clone_command =
+		"git clone " + template_path + " " + template_temp_path.string();
 
-	TColor::write_endl(TColor::B_GREEN, " Cloning the template...\n");
+	template_path = template_temp_path.string();
+
+	TColor::write_endl(
+		TColor::B_GREEN, std::string("Cloning the template to " + template_path + " ..."));
 	std::system(clone_command.c_str());
 }

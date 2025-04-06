@@ -18,4 +18,7 @@ target_link_libraries(
   PUBLIC gtest)
 
 set_target_properties(${TEMPLI_TEST_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
-                                                     "${CMAKE_BINARY_DIR}/bin")
+                                                     "${CMAKE_BINARY_DIR}/tests/bin")
+
+# Copy fixtures
+file(COPY ${CMAKE_SOURCE_DIR}/tests/fixtures DESTINATION ${CMAKE_BINARY_DIR}/tests/bin)
