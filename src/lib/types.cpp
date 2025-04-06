@@ -4,7 +4,7 @@
 using namespace Templi;
 
 // key method
-String Templi::Key::keytype_to_string(KeyType type)
+std::string Templi::Key::keytype_to_string(KeyType type)
 {
 	switch (type)
 	{
@@ -17,7 +17,7 @@ String Templi::Key::keytype_to_string(KeyType type)
 	}
 };
 
-KeyType Templi::Key::keytype_value_of(String type)
+KeyType Templi::Key::keytype_value_of(std::string type)
 {
 	if (type == "SELECT")
 		return KeyType::SELECT;

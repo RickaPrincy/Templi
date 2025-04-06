@@ -21,12 +21,12 @@
 
 using namespace Templi;
 
-String Templi::create_config_path(String template_path)
+std::string Templi::create_config_path(std::string template_path)
 {
-	return template_path + TEMPLI_SEPARATOR + TEMPLI_CONFIG_NAME;
+	return template_path + "/" + TEMPLI_CONFIG_NAME;
 }
 
-String Templi::ask_input_value(const Key &key)
+std::string Templi::ask_input_value(const Key &key)
 {
 	rcli::InputConfig config;
 
@@ -41,11 +41,11 @@ String Templi::ask_input_value(const Key &key)
 	return rcli::ask_input_value(config);
 }
 
-void Templi::ask_and_get_templi_config_value(String template_path,
-	MapString &values,
-	VectorString &ignored_paths,
-	VectorString &before_generating,
-	VectorString &after_generating)
+void Templi::ask_and_get_templi_config_value(std::string template_path,
+	std::map<std::string, std::string> &values,
+	std::vector<std::string> &ignored_paths,
+	std::vector<std::string> &before_generating,
+	std::vector<std::string> &after_generating)
 {
 	JSONConfig json_config(template_path);
 	ignored_paths = json_config._ignored_paths;
@@ -56,17 +56,18 @@ void Templi::ask_and_get_templi_config_value(String template_path,
 		values.insert(std::make_pair(key._key, ask_input_value(key)));
 }
 
-void Templi::execute_scripts(const MapString &values, const VectorString &scripts)
+void Templi::execute_scripts(const std::map<std::string, std::string> &values,
+	const std::vector<std::string> &scripts)
 {
 	for (const auto script : scripts)
 	{
-		String command = Templi::replace_brackets_words(script, values);
+		std::string command = Templi::replace_brackets_words(script, values);
 		TColor::write_endl(TColor::B_WHITE, command);
 		std::system(command.c_str());
 	}
 }
 
-static String get_temporary_path()
+static std::string get_temporary_path()
 {
 #ifdef WIN32
 	char temp_dir[MAX_PATH];
@@ -83,12 +84,12 @@ static String get_temporary_path()
 	{
 		temp_dir = "/tmp";
 	}
-	String result = temp_dir;
+	std::string result = temp_dir;
 	return result;
 #endif	// WIN32
 }
 
-static String generate_unique_id()
+static std::string generate_unique_id()
 {
 	auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
 	std::mt19937_64 generator(seed);
@@ -100,16 +101,16 @@ static String generate_unique_id()
 	return ss.str();
 }
 
-void Templi::clone_template(String &template_path)
+void Templi::clone_template(std::string &template_path)
 {
-	String temporary_path = get_temporary_path();
+	std::string temporary_path = get_temporary_path();
 	if (template_path.empty())
 	{
 		throw new Templi::Exception("Cannot get the temporary path");
 	}
-	const String new_template_path = temporary_path + TEMPLI_SEPARATOR + generate_unique_id();
-	const String clone_command =
-		"git clone " + template_path + " " + new_template_path + NULL_OUTPUT;
+	const std::string new_template_path = temporary_path + "/" + generate_unique_id();
+	const std::string clone_command =
+		"git clone " + template_path + " " + new_template_path;
 	template_path = new_template_path;
 
 	TColor::write_endl(TColor::B_GREEN, " Cloning the template...\n");

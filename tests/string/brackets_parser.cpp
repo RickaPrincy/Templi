@@ -4,17 +4,17 @@
 
 using namespace Templi;
 
-static void test_result(String &text, String expected, MapString values)
+static void test_result(std::string &text, std::string expected, std::map<std::string, std::string> values)
 {
-	String actual = Templi::replace_brackets_words(text, values);
+	std::string actual = Templi::replace_brackets_words(text, values);
 	ASSERT_EQ(expected, actual);
 }
 
 TEST(brakets_parser, no_word)
 {
 	// Arrange
-	MapString values = {};
-	String text = "I have no value";
+	std::map<std::string, std::string> values = {};
+	std::string text = "I have no value";
 
 	// Act && Assert
 	test_result(text, text, {});
@@ -23,9 +23,9 @@ TEST(brakets_parser, no_word)
 TEST(brakets_parser, one_word)
 {
 	// Arrange
-	MapString values = { { "one", "cool" } };
-	String text = "I have {{one}} value";
-	String expected = "I have cool value";
+	std::map<std::string, std::string> values = { { "one", "cool" } };
+	std::string text = "I have {{one}} value";
+	std::string expected = "I have cool value";
 
 	// Act && Assert
 	test_result(text, expected, values);
@@ -34,9 +34,9 @@ TEST(brakets_parser, one_word)
 TEST(brakets_parser, one_word_at_end)
 {
 	// Arrange
-	MapString values = { { "one", "cool" } };
-	String text = "I have {{one}}";
-	String expected = "I have cool";
+	std::map<std::string, std::string> values = { { "one", "cool" } };
+	std::string text = "I have {{one}}";
+	std::string expected = "I have cool";
 
 	// Act && Assert
 	test_result(text, expected, values);
@@ -45,9 +45,9 @@ TEST(brakets_parser, one_word_at_end)
 TEST(brakets_parser, one_word_at_begin)
 {
 	// Arrange
-	MapString values = { { "je", "cool" } };
-	String text = "{{je}} I have";
-	String expected = "cool I have";
+	std::map<std::string, std::string> values = { { "je", "cool" } };
+	std::string text = "{{je}} I have";
+	std::string expected = "cool I have";
 
 	// Act && Assert
 	test_result(text, expected, values);
@@ -56,9 +56,9 @@ TEST(brakets_parser, one_word_at_begin)
 TEST(brakets_parser, one_word_only)
 {
 	// Arrange
-	MapString values = { { "je", "cool" } };
-	String text = "{{je}}";
-	String expected = "cool";
+	std::map<std::string, std::string> values = { { "je", "cool" } };
+	std::string text = "{{je}}";
+	std::string expected = "cool";
 
 	// Act && Assert
 	test_result(text, expected, values);
@@ -67,9 +67,9 @@ TEST(brakets_parser, one_word_only)
 TEST(brakets_parser, two_words)
 {
 	// Arrange
-	MapString values = { { "je", "cool" }, { "happy", "noo" } };
-	String text = "{{je}} je ricka princy {{happy}} lorem";
-	String expected = "cool je ricka princy noo lorem";
+	std::map<std::string, std::string> values = { { "je", "cool" }, { "happy", "noo" } };
+	std::string text = "{{je}} je ricka princy {{happy}} lorem";
+	std::string expected = "cool je ricka princy noo lorem";
 
 	// Act && Assert
 	test_result(text, expected, values);
@@ -78,9 +78,9 @@ TEST(brakets_parser, two_words)
 TEST(brakets_parser, many_words)
 {
 	// Arrange
-	String text = "je{{cool}} I'm happy{{lol}},!no\\ motion {{number1}}, things, {{nice}}";
-	String expected = "jeje I'm happylolo,!no\\ motion {{number1}}, things, nice";
-	MapString values = { { "cool", "je" }, { "lol", "lolo" }, { "nice", "nice" } };
+	std::string text = "je{{cool}} I'm happy{{lol}},!no\\ motion {{number1}}, things, {{nice}}";
+	std::string expected = "jeje I'm happylolo,!no\\ motion {{number1}}, things, nice";
+	std::map<std::string, std::string> values = { { "cool", "je" }, { "lol", "lolo" }, { "nice", "nice" } };
 
 	// Act && Assert
 	test_result(text, expected, values);
@@ -89,9 +89,9 @@ TEST(brakets_parser, many_words)
 TEST(brakets_parser, with_no_close)
 {
 	// Arrange
-	String text = "je{{cool{{nice}}, {{je";
-	String expected = "jeVALUE, {{je";
-	MapString values = { { "cool{{nice", "VALUE" } };
+	std::string text = "je{{cool{{nice}}, {{je";
+	std::string expected = "jeVALUE, {{je";
+	std::map<std::string, std::string> values = { { "cool{{nice", "VALUE" } };
 
 	// Act && Assert
 	test_result(text, expected, values);
@@ -100,9 +100,9 @@ TEST(brakets_parser, with_no_close)
 TEST(brakets_parser, with_escaped_bracket)
 {
 	// Arrange
-	String text = "je\\{{escaped{{input}}";
-	String expected = "je{{escapedvalue";
-	MapString values = { { "input", "value" } };
+	std::string text = "je\\{{escaped{{input}}";
+	std::string expected = "je{{escapedvalue";
+	std::map<std::string, std::string> values = { { "input", "value" } };
 
 	// Act && Assert
 	test_result(text, expected, values);

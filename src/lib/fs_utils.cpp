@@ -9,7 +9,7 @@
 namespace fs = std::filesystem;
 using namespace Templi;
 
-void Templi::save_file(String path, nlohmann::json text)
+void Templi::save_file(std::string path, nlohmann::json text)
 {
 	std::ofstream file(path);
 	if (file.is_open())
@@ -20,19 +20,19 @@ void Templi::save_file(String path, nlohmann::json text)
 	throw Templi::Exception("Cannot save " + path);
 }
 
-void Templi::save_file(String path, String text)
+void Templi::save_file(std::string path, std::string text)
 {
 	std::ofstream file(path);
 	write_in_open_file(&file, text);
 }
 
-void Templi::delete_file(String path)
+void Templi::delete_file(std::string path)
 {
 	if (!(std::remove(path.c_str()) == 0))
 		throw Templi::Exception("Cannot delete " + path);
 }
 
-void Templi::write_in_open_file(std::ofstream *file, String &text)
+void Templi::write_in_open_file(std::ofstream *file, std::string &text)
 {
 	if (file->is_open())
 	{
@@ -43,7 +43,9 @@ void Templi::write_in_open_file(std::ofstream *file, String &text)
 	throw Templi::Exception("Cannot save text to a file which is not open");
 }
 
-void Templi::get_folder_files(String path, VectorString &result, VectorString exclude_paths)
+void Templi::get_folder_files(std::string path,
+	std::vector<std::string> &result,
+	std::vector<std::string> exclude_paths)
 {
 	if (!fs::exists(path) || !fs::is_directory(path))
 		throw Templi::Exception(path + " is a not a folder");
@@ -53,7 +55,7 @@ void Templi::get_folder_files(String path, VectorString &result, VectorString ex
 		auto is_exclude = std::find_if(exclude_paths.begin(),
 			exclude_paths.end(),
 			[&](const auto &exclude_path)
-			{ return file.path().string() == (path + TEMPLI_SEPARATOR + exclude_path); });
+			{ return file.path().string() == (path + "/" + exclude_path); }); //FIXME
 
 		if (is_exclude != exclude_paths.end())
 			continue;
@@ -65,7 +67,7 @@ void Templi::get_folder_files(String path, VectorString &result, VectorString ex
 	}
 }
 
-void Templi::copy_folder(String source, String destination)
+void Templi::copy_folder(std::string source, std::string destination)
 {
 	try
 	{
@@ -79,8 +81,8 @@ void Templi::copy_folder(String source, String destination)
 	}
 }
 
-void Templi::process_for_each_line(String path,
-	std::function<void(const String &line_content)> process)
+void Templi::process_for_each_line(std::string path,
+	std::function<void(const std::string &line_content)> process)
 {
 	std::ifstream file(path);
 
@@ -95,7 +97,7 @@ void Templi::process_for_each_line(String path,
 	file.close();
 }
 
-void Templi::delete_folder(String path)
+void Templi::delete_folder(std::string path)
 {
 	if (!fs::exists(path))
 	{
@@ -108,7 +110,7 @@ void Templi::delete_folder(String path)
 	}
 	catch (const std::filesystem::filesystem_error &e)
 	{
-		String message = e.what();
+		std::string message = e.what();
 		throw Templi::Exception(message);
 	}
 }

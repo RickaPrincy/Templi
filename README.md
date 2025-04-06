@@ -145,23 +145,23 @@ nampespace Templi{
     void configure(string template_path, vectorstring ignored_path={});
 
     // Generate without templi.json
-    void generate(String template_path,String output_path, MapString values, VectorString ignored_path = {});
+    void generate(std::string template_path,std::string output_path, std::map<std::string, std::string> values, std::vector<std::string> ignored_path = {});
 
     // Generate with templi.json
-    void generate_with_templi_config(String template_path, String output_path, String path_suffix = "");
+    void generate_with_templi_config(std::string template_path, std::string output_path, std::string path_suffix = "");
     
     // Useful when you want to read a template.json file or save a config
 	class JSONConfig
 	{
 	public:
-		VectorString _ignored_paths{}, _before{}, _after{};
+		std::vector<std::string> _ignored_paths{}, _before{}, _after{};
 		std::vector<Key> _keys{};
 
-		void read_config(String template_path);
-		void save_config(String template_path);
+		void read_config(std::string template_path);
+		void save_config(std::string template_path);
 
 		JSONConfig(){};
-		JSONConfig(String template_path);
+		JSONConfig(std::string template_path);
 	};	// JSONConfig
 }
 

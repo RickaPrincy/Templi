@@ -1,35 +1,19 @@
 #pragma once
 
-#include <map>
-#include <set>
 #include <string>
 #include <vector>
 
 #define TEMPLI_CONFIG_NAME "templi.json"
 
-// utils to avoid showing command output
-#ifdef WIN32
-#define NULL_OUTPUT " > nul 2>&1"
-#define TEMPLI_SEPARATOR "\\"
-#else
-#define NULL_OUTPUT " > /dev/null 2>&1"
-#define TEMPLI_SEPARATOR "/"
-#endif
-
 namespace Templi
 {
-	using String = std::string;
-	using VectorString = std::vector<String>;
-	using MapString = std::map<String, String>;
-	using SetString = std::set<String>;
-
 	class Exception : public std::exception
 	{
 	private:
-		String _message;
+		std::string _message;
 
 	public:
-		Exception(String message) : _message(message)
+		Exception(std::string message) : _message(message)
 		{
 		}
 		const char* what() const noexcept override
@@ -49,15 +33,15 @@ namespace Templi
 	class Key
 	{
 	public:
-		String _key /*key_value*/ {}, _label{}, _default{};
+		std::string _key /*key_value*/ {}, _label{}, _default{};
 		KeyType _type;
-		VectorString _choices{};
+		std::vector<std::string> _choices{};
 		bool _required{ false }, _clean{ true };
 
-		Key() { };
+		Key() = default;
 
-		static KeyType keytype_value_of(String type);
-		static String keytype_to_string(KeyType type);
+		static KeyType keytype_value_of(std::string type);
+		static std::string keytype_to_string(KeyType type);
 	};	// Key
 
 }  // namespace Templi

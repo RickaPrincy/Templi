@@ -9,14 +9,14 @@
 
 using namespace Templi;
 
-const String GIT_SUFFIX = ".git";
+const std::string GIT_SUFFIX = ".git";
 
-void Templi::generate(String template_path,
-	String output_path,
-	MapString values,
-	VectorString ignored_path)
+void Templi::generate(std::string template_path,
+	std::string output_path,
+	std::map<std::string, std::string> values,
+	std::vector<std::string> ignored_path)
 {
-	VectorString files;
+	std::vector<std::string> files;
 	Templi::get_folder_files(template_path, files, ignored_path);
 
 	if (files.empty())
@@ -32,10 +32,10 @@ void Templi::generate(String template_path,
 	}
 }
 
-void Templi::configure(String template_path, VectorString ignored_path)
+void Templi::configure(std::string template_path, std::vector<std::string> ignored_path)
 {
-	VectorString files;
-	SetString words;
+	std::vector<std::string> files;
+	std::set<std::string> words;
 	JSONConfig json_config;
 
 	json_config._ignored_paths = ignored_path;
@@ -48,7 +48,7 @@ void Templi::configure(String template_path, VectorString ignored_path)
 
 	for (auto file : files)
 	{
-		SetString words_found = Templi::file_get_brackets_words(file);
+		std::set<std::string> words_found = Templi::file_get_brackets_words(file);
 
 		if (words_found.empty())
 			json_config._ignored_paths.push_back(file.substr(template_path.size() + 1));
@@ -66,12 +66,12 @@ void Templi::configure(String template_path, VectorString ignored_path)
 	json_config.save_config(template_path);
 }
 
-void Templi::generate_with_templi_config(String template_path,
-	String output_path,
-	String path_suffix)
+void Templi::generate_with_templi_config(std::string template_path,
+	std::string output_path,
+	std::string path_suffix)
 {
-	MapString values{ { "TEMPLI_OUTPUT_FOLDER", output_path } };
-	VectorString ignored_paths{}, before_generating{}, after_generating{};
+	std::map<std::string, std::string> values{ { "TEMPLI_OUTPUT_FOLDER", output_path } };
+	std::vector<std::string> ignored_paths{}, before_generating{}, after_generating{};
 	bool is_github_repository = false;
 
 	if (template_path.length() >= GIT_SUFFIX.length())
@@ -84,7 +84,7 @@ void Templi::generate_with_templi_config(String template_path,
 			is_github_repository = true;
 		}
 	}
-	String json_template_path = template_path + path_suffix;
+	std::string json_template_path = template_path + path_suffix;
 
 	try
 	{
@@ -100,7 +100,7 @@ void Templi::generate_with_templi_config(String template_path,
 		{
 			Templi::delete_folder(template_path);
 		}
-		String message = error.what();
+		std::string message = error.what();
 		throw Templi::Exception(message);
 	}
 

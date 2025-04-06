@@ -25,7 +25,7 @@ int main(int argc, const char *argv[])
 		"Configure one template to generate templi.json",
 		[&](rcli::Command *_configure)
 		{
-			String template_path = _configure->get_option_value("template_path");
+			std::string template_path = _configure->get_option_value("template_path");
 			if (template_path.empty())
 				template_path = rcli::ask_input_value(config.text("Template path"));
 			try
@@ -35,7 +35,7 @@ int main(int argc, const char *argv[])
 			}
 			catch (Templi::Exception error)
 			{
-				String message = error.what();
+				std::string message = error.what();
 				TColor::write_endl(TColor::B_RED, "[ ERROR ]: " + message);
 			}
 		});
@@ -47,9 +47,9 @@ int main(int argc, const char *argv[])
 		"Generate new project with one template",
 		[&](rcli::Command *_generate)
 		{
-			String template_path = _generate->get_option_value("template_path");
-			String output_path = _generate->get_option_value("output_path");
-			String path_suffix = _generate->get_option_value("path_suffix");
+			std::string template_path = _generate->get_option_value("template_path");
+			std::string output_path = _generate->get_option_value("output_path");
+			std::string path_suffix = _generate->get_option_value("path_suffix");
 
 			if (template_path.empty())
 				template_path = rcli::ask_input_value(config.text("Template path (or github url)"));
@@ -64,7 +64,7 @@ int main(int argc, const char *argv[])
 			}
 			catch (Templi::Exception error)
 			{
-				String message = error.what();
+				std::string message = error.what();
 				TColor::write_endl(TColor::B_RED, "[ ERROR ]: " + message);
 			}
 		});

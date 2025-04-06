@@ -9,15 +9,15 @@ using namespace Templi;
 
 using json = nlohmann::json;
 
-Templi::JSONConfig::JSONConfig(String template_path)
+Templi::JSONConfig::JSONConfig(std::string template_path)
 {
 	this->read_config(template_path);
 }
 
 // json config
-void Templi::JSONConfig::read_config(String template_path)
+void Templi::JSONConfig::read_config(std::string template_path)
 {
-	const String config_full_path = Templi::create_config_path(template_path);
+	const std::string config_full_path = Templi::create_config_path(template_path);
 	std::ifstream config_file(config_full_path);
 	json config_json;
 
@@ -70,9 +70,9 @@ void Templi::JSONConfig::read_config(String template_path)
 	}
 }
 
-void Templi::JSONConfig::save_config(String template_path)
+void Templi::JSONConfig::save_config(std::string template_path)
 {
-	const String config_full_path = Templi::create_config_path(template_path);
+	const std::string config_full_path = Templi::create_config_path(template_path);
 	json new_config_json = json::object();
 	json keys_json = json::array();
 
