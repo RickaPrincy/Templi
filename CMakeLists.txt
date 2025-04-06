@@ -50,14 +50,14 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
 endif()
 
 if(TEMPLI_IS_MAIN_PROJECT)
-  configure_file(${TEMPLI_SOURCE_DIR}/PKGBUILD/cli/PKGBUILD.in
+  configure_file(${TEMPLI_SOURCE_DIR}/.templates/PKGBUILD/cli/PKGBUILD.in
                  ${TEMPLI_SOURCE_DIR}/PKGBUILD/cli/PKGBUILD @ONLY)
 
-  configure_file(${TEMPLI_SOURCE_DIR}/PKGBUILD/lib/PKGBUILD.in
+  configure_file(${TEMPLI_SOURCE_DIR}/.templates/PKGBUILD/lib/PKGBUILD.in
                  ${TEMPLI_SOURCE_DIR}/PKGBUILD/lib/PKGBUILD @ONLY)
 
-  configure_file(${TEMPLI_SOURCE_DIR}/release_config/create_release.sh
-                 ${TEMPLI_SOURCE_DIR}/create_release.sh @ONLY)
+  configure_file(${TEMPLI_SOURCE_DIR}/.templates/scripts/create-release.sh.in
+                 ${TEMPLI_SOURCE_DIR}/scripts/create-release.sh @ONLY)
 
   configure_file(
     ${TEMPLI_SOURCE_DIR}/${TEMPLI_LIB_NAME}CliConfig.hpp.in
@@ -65,7 +65,7 @@ if(TEMPLI_IS_MAIN_PROJECT)
     @ONLY)
 endif()
 
-add_subdirectory(src)
+add_subdirectory(sources)
 
 # Test configuration
 if(TEMPLI_TEST)
@@ -102,8 +102,8 @@ endif()
 # clang-format configuration
 find_program(CLANG_FORMAT_EXECUTABLE NAMES clang-format)
 if(CLANG_FORMAT_EXECUTABLE)
-  file(GLOB_RECURSE ALL_SOURCE_FILES "${TEMPLI_SOURCE_DIR}/src/lib/*.cpp"
-       "${TEMPLI_SOURCE_DIR}/src/cli/*.cpp"
+  file(GLOB_RECURSE ALL_SOURCE_FILES "${TEMPLI_SOURCE_DIR}/sources/lib/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/sources/cli/*.cpp"
        "${TEMPLI_SOURCE_DIR}/include/Templi/*.hpp")
   add_custom_target(
     clang-format
