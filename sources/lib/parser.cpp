@@ -45,8 +45,8 @@ static std::string process_placeholder(std::string text,
 			break;
 		}
 
-		size_t wordLength = end_pos - start_pos;
-		std::string word = text.substr(start_pos, wordLength);
+		size_t word_length = end_pos - start_pos;
+		std::string word = text.substr(start_pos, word_length);
 
 		words.insert(word);
 		auto it = values.find(word);

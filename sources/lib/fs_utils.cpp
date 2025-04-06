@@ -2,8 +2,10 @@
 
 #include <Templi/TempliConfig.hpp>
 #include <Templi/types.hpp>
+#include <algorithm>
 #include <cstdio>
 #include <filesystem>
+#include <iterator>
 
 namespace fs = std::filesystem;
 using namespace Templi;
@@ -116,7 +118,7 @@ static void get_folder_files_process(const std::string &path,
 
 		if (fs::is_directory(file))
 		{
-			get_folder_files_process(file.path().string(), result, exclude_paths);
+			get_folder_files_process(file_path, result, exclude_paths);
 		}
 		else if (fs::is_regular_file(file))
 		{
@@ -125,10 +127,18 @@ static void get_folder_files_process(const std::string &path,
 	}
 }
 
-std::vector<std::string> Templi::get_folder_files(std::string path,
+std::vector<std::string> Templi::get_folder_files(std::string template_path,
 	std::vector<std::string> exclude_paths)
 {
 	std::vector<std::string> results{};
-	get_folder_files_process(path, results, exclude_paths);
+	std::vector<std::string> relative_exclude_paths{};
+
+	std::transform(exclude_paths.begin(),
+		exclude_paths.end(),
+		std::back_inserter(relative_exclude_paths),
+		[&](const std::string path)
+		{ return (std::filesystem::path(template_path) / std::filesystem::path(path)).string(); });
+
+	get_folder_files_process(template_path, results, relative_exclude_paths);
 	return results;
 }
