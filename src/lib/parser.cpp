@@ -4,8 +4,8 @@
 
 using namespace Templi;
 
-std::string Templi::brackets_parser(std::string text,
-	const std::map<std::string, std::string> values,
+static std::string process_placeholder(std::string text,
+	const std::map<std::string, std::string> &values,
 	std::set<std::string> &words)
 {
 	std::string result;
@@ -66,33 +66,33 @@ std::string Templi::brackets_parser(std::string text,
 	return result;
 }
 
-std::set<std::string> Templi::get_brackets_words(std::string text)
+std::set<std::string> Templi::extract_placeholders(std::string text)
 {
 	std::set<std::string> words;
-	brackets_parser(text, {}, words);
+	process_placeholder(text, {}, words);
 	return words;
 }
 
-std::string Templi::replace_brackets_words(std::string text,
+std::string Templi::replace_placeholders_in_text(std::string text,
 	std::map<std::string, std::string> values)
 {
 	std::set<std::string> words;
-	return brackets_parser(text, values, words);
+	return process_placeholder(text, values, words);
 }
 
-std::set<std::string> Templi::file_get_brackets_words(std::string file_path)
+std::set<std::string> Templi::extract_placeholders_from_file(std::string file_path)
 {
 	std::set<std::string> words;
 	process_for_each_line(file_path,
 		[&](const std::string &line_content)
 		{
-			for (auto word : get_brackets_words(line_content))
+			for (auto word : extract_placeholders(line_content))
 				words.insert(word);
 		});
 	return words;
 }
 
-void Templi::file_brackets_parser(std::string file_path,
+void Templi::replace_placeholders_in_file(std::string file_path,
 	std::string output_path,
 	std::map<std::string, std::string> values)
 {
@@ -100,7 +100,7 @@ void Templi::file_brackets_parser(std::string file_path,
 
 	process_for_each_line(file_path,
 		[&](const std::string &line_content)
-		{ file_parsed_content << replace_brackets_words(line_content, values) << "\n"; });
+		{ file_parsed_content << replace_placeholders_in_text(line_content, values) << "\n"; });
 
 	save_file(output_path, file_parsed_content.str());
 }

@@ -55,7 +55,7 @@ void Templi::get_folder_files(std::string path,
 		auto is_exclude = std::find_if(exclude_paths.begin(),
 			exclude_paths.end(),
 			[&](const auto &exclude_path)
-			{ return file.path().string() == (path + "/" + exclude_path); }); //FIXME
+			{ return file.path().string() == (path + "/" + exclude_path); });  // FIXME
 
 		if (is_exclude != exclude_paths.end())
 			continue;

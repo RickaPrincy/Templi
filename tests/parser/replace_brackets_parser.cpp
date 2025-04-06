@@ -6,7 +6,7 @@ using namespace Templi;
 
 static void test_result(std::string &text, std::string expected, std::map<std::string, std::string> values)
 {
-	std::string actual = Templi::replace_brackets_words(text, values);
+	std::string actual = Templi::replace_placeholders_in_text(text, values);
 	ASSERT_EQ(expected, actual);
 }
 

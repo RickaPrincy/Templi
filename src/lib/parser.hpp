@@ -6,14 +6,15 @@
 
 namespace Templi
 {
-	std::string brackets_parser(std::string text,
-		const std::map<std::string, std::string> values,
-		std::set<std::string> &words);
-	std::set<std::string> get_brackets_words(std::string text);
-	std::string replace_brackets_words(std::string text, std::map<std::string, std::string> values);
+	std::set<std::string> extract_placeholders(std::string text);
 
-	void file_brackets_parser(std::string file_path,
+	std::string replace_placeholders_in_text(std::string text,
+		std::map<std::string, std::string> values);
+
+	std::set<std::string> extract_placeholders_from_file(std::string file_path);
+
+	void replace_placeholders_in_file(std::string file_path,
 		std::string output_path,
 		std::map<std::string, std::string> values);
-	std::set<std::string> file_get_brackets_words(std::string file_path);
+
 }  // namespace Templi

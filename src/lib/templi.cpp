@@ -28,7 +28,7 @@ void Templi::generate(std::string template_path,
 	for (auto file : files)
 	{
 		auto path = output_path + file.substr(template_path.size());
-		Templi::file_brackets_parser(file, path, values);
+		Templi::replace_placeholders_in_file(file, path, values);
 	}
 }
 
@@ -48,7 +48,7 @@ void Templi::configure(std::string template_path, std::vector<std::string> ignor
 
 	for (auto file : files)
 	{
-		std::set<std::string> words_found = Templi::file_get_brackets_words(file);
+		std::set<std::string> words_found = Templi::extract_placeholders_from_file(file);
 
 		if (words_found.empty())
 			json_config._ignored_paths.push_back(file.substr(template_path.size() + 1));
