@@ -66,7 +66,7 @@ static std::string process_placeholder(std::string text,
 	return result;
 }
 
-std::set<std::string> Templi::extract_placeholders(std::string text)
+std::set<std::string> Templi::extract_placeholders_from_text(std::string text)
 {
 	std::set<std::string> words;
 	process_placeholder(text, {}, words);
@@ -86,7 +86,7 @@ std::set<std::string> Templi::extract_placeholders_from_file(std::string file_pa
 	process_for_each_line(file_path,
 		[&](const std::string &line_content)
 		{
-			for (auto word : extract_placeholders(line_content))
+			for (auto word : extract_placeholders_from_text(line_content))
 				words.insert(word);
 		});
 	return words;

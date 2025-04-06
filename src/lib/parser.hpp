@@ -6,7 +6,7 @@
 
 namespace Templi
 {
-	std::set<std::string> extract_placeholders(std::string text);
+	std::set<std::string> extract_placeholders_from_text(std::string text);
 
 	std::string replace_placeholders_in_text(std::string text,
 		std::map<std::string, std::string> values);
