@@ -2,7 +2,6 @@
 
 #include <Templi/TempliConfig.hpp>
 #include <Templi/types.hpp>
-#include <algorithm>
 #include <cstdio>
 #include <filesystem>
 
@@ -91,30 +90,38 @@ void Templi::delete_folder(std::string path)
 	}
 }
 
-static void get_folder_files_process(std::string path,
+static void get_folder_files_process(const std::string &path,
 	std::vector<std::string> &result,
-	std::vector<std::string> exclude_paths)
+	const std::vector<std::string> &exclude_paths)
 {
+	auto it = std::find(exclude_paths.begin(), exclude_paths.end(), path);
+	if (it != exclude_paths.end())
+	{
+		return;
+	}
+
 	if (!fs::exists(path) || !fs::is_directory(path))
-		throw Templi::Exception(path + " is a not a folder");
+	{
+		throw std::runtime_error(path + " is not a folder");
+	}
 
 	for (const auto &file : fs::directory_iterator(path))
 	{
-		auto is_exclude = std::find_if(exclude_paths.begin(),
-			exclude_paths.end(),
-			[&](const auto &exclude_path)
-			{
-				return file.path().string() ==
-					   (std::filesystem::path(path) / std::filesystem::path(exclude_path)).string();
-			});
-
-		if (is_exclude != exclude_paths.end())
+		std::string file_path = file.path().string();
+		auto it = std::find(exclude_paths.begin(), exclude_paths.end(), file_path);
+		if (it != exclude_paths.end())
+		{
 			continue;
+		}
 
 		if (fs::is_directory(file))
+		{
 			get_folder_files_process(file.path().string(), result, exclude_paths);
+		}
 		else if (fs::is_regular_file(file))
-			result.push_back(file.path().string());
+		{
+			result.push_back(file_path);
+		}
 	}
 }
 

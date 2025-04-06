@@ -11,10 +11,8 @@ using namespace Templi;
 
 TEST(Parser_replace_placeholders_in_file, basic_test)
 {
-	// Create a mock input file with placeholder content
 	std::string input_file = FIXTURE("parser", "replace_placeholders_in_file_fixture.txt");
 
-	// Create a temporary output file path
 	std::string output_file = "test_output.txt";
 
 	std::map<std::string, std::string> values = {
@@ -30,10 +28,8 @@ TEST(Parser_replace_placeholders_in_file, basic_test)
 
 	std::string expected_content =
 		"Hello Alice, welcome to Wonderland!\nYour appointment is on 2025-05-01.\nBye "
-		"Alice.\n";	 // Include the final line here
+		"Alice.\n";
 
 	ASSERT_EQ(output_content, expected_content);
-
-	std::remove(input_file.c_str());
 	std::remove(output_file.c_str());
 }

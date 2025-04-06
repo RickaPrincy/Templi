@@ -1,7 +1,9 @@
 file(
   GLOB_RECURSE TEST_SOURCES
   LIST_DIRECTORIES false
-  *.h *.cpp)
+  *.cpp
+)
+
 add_executable(${TEMPLI_TEST_NAME} ${TEST_SOURCES})
 
 target_include_directories(
