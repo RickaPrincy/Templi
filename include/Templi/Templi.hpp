@@ -16,17 +16,17 @@ namespace Templi
 
 	void configure(std::string template_path, std::vector<std::string> ignored_path = {});
 
-	class JSONConfig
+	class TempliConfig
 	{
 	public:
-		std::vector<std::string> _ignored_paths{}, _before{}, _after{};
-		std::vector<Key> _keys{};
+		std::vector<std::string> m_excludes{}, m_before{}, m_after{};
+		std::vector<Key> m_keys{};
 
 		void read(std::string template_path);
 		void save(std::string template_path);
 
-		JSONConfig() = default;
-		JSONConfig(std::string template_path);
-	};	// JSONConfig
+		TempliConfig() = default;
+		TempliConfig(std::string template_path);
+	};	// TempliConfig
 
 }  // namespace Templi

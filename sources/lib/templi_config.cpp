@@ -9,12 +9,12 @@ using namespace Templi;
 
 using json = nlohmann::json;
 
-Templi::JSONConfig::JSONConfig(std::string template_path)
+Templi::TempliConfig::TempliConfig(std::string template_path)
 {
 	this->read(template_path);
 }
 
-void Templi::JSONConfig::read(std::string template_path)
+void Templi::TempliConfig::read(std::string template_path)
 {
 	const std::string config_full_path = Templi::create_config_path(template_path);
 	std::ifstream config_file(config_full_path);
@@ -35,30 +35,30 @@ void Templi::JSONConfig::read(std::string template_path)
 
 	try
 	{
-		_ignored_paths = config_json["ignored_paths"];
+		m_excludes = config_json["excludes"];
 		if (config_json["scripts"].is_object())
 		{
 			json scripts = config_json["scripts"];
-			_before = scripts["before"];
-			_after = scripts["after"];
+			m_before = scripts["before"];
+			m_after = scripts["after"];
 		}
 
 		for (auto key : config_json["keys"])
 		{
 			Key new_key;
-			new_key._key = key["key"];
-			new_key._label = key["label"];
-			new_key._type = Key::keytype_value_of(key["type"]);
+			new_key.m_name = key["name"];
+			new_key.m_label = key["label"];
+			new_key.m_type = Key::keytype_value_of(key["type"]);
 
-			if (new_key._type == KeyType::SELECT)
-				new_key._choices = key["choices"];
+			if (new_key.m_type == KeyType::SELECT)
+				new_key.m_choices = key["choices"];
 			if (key["required"].is_boolean())
-				new_key._required = key["required"];
+				new_key.m_required = key["required"];
 			if (key["clean"].is_boolean())
-				new_key._clean = key["clean"];
+				new_key.m_clean = key["clean"];
 			if (key["default"].is_string() && !key["default"].empty())
-				new_key._default = key["default"];
-			this->_keys.push_back(new_key);
+				new_key.m_default = key["default"];
+			this->m_keys.push_back(new_key);
 		}
 	}
 	catch (const json::exception &error)
@@ -69,37 +69,37 @@ void Templi::JSONConfig::read(std::string template_path)
 	}
 }
 
-void Templi::JSONConfig::save(std::string template_path)
+void Templi::TempliConfig::save(std::string template_path)
 {
 	const std::string config_full_path = Templi::create_config_path(template_path);
 	json new_config_json = json::object();
 	json keys_json = json::array();
 
-	new_config_json["ignored_paths"] = _ignored_paths;
+	new_config_json["excludes"] = m_excludes;
 
-	if (!_before.empty() || !_after.empty())
+	if (!m_before.empty() || !m_after.empty())
 	{
 		json scripts = json::object();
-		scripts["before"] = _before;
-		scripts["after"] = _before;
+		scripts["before"] = m_before;
+		scripts["after"] = m_before;
 		new_config_json["scripts"] = scripts;
 	}
 
-	for (auto key : _keys)
+	for (auto key : m_keys)
 	{
 		json new_key = json::object();
-		new_key["key"] = key._key;
-		new_key["label"] = key._label;
-		new_key["type"] = Key::keytype_to_string(key._type);
+		new_key["name"] = key.m_name;
+		new_key["label"] = key.m_label;
+		new_key["type"] = Key::keytype_to_string(key.m_type);
 
-		if (key._required)
-			new_key["required"] = key._required;
-		if (!key._clean)
-			new_key["clean"] = key._clean;
-		if (key._type == KeyType::SELECT)
-			new_key["choices"] = key._choices;
-		if (!key._default.empty())
-			new_key["default"] = key._default;
+		if (key.m_required)
+			new_key["required"] = key.m_required;
+		if (!key.m_clean)
+			new_key["clean"] = key.m_clean;
+		if (key.m_type == KeyType::SELECT)
+			new_key["choices"] = key.m_choices;
+		if (!key.m_default.empty())
+			new_key["default"] = key.m_default;
 		keys_json.push_back(new_key);
 	}
 	new_config_json["keys"] = keys_json;

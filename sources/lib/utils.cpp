@@ -18,20 +18,24 @@ using namespace Templi;
 
 std::string Templi::create_config_path(std::string template_path)
 {
-	return std::filesystem::path(template_path) / std::filesystem::path(TEMPLI_CONFIG_NAME);
+	return (std::filesystem::path(template_path) / std::filesystem::path(TEMPLI_CONFIG_NAME))
+		.string();
 }
 
 std::string Templi::ask_input_value(const Key &key)
 {
 	rcli::InputConfig config;
 
-	if (key._type == KeyType::SELECT)
-		return rcli::ask_value_in_list_as_number(key._label, key._choices);
+	if (key.m_type == KeyType::SELECT)
+		return rcli::ask_value_in_list_as_number(key.m_label, key.m_choices);
 
-	if (key._type == KeyType::BOOLEAN)
-		return rcli::ask_boolean(key._label, key._default == "true") ? "true" : "false";
+	if (key.m_type == KeyType::BOOLEAN)
+		return rcli::ask_boolean(key.m_label, key.m_default == "true") ? "true" : "false";
 
-	config.text(key._label).default_value(key._default).required(key._required).clean(key._clean);
+	config.text(key.m_label)
+		.default_value(key.m_default)
+		.required(key.m_required)
+		.clean(key.m_clean);
 
 	return rcli::ask_input_value(config);
 }
@@ -42,13 +46,13 @@ void Templi::ask_and_get_templi_config_value(std::string template_path,
 	std::vector<std::string> &before_generating,
 	std::vector<std::string> &after_generating)
 {
-	JSONConfig json_config(template_path);
-	ignored_paths = json_config._ignored_paths;
-	before_generating = json_config._before;
-	after_generating = json_config._after;
+	TempliConfig templi_config(template_path);
+	ignored_paths = templi_config.m_excludes;
+	before_generating = templi_config.m_before;
+	after_generating = templi_config.m_after;
 
-	for (const auto &key : json_config._keys)
-		values.insert(std::make_pair(key._key, ask_input_value(key)));
+	for (const auto &key : templi_config.m_keys)
+		values.insert(std::make_pair(key.m_name, ask_input_value(key)));
 }
 
 void Templi::execute_scripts(const std::map<std::string, std::string> &values,

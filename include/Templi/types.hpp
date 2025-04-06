@@ -10,15 +10,15 @@ namespace Templi
 	class Exception : public std::exception
 	{
 	private:
-		std::string _message;
+		std::string m_message;
 
 	public:
-		Exception(std::string message) : _message(message)
+		Exception(std::string message) : m_message(message)
 		{
 		}
 		const char* what() const noexcept override
 		{
-			return _message.c_str();
+			return m_message.c_str();
 		}
 	};	// TempliException
 
@@ -33,10 +33,10 @@ namespace Templi
 	class Key
 	{
 	public:
-		std::string _key /*key_value*/ {}, _label{}, _default{};
-		KeyType _type;
-		std::vector<std::string> _choices{};
-		bool _required{ false }, _clean{ true };
+		std::string m_name{}, m_label{}, m_default{};
+		KeyType m_type;
+		std::vector<std::string> m_choices{};
+		bool m_required{ false }, m_clean{ true };
 
 		Key() = default;
 

@@ -33,9 +33,9 @@ void Templi::generate(std::string template_path,
 
 void Templi::configure(std::string template_path, std::vector<std::string> ignored_path)
 {
-	JSONConfig json_config;
-	json_config._ignored_paths = ignored_path;
-	json_config._ignored_paths.push_back(TEMPLI_CONFIG_NAME);
+	TempliConfig templi_config;
+	templi_config.m_excludes = ignored_path;
+	templi_config.m_excludes.push_back(TEMPLI_CONFIG_NAME);
 
 	std::vector<std::string> files = Templi::get_folder_files(template_path, ignored_path);
 	std::set<std::string> words{};
@@ -48,7 +48,7 @@ void Templi::configure(std::string template_path, std::vector<std::string> ignor
 		std::set<std::string> words_found = Templi::extract_placeholders_from_file(file);
 
 		if (words_found.empty())
-			json_config._ignored_paths.push_back(file.substr(template_path.size() + 1));
+			templi_config.m_excludes.push_back(file.substr(template_path.size() + 1));
 
 		for (auto word_found : words_found)
 			words.insert(word_found);
@@ -57,10 +57,11 @@ void Templi::configure(std::string template_path, std::vector<std::string> ignor
 	for (auto word : words)
 	{
 		Key new_key;
-		new_key._key = word;
-		json_config._keys.push_back(new_key);
+		new_key.m_name = word;
+		new_key.m_type = KeyType::INPUT;
+		templi_config.m_keys.push_back(new_key);
 	}
-	json_config.save(template_path);
+	templi_config.save(template_path);
 }
 
 void Templi::generate_with_templi_config(std::string template_path,
@@ -81,14 +82,14 @@ void Templi::generate_with_templi_config(std::string template_path,
 			is_github_repository = true;
 		}
 	}
-	std::string json_template_path = template_path + path_suffix;
+	std::string templi_template_path = template_path + path_suffix;
 
 	try
 	{
 		Templi::ask_and_get_templi_config_value(
-			json_template_path, values, ignored_paths, before_generating, after_generating);
+			templi_template_path, values, ignored_paths, before_generating, after_generating);
 		Templi::execute_scripts(values, before_generating);
-		Templi::generate(json_template_path, output_path, values, ignored_paths);
+		Templi::generate(templi_template_path, output_path, values, ignored_paths);
 		Templi::execute_scripts(values, after_generating);
 	}
 	catch (Templi::Exception error)
