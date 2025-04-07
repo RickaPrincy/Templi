@@ -1,0 +1,1 @@
+{{VERSION}} Nothing here so should be ignored

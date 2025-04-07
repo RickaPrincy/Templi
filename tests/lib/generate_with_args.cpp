@@ -29,4 +29,6 @@ TEST(Configure_generate_with_args, fixtures)
 		{ "VERSION", "version" } };
 
 	Templi::generate(template_path, output_path, values, ignored_path);
+
+	ASSERT_EQ_DIRECTORY(FIXTURE("", "generate_expected_output"), output_path);
 }
