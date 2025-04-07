@@ -9,7 +9,7 @@
 
 using namespace Templi;
 
-TEST(Configure_configure, fixtures)
+TEST(TempliLib_configure, fixtures)
 {
 	std::string template_path = FIXTURE("", "configure_template");
 	std::string generated_config_path =

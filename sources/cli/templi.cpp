@@ -59,7 +59,8 @@ int main(int argc, const char *argv[])
 
 			try
 			{
-				Templi::generate_with_templi_config(template_path, output_path, path_suffix);
+				Templi::generate_with_templi_config(
+					template_path, output_path, [&](Key key) { return ""; });
 				TColor::write_endl(TColor::B_GREEN, "\n[ DONE ]: Project generated successfully");
 			}
 			catch (Templi::Exception error)

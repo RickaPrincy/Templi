@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Templi/types.hpp>
+#include <functional>
 #include <map>
 
 namespace Templi
@@ -12,7 +13,7 @@ namespace Templi
 
 	void generate_with_templi_config(std::string template_path,
 		std::string output_path,
-		std::string path_suffix = "");
+		std::function<std::string(Key key)> get_key_value);
 
 	void configure(std::string template_path, std::vector<std::string> ignored_path = {});
 

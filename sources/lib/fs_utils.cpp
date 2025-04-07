@@ -5,10 +5,22 @@
 #include <algorithm>
 #include <cstdio>
 #include <filesystem>
+#include <fstream>
 #include <iterator>
 
 namespace fs = std::filesystem;
 using namespace Templi;
+
+static void write_in_open_file(std::ofstream *file, std::string &text)
+{
+	if (file->is_open())
+	{
+		*file << text;
+		file->close();
+		return;
+	}
+	throw Templi::Exception("Cannot save text to a file which is not open");
+}
 
 void Templi::save_file(std::string path, nlohmann::json text)
 {
@@ -31,17 +43,6 @@ void Templi::delete_file(std::string path)
 {
 	if (!(std::remove(path.c_str()) == 0))
 		throw Templi::Exception("Cannot delete " + path);
-}
-
-void Templi::write_in_open_file(std::ofstream *file, std::string &text)
-{
-	if (file->is_open())
-	{
-		*file << text;
-		file->close();
-		return;
-	}
-	throw Templi::Exception("Cannot save text to a file which is not open");
 }
 
 void Templi::copy_folder(std::string source, std::string destination)

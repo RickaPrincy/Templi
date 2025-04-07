@@ -1,0 +1,45 @@
+{
+  "excludes": [
+    "templi.json",
+    "ignored",
+    "ignored.txt",
+    "subfolder/subfolder/ignored.txt"
+  ],
+  "keys": [
+    {
+      "label": "",
+      "name": "ANOTHER",
+      "type": "INPUT"
+    },
+    {
+      "label": "",
+      "name": "AUTHOR",
+      "type": "INPUT"
+    },
+    {
+      "label": "",
+      "name": "DESCRIPTION",
+      "type": "INPUT"
+    },
+    {
+      "label": "",
+      "name": "EMAIL",
+      "type": "INPUT"
+    },
+    {
+      "label": "",
+      "name": "GIT_URL",
+      "type": "INPUT"
+    },
+    {
+      "label": "",
+      "name": "PROJECT_NAME",
+      "type": "INPUT"
+    },
+    {
+      "label": "",
+      "name": "VERSION",
+      "type": "INPUT"
+    }
+  ]
+}

@@ -2,6 +2,8 @@
 #include <Templi/Templi.hpp>
 #include <Templi/TempliConfig.hpp>
 #include <Templi/types.hpp>
+#include <algorithm>
+#include <utility>
 
 #include "fs_utils.hpp"
 #include "parser.hpp"
@@ -69,45 +71,17 @@ void Templi::configure(std::string template_path, std::vector<std::string> ignor
 
 void Templi::generate_with_templi_config(std::string template_path,
 	std::string output_path,
-	std::string path_suffix)
+	std::function<std::string(Key key)> get_key_value)
 {
 	std::map<std::string, std::string> values{ { "TEMPLI_OUTPUT_FOLDER", output_path } };
-	std::vector<std::string> ignored_paths{}, before_generating{}, after_generating{};
-	bool is_github_repository = false;
+	TempliConfig templi_config(template_path);
 
-	if (template_path.length() >= GIT_SUFFIX.length())
-	{
-		// test if the template_path is a git repository
-		if (0 == template_path.compare(
-					 template_path.length() - GIT_SUFFIX.length(), GIT_SUFFIX.length(), GIT_SUFFIX))
-		{
-			Templi::clone_template(template_path);
-			is_github_repository = true;
-		}
-	}
-	std::string templi_template_path =
-		(std::filesystem::path(template_path) / std::filesystem::path(path_suffix)).string();
+	std::for_each(templi_config.m_keys.begin(),
+		templi_config.m_keys.end(),
+		[&](Key &key) { values.insert(std::make_pair(key.m_name, get_key_value(key))); });
 
-	try
-	{
-		Templi::ask_and_get_templi_config_value(
-			templi_template_path, values, ignored_paths, before_generating, after_generating);
-		Templi::execute_scripts(values, before_generating);
-		Templi::generate(templi_template_path, output_path, values, ignored_paths);
-		Templi::execute_scripts(values, after_generating);
-	}
-	catch (Templi::Exception error)
-	{
-		if (is_github_repository)
-		{
-			Templi::delete_folder(template_path);
-		}
-		std::string message = error.what();
-		throw Templi::Exception(message);
-	}
-
-	if (is_github_repository)
-	{
-		Templi::delete_folder(template_path);
-	}
+	Templi::execute_scripts(values, templi_config.m_before);
+	Templi::generate(template_path, output_path, values, templi_config.m_excludes);
+	Templi::execute_scripts(values, templi_config.m_after);
+	Templi::delete_file(Templi::create_config_path(output_path));
 }

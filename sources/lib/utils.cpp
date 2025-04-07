@@ -22,39 +22,6 @@ std::string Templi::create_config_path(std::string template_path)
 		.string();
 }
 
-std::string Templi::ask_input_value(const Key &key)
-{
-	rcli::InputConfig config;
-
-	if (key.m_type == KeyType::SELECT)
-		return rcli::ask_value_in_list_as_number(key.m_label, key.m_choices);
-
-	if (key.m_type == KeyType::BOOLEAN)
-		return rcli::ask_boolean(key.m_label, key.m_default == "true") ? "true" : "false";
-
-	config.text(key.m_label)
-		.default_value(key.m_default)
-		.required(key.m_required)
-		.clean(key.m_clean);
-
-	return rcli::ask_input_value(config);
-}
-
-void Templi::ask_and_get_templi_config_value(std::string template_path,
-	std::map<std::string, std::string> &values,
-	std::vector<std::string> &ignored_paths,
-	std::vector<std::string> &before_generating,
-	std::vector<std::string> &after_generating)
-{
-	TempliConfig templi_config(template_path);
-	ignored_paths = templi_config.m_excludes;
-	before_generating = templi_config.m_before;
-	after_generating = templi_config.m_after;
-
-	for (const auto &key : templi_config.m_keys)
-		values.insert(std::make_pair(key.m_name, ask_input_value(key)));
-}
-
 void Templi::execute_scripts(const std::map<std::string, std::string> &values,
 	const std::vector<std::string> &scripts)
 {

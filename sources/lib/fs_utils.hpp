@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Templi/types.hpp>
-#include <fstream>
 #include <functional>
 #include <vector>
 
@@ -9,8 +8,6 @@
 
 namespace Templi
 {
-	void write_in_open_file(std::ofstream *file, std::string &text);
-
 	void save_file(std::string path, std::string text);
 	void save_file(std::string path, nlohmann::json text);
 	void delete_file(std::string path);
