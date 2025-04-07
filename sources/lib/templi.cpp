@@ -22,12 +22,15 @@ void Templi::generate(std::string template_path,
 		throw Templi::Exception("Folder empty or no words inside {{}} was found");
 
 	Templi::copy_folder(template_path, output_path);
-	Templi::delete_file(Templi::create_config_path(output_path));
 
 	for (auto file : files)
 	{
-		auto path = output_path + file.substr(template_path.size());
-		Templi::replace_placeholders_in_file(file, path, values);
+		std::string relative_file_path =
+			file.substr(template_path.size() + 1 /* /main.txt -> main.txt*/);
+		std::string outpout_relative_file_path =
+			(std::filesystem::path(output_path) / std::filesystem::path(relative_file_path))
+				.string();
+		Templi::replace_placeholders_in_file(file, outpout_relative_file_path, values);
 	}
 }
 
@@ -82,7 +85,8 @@ void Templi::generate_with_templi_config(std::string template_path,
 			is_github_repository = true;
 		}
 	}
-	std::string templi_template_path = template_path + path_suffix;
+	std::string templi_template_path =
+		(std::filesystem::path(template_path) / std::filesystem::path(path_suffix)).string();
 
 	try
 	{

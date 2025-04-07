@@ -9,10 +9,10 @@ TEST(Parser_replace_placeholder_in_text, no_word)
 	// Arrange
 	std::map<std::string, std::string> values = {};
 	std::string text = "I have no value";
-	
+
 	// Act
 	std::string actual = Templi::replace_placeholders_in_text(text, values);
-	
+
 	// Assert
 	ASSERT_EQ(actual, text);
 }

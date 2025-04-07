@@ -1,8 +1,7 @@
 file(
   GLOB_RECURSE TEST_SOURCES
   LIST_DIRECTORIES false
-  *.cpp
-)
+  *.cpp)
 
 add_executable(${TEMPLI_TEST_NAME} ${TEST_SOURCES})
 
@@ -19,8 +18,10 @@ target_link_libraries(
   PUBLIC ${TEMPLI_LIB_NAME}
   PUBLIC gtest)
 
-set_target_properties(${TEMPLI_TEST_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
-                                                     "${CMAKE_BINARY_DIR}/tests/bin")
+set_target_properties(
+  ${TEMPLI_TEST_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+                                 "${CMAKE_BINARY_DIR}/tests/bin")
 
 # Copy fixtures
-file(COPY ${CMAKE_SOURCE_DIR}/tests/fixtures DESTINATION ${CMAKE_BINARY_DIR}/tests/bin)
+file(COPY ${CMAKE_SOURCE_DIR}/tests/fixtures
+     DESTINATION ${CMAKE_BINARY_DIR}/tests/bin)

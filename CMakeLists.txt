@@ -60,7 +60,7 @@ if(TEMPLI_IS_MAIN_PROJECT)
                  ${TEMPLI_SOURCE_DIR}/scripts/create-release.sh @ONLY)
 
   configure_file(
-    ${TEMPLI_SOURCE_DIR}/${TEMPLI_LIB_NAME}CliConfig.hpp.in
+    ${TEMPLI_SOURCE_DIR}/.templates/${TEMPLI_LIB_NAME}CliConfig.hpp.in
     ${TEMPLI_SOURCE_DIR}/include/${TEMPLI_LIB_NAME}/${TEMPLI_LIB_NAME}Config.hpp
     @ONLY)
 endif()
@@ -104,6 +104,11 @@ find_program(CLANG_FORMAT_EXECUTABLE NAMES clang-format)
 if(CLANG_FORMAT_EXECUTABLE)
   file(GLOB_RECURSE ALL_SOURCE_FILES "${TEMPLI_SOURCE_DIR}/sources/lib/*.cpp"
        "${TEMPLI_SOURCE_DIR}/sources/cli/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/tests/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/tests/*.hpp"
+       "${TEMPLI_SOURCE_DIR}/tests/parser/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/tests/fs_utils/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/tests/lib/*.cpp"
        "${TEMPLI_SOURCE_DIR}/include/Templi/*.hpp")
   add_custom_target(
     clang-format

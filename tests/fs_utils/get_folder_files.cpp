@@ -23,10 +23,11 @@ TEST(FsUtils_get_folder_files, basic_test)
 		"fixtures/fs_utils/get_folder_files_fixture/file2.txt",
 		"fixtures/fs_utils/get_folder_files_fixture/folder1/folder1_file1.txt",
 		"fixtures/fs_utils/get_folder_files_fixture/folder1/folder1_file2.txt",
-		"fixtures/fs_utils/get_folder_files_fixture/folder2/folder2_folder1/folder2_folder1_file1.txt",
+		"fixtures/fs_utils/get_folder_files_fixture/folder2/folder2_folder1/"
+		"folder2_folder1_file1.txt",
 	};
 
-  std::sort(files.begin(), files.end());
+	std::sort(files.begin(), files.end());
 	ASSERT_EQ(files.size(), expected_files.size());
 	for (size_t i = 0; i < files.size(); ++i)
 	{
