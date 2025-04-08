@@ -7,37 +7,37 @@
   ],
   "keys": [
     {
-      "label": "",
+      "label": "ANOTHER VALUE",
       "name": "ANOTHER",
       "type": "INPUT"
     },
     {
-      "label": "",
+      "label": "AUTHOR VALUE",
       "name": "AUTHOR",
       "type": "INPUT"
     },
     {
-      "label": "",
+      "label": "DESCRIPTION VALUE",
       "name": "DESCRIPTION",
       "type": "INPUT"
     },
     {
-      "label": "",
+      "label": "EMAIL VALUE",
       "name": "EMAIL",
       "type": "INPUT"
     },
     {
-      "label": "",
+      "label": "GIT_URL VALUE",
       "name": "GIT_URL",
       "type": "INPUT"
     },
     {
-      "label": "",
+      "label": "PROJECT_NAME VALUE",
       "name": "PROJECT_NAME",
       "type": "INPUT"
     },
     {
-      "label": "",
+      "label": "VERSION VALUE",
       "name": "VERSION",
       "type": "INPUT"
     }

@@ -12,7 +12,7 @@ using namespace Templi;
 TEST(Configure_generate_with_templi_config, fixtures)
 {
 	std::string template_path = FIXTURE("", "generate_template");
-	std::string output_path = "generate_with_templi_config_output";
+	std::string output_path = "generate_lib_with_templi_config_output";
 	std::map<std::string, std::string> values = { { "ANOTHER", "another" },
 		{ "AUTHOR", "author" },
 		{ "DESCRIPTION", "description" },

@@ -30,7 +30,7 @@ set(TEMPLI_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 # list of options
 option(BUILD_SHARED_LIBS "Build Templi as a shared library"
        ${TEMPLI_IS_MAIN_PROJECT})
-option(TEMPLI_CLI_BUILD "Build Templi cli" ${TEMPLI_IS_MAIN_PROJECT})
+option(TEMPLI_CLI_BUILD "Build Templi cli" ON)
 option(TEMPLI_CLI_INSTALL "Install Templi cli" ${TEMPLI_IS_MAIN_PROJECT})
 option(TEMPLI_LIB_BUILD "Build Templi lib" ON)
 option(TEMPLI_LIB_INSTALL "Install Templi lib" ${TEMPLI_IS_MAIN_PROJECT})

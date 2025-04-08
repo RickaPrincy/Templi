@@ -2,6 +2,7 @@
 
 #include <gtest/gtest.h>
 
+#include <cstdio>
 #include <filesystem>
 #include <vector>
 
@@ -38,4 +39,11 @@ void ASSERT_EQ_DIRECTORY(std::string expected, std::string actual)
 			ASSERT_EQ(expected_lines[j], actual_lines[j]);
 		}
 	}
+}
+
+std::string get_templi_cli_path()
+{
+	auto templi_cli_path =
+		std::filesystem::current_path().parent_path().parent_path() / "bin" / "templi";
+	return templi_cli_path.string();
 }

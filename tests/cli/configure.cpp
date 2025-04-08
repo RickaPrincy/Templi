@@ -2,6 +2,8 @@
 
 #include <Templi/Templi.hpp>
 #include <Templi/types.hpp>
+#include <cstdio>
+#include <cstdlib>
 #include <filesystem>
 #include <string>
 
@@ -10,12 +12,14 @@
 
 using namespace Templi;
 
-TEST(TempliLib_configure, fixtures)
+TEST(TempliCli_configure, fixtures)
 {
 	std::string template_path = FIXTURE("", "configure_template");
+	std::string configure_command = get_templi_cli_path() + " configure -t " + template_path;
 	std::string generated_config_path = Templi::create_config_path(template_path);
 
-	Templi::configure(template_path);
+	std::system(configure_command.c_str());
+
 	TempliConfig generated_config(template_path);
 	std::vector<std::string> expected_keys_names = {
 		"ANOTHER", "AUTHOR", "DESCRIPTION", "EMAIL", "GIT_URL", "PROJECT_NAME", "VERSION"
