@@ -62,6 +62,7 @@ void Templi::configure(std::string template_path, std::vector<std::string> ignor
 	for (auto word : words)
 	{
 		Key new_key;
+		new_key.m_label = "What is the value of : " + word + " ?";
 		new_key.m_name = word;
 		new_key.m_type = KeyType::INPUT;
 		templi_config.m_keys.push_back(new_key);

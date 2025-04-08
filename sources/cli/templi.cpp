@@ -68,9 +68,9 @@ int main(int argc, const char *argv[])
 			if (output_path.empty())
 				output_path = rcli::ask_input_value(config.text("Output path"));
 
+			auto is_github_repository = false;
 			try
 			{
-				auto is_github_repository = false;
 				if (template_path.length() >= GIT_SUFFIX.length())
 				{
 					// test if the template_path is a git repository
@@ -82,9 +82,17 @@ int main(int argc, const char *argv[])
 						is_github_repository = true;
 					}
 				}
+				std::string valid_template_path = template_path;
+				if (!path_suffix.empty())
+				{
+					valid_template_path =
+						(std::filesystem::path(template_path) / std::filesystem::path(path_suffix))
+							.string();
+				}
 
-				Templi::generate_with_templi_config(
-					template_path, output_path, [&](Key key) { return ask_input_value(key); });
+				Templi::generate_with_templi_config(valid_template_path,
+					output_path,
+					[&](Key key) { return ask_input_value(key); });
 				if (is_github_repository)
 				{
 					Templi::delete_folder(template_path);
@@ -96,6 +104,10 @@ int main(int argc, const char *argv[])
 			{
 				std::string message = error.what();
 				TColor::write_endl(TColor::B_RED, "[ ERROR ]: " + message);
+				if (is_github_repository && std::filesystem::exists(template_path))
+				{
+					Templi::delete_folder(template_path);
+				}
 			}
 		});
 

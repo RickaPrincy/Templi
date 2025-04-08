@@ -5,6 +5,14 @@
     "ignored.txt",
     "subfolder/subfolder/ignored.txt"
   ],
+  "scripts": {
+    "before": [
+      "echo \"Run before generating\""
+    ],
+    "after": [
+      "echo \"Run after generating\""
+    ]
+  },
   "keys": [
     {
       "label": "ANOTHER VALUE",

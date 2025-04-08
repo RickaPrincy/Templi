@@ -106,8 +106,10 @@ if(CLANG_FORMAT_EXECUTABLE)
        "${TEMPLI_SOURCE_DIR}/sources/cli/*.cpp"
        "${TEMPLI_SOURCE_DIR}/tests/*.cpp"
        "${TEMPLI_SOURCE_DIR}/tests/*.hpp"
-       "${TEMPLI_SOURCE_DIR}/tests/parser/*.cpp"
-       "${TEMPLI_SOURCE_DIR}/tests/fs_utils/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/tests/cli/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/tests/lib/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/tests/lib/parser/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/tests/lib/fs_utils/*.cpp"
        "${TEMPLI_SOURCE_DIR}/tests/lib/*.cpp"
        "${TEMPLI_SOURCE_DIR}/include/Templi/*.hpp")
   add_custom_target(

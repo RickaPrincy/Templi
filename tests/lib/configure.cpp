@@ -32,8 +32,10 @@ TEST(TempliLib_configure, fixtures)
 
 	for (size_t i = 0; i < generated_config.m_keys.size(); i++)
 	{
-		ASSERT_EQ(generated_config.m_keys[i].m_name, expected_keys_names[i]);
+		auto name = generated_config.m_keys[i].m_name;
+		ASSERT_EQ(name, expected_keys_names[i]);
 		ASSERT_EQ(generated_config.m_keys[i].m_type, KeyType::INPUT);
+		ASSERT_EQ(generated_config.m_keys[i].m_label, "What is the value of : " + name + " ?");
 	}
 	std::filesystem::remove(generated_config_path);
 }

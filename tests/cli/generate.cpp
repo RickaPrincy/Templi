@@ -33,6 +33,6 @@ TEST(TempliCli_generate, fixtures)
 		fflush(templi_cli);
 		sleep(1);
 	}
-
+	pclose(templi_cli);
 	ASSERT_EQ_DIRECTORY(FIXTURE("", "generate_expected_output"), output_path);
 }
