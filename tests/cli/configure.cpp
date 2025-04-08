@@ -21,9 +21,15 @@ TEST(TempliCli_configure, fixtures)
 	std::system(configure_command.c_str());
 
 	TempliConfig generated_config(template_path);
-	std::vector<std::string> expected_keys_names = {
-		"ANOTHER", "AUTHOR", "DESCRIPTION", "EMAIL", "GIT_URL", "PROJECT_NAME", "VERSION"
-	};
+	std::vector<std::string> expected_keys_names = { "ANOTHER",
+		"ANOTHER_FILE",
+		"AUTHOR",
+		"DESCRIPTION",
+		"EMAIL",
+		"FILE",
+		"GIT_URL",
+		"PROJECT_NAME",
+		"VERSION" };
 	std::vector<std::string> expected_excludes_paths = { "templi.json", "ignored/ignored.txt" };
 
 	ASSERT_EQ(generated_config.m_keys.size(), expected_keys_names.size());

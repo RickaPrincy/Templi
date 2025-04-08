@@ -50,7 +50,12 @@ void Templi::configure(std::string template_path, std::vector<std::string> ignor
 
 	for (auto file : files)
 	{
+		std::set<std::string> words_found_in_file_name =
+			Templi::extract_placeholders_from_text(file);
 		std::set<std::string> words_found = Templi::extract_placeholders_from_file(file);
+
+		for (auto word_found : words_found_in_file_name)
+			words_found.insert(word_found);
 
 		if (words_found.empty())
 			templi_config.m_excludes.push_back(file.substr(template_path.size() + 1));
