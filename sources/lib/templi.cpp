@@ -18,21 +18,28 @@ void Templi::generate(std::string template_path,
 	std::map<std::string, std::string> values,
 	std::vector<std::string> ignored_path)
 {
-	std::vector<std::string> files = Templi::get_folder_files(template_path, ignored_path);
+	Templi::copy_folder(template_path, output_path);
+
+	std::vector<std::string> files = Templi::get_folder_files(output_path, ignored_path);
 
 	if (files.empty())
 		throw Templi::Exception("Folder empty or no words inside {{}} was found");
 
-	Templi::copy_folder(template_path, output_path);
-
 	for (auto file : files)
 	{
-		std::string relative_file_path =
-			file.substr(template_path.size() + 1 /* /main.txt -> main.txt*/);
-		std::string outpout_relative_file_path =
-			(std::filesystem::path(output_path) / std::filesystem::path(relative_file_path))
-				.string();
-		Templi::replace_placeholders_in_file(file, outpout_relative_file_path, values);
+		Templi::replace_placeholders_in_file(file, file, values);
+		std::filesystem::path file_path = std::filesystem::path(file);
+		std::string filename = file_path.filename();
+		std::string new_file_name = Templi::replace_placeholders_in_text(filename, values);
+
+		if (new_file_name != filename)
+		{
+			Templi::rename(
+				file, (file_path.parent_path() / std::filesystem::path(new_file_name)).c_str());
+			std::cout << "[Rename] " << file << " -> "
+					  << (file_path.parent_path() / std::filesystem::path(new_file_name))
+					  << std::endl;
+		}
 	}
 }
 

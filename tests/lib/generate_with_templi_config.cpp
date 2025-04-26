@@ -14,9 +14,11 @@ TEST(TempliLib_generate_with_templi_config, fixtures)
 	std::string template_path = FIXTURE("", "generate_template");
 	std::string output_path = "generate_lib_with_templi_config_output";
 	std::map<std::string, std::string> values = { { "ANOTHER", "another" },
+		{ "ANOTHER_FILE", "another_file" },
 		{ "AUTHOR", "author" },
 		{ "DESCRIPTION", "description" },
 		{ "EMAIL", "email" },
+		{ "FILE", "file" },
 		{ "GIT_URL", "git_url" },
 		{ "PROJECT_NAME", "project_name" },
 		{ "VERSION", "version" } };

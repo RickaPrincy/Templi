@@ -4,6 +4,7 @@
 
 using namespace Templi;
 
+// TODO: refactor
 static std::string process_placeholder(std::string text,
 	const std::map<std::string, std::string> &values,
 	std::set<std::string> &words)

@@ -23,9 +23,15 @@ TEST(TempliCli_generate, fixtures)
 		throw std::runtime_error("Cannot run templi_cli");
 	}
 
-	std::vector<std::string> values = {
-		"another", "author", "description", "email", "git_url", "project_name", "version"
-	};
+	std::vector<std::string> values = { "another",
+		"another_file",
+		"author",
+		"description",
+		"email",
+		"file",
+		"git_url",
+		"project_name",
+		"version" };
 
 	for (const auto& value : values)
 	{

@@ -15,8 +15,13 @@
   },
   "keys": [
     {
-      "label": "ANOTHER VALUE",
+      "label": "ANOTHER",
       "name": "ANOTHER",
+      "type": "INPUT"
+    },
+    {
+      "label": "ANOTHER FILE",
+      "name": "ANOTHER_FILE",
       "type": "INPUT"
     },
     {
@@ -32,6 +37,11 @@
     {
       "label": "EMAIL VALUE",
       "name": "EMAIL",
+      "type": "INPUT"
+    },
+    {
+      "label": "FILE",
+      "name": "FILE",
       "type": "INPUT"
     },
     {

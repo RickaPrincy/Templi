@@ -20,9 +20,11 @@ TEST(TempliLib_generate_with_args, fixtures)
 		"ignored", "ignored.txt", "subfolder/subfolder/ignored.txt"
 	};
 	std::map<std::string, std::string> values = { { "ANOTHER", "another" },
+		{ "ANOTHER_FILE", "another_file" },
 		{ "AUTHOR", "author" },
 		{ "DESCRIPTION", "description" },
 		{ "EMAIL", "email" },
+		{ "FILE", "file" },
 		{ "GIT_URL", "git_url" },
 		{ "PROJECT_NAME", "project_name" },
 		{ "VERSION", "version" } };

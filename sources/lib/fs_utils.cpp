@@ -4,8 +4,8 @@
 #include <Templi/types.hpp>
 #include <algorithm>
 #include <cstdio>
-#include <filesystem>
 #include <fstream>
+#include <functional>
 #include <iterator>
 
 namespace fs = std::filesystem;
@@ -33,6 +33,23 @@ void Templi::save_file(std::string path, nlohmann::json text)
 	throw Templi::Exception("Cannot save " + path);
 }
 
+void Templi::rename(const std::string &old_path, const std::string &new_path)
+{
+	if (!fs::exists(old_path))
+	{
+		throw Templi::Exception("Path does not exist: " + old_path);
+	}
+
+	try
+	{
+		fs::rename(old_path, new_path);
+	}
+	catch (const std::filesystem::filesystem_error &e)
+	{
+		throw Templi::Exception("Cannot rename " + old_path + " to " + new_path + ": " + e.what());
+	}
+}
+
 void Templi::save_file(std::string path, std::string text)
 {
 	std::ofstream file(path);
@@ -41,7 +58,7 @@ void Templi::save_file(std::string path, std::string text)
 
 void Templi::delete_file(std::string path)
 {
-	if (!(std::remove(path.c_str()) == 0))
+	if (std::remove(path.c_str()) != 0)
 		throw Templi::Exception("Cannot delete " + path);
 }
 
@@ -117,11 +134,11 @@ static void get_folder_files_process(const std::string &path,
 			continue;
 		}
 
-		if (fs::is_directory(file))
+		if (fs::is_directory(file_path))
 		{
 			get_folder_files_process(file_path, result, exclude_paths);
 		}
-		else if (fs::is_regular_file(file))
+		else if (fs::is_regular_file(file_path))
 		{
 			result.push_back(file_path);
 		}

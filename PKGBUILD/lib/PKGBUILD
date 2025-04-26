@@ -1,13 +1,13 @@
 # Author: RickaPrincy <rckprincy@gmail.com>
 pkgname=libtempli
-pkgver=1.0.3
+pkgver=1.0.4
 pkgrel=1
 pkgdesc="Templi is a simple tool designed to expedite the template file generation process"
 arch=('x86_64')
 depends=('rcli' 'git')
 url="https://github.com/RickaPrincy/Templi"
 license=('MIT')
-source=("libtempli_archlinux@$pkgver.tar.gz::https://github.com/RickaPrincy/Templi/releases/download/v3.2.3/libtempli_archlinux@$pkgver.tar.gz")
+source=("libtempli_archlinux@$pkgver.tar.gz::https://github.com/RickaPrincy/Templi/releases/download/v3.2.4/libtempli_archlinux@$pkgver.tar.gz")
 
 sha256sums=("SHASUM")
 
