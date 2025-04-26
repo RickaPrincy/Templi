@@ -1,0 +1,4 @@
+Author: {{AUTHOR}}
+Email: {{EMAIL}}
+
+{{DESCRIPTION}}

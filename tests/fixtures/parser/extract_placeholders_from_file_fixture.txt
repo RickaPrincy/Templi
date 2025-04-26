@@ -1,0 +1,3 @@
+Hello {{name}}, welcome to {{place}}!
+Your appointment is on {{date}}.
+

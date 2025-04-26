@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(templi_tools VERSION 3.2.3)
+project(templi_tools VERSION 3.2.4)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -16,11 +16,11 @@ endif()
 
 # target names
 set(TEMPLI_LIB_NAME Templi)
-set(TEMPLI_LIB_VERSION 1.0.3)
+set(TEMPLI_LIB_VERSION 1.0.4)
 set(TEMPLI_LIB_VERSION_MAJOR 1)
 
 set(TEMPLI_CLI_NAME templi)
-set(TEMPLI_CLI_VERSION 1.0.2)
+set(TEMPLI_CLI_VERSION 1.0.3)
 set(TEMPLI_CLI_VERSION_MAJOR 1)
 
 set(TEMPLI_TEST_NAME TempliTest)
@@ -30,7 +30,7 @@ set(TEMPLI_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 # list of options
 option(BUILD_SHARED_LIBS "Build Templi as a shared library"
        ${TEMPLI_IS_MAIN_PROJECT})
-option(TEMPLI_CLI_BUILD "Build Templi cli" ${TEMPLI_IS_MAIN_PROJECT})
+option(TEMPLI_CLI_BUILD "Build Templi cli" ON)
 option(TEMPLI_CLI_INSTALL "Install Templi cli" ${TEMPLI_IS_MAIN_PROJECT})
 option(TEMPLI_LIB_BUILD "Build Templi lib" ON)
 option(TEMPLI_LIB_INSTALL "Install Templi lib" ${TEMPLI_IS_MAIN_PROJECT})
@@ -50,22 +50,22 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
 endif()
 
 if(TEMPLI_IS_MAIN_PROJECT)
-  configure_file(${TEMPLI_SOURCE_DIR}/PKGBUILD/cli/PKGBUILD.in
+  configure_file(${TEMPLI_SOURCE_DIR}/.templates/PKGBUILD/cli/PKGBUILD.in
                  ${TEMPLI_SOURCE_DIR}/PKGBUILD/cli/PKGBUILD @ONLY)
 
-  configure_file(${TEMPLI_SOURCE_DIR}/PKGBUILD/lib/PKGBUILD.in
+  configure_file(${TEMPLI_SOURCE_DIR}/.templates/PKGBUILD/lib/PKGBUILD.in
                  ${TEMPLI_SOURCE_DIR}/PKGBUILD/lib/PKGBUILD @ONLY)
 
-  configure_file(${TEMPLI_SOURCE_DIR}/release_config/create_release.sh
-                 ${TEMPLI_SOURCE_DIR}/create_release.sh @ONLY)
+  configure_file(${TEMPLI_SOURCE_DIR}/.templates/scripts/create-release.sh.in
+                 ${TEMPLI_SOURCE_DIR}/create-release.sh @ONLY)
 
   configure_file(
-    ${TEMPLI_SOURCE_DIR}/${TEMPLI_LIB_NAME}CliConfig.hpp.in
+    ${TEMPLI_SOURCE_DIR}/.templates/${TEMPLI_LIB_NAME}CliConfig.hpp.in
     ${TEMPLI_SOURCE_DIR}/include/${TEMPLI_LIB_NAME}/${TEMPLI_LIB_NAME}Config.hpp
     @ONLY)
 endif()
 
-add_subdirectory(src)
+add_subdirectory(sources)
 
 # Test configuration
 if(TEMPLI_TEST)
@@ -102,8 +102,15 @@ endif()
 # clang-format configuration
 find_program(CLANG_FORMAT_EXECUTABLE NAMES clang-format)
 if(CLANG_FORMAT_EXECUTABLE)
-  file(GLOB_RECURSE ALL_SOURCE_FILES "${TEMPLI_SOURCE_DIR}/src/lib/*.cpp"
-       "${TEMPLI_SOURCE_DIR}/src/cli/*.cpp"
+  file(GLOB_RECURSE ALL_SOURCE_FILES "${TEMPLI_SOURCE_DIR}/sources/lib/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/sources/cli/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/tests/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/tests/*.hpp"
+       "${TEMPLI_SOURCE_DIR}/tests/cli/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/tests/lib/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/tests/lib/parser/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/tests/lib/fs_utils/*.cpp"
+       "${TEMPLI_SOURCE_DIR}/tests/lib/*.cpp"
        "${TEMPLI_SOURCE_DIR}/include/Templi/*.hpp")
   add_custom_target(
     clang-format

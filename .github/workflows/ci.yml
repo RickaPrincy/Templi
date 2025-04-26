@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: install rcli 
+    - name: install TColor 
       run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/TColor.hpp/main/install.sh)
 
     - name: install rcli 
@@ -27,4 +27,4 @@ jobs:
     - name: Test
       run: |
         export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH
-        cd build; make; ./bin/TempliTest  
+        cd build; make; cd tests/bin; ./TempliTest  

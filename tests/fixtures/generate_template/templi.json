@@ -1,0 +1,63 @@
+{
+  "excludes": [
+    "templi.json",
+    "ignored",
+    "ignored.txt",
+    "subfolder/subfolder/ignored.txt"
+  ],
+  "scripts": {
+    "before": [
+      "echo \"Run before generating\""
+    ],
+    "after": [
+      "echo \"Run after generating\""
+    ]
+  },
+  "keys": [
+    {
+      "label": "ANOTHER",
+      "name": "ANOTHER",
+      "type": "INPUT"
+    },
+    {
+      "label": "ANOTHER FILE",
+      "name": "ANOTHER_FILE",
+      "type": "INPUT"
+    },
+    {
+      "label": "AUTHOR VALUE",
+      "name": "AUTHOR",
+      "type": "INPUT"
+    },
+    {
+      "label": "DESCRIPTION VALUE",
+      "name": "DESCRIPTION",
+      "type": "INPUT"
+    },
+    {
+      "label": "EMAIL VALUE",
+      "name": "EMAIL",
+      "type": "INPUT"
+    },
+    {
+      "label": "FILE",
+      "name": "FILE",
+      "type": "INPUT"
+    },
+    {
+      "label": "GIT_URL VALUE",
+      "name": "GIT_URL",
+      "type": "INPUT"
+    },
+    {
+      "label": "PROJECT_NAME VALUE",
+      "name": "PROJECT_NAME",
+      "type": "INPUT"
+    },
+    {
+      "label": "VERSION VALUE",
+      "name": "VERSION",
+      "type": "INPUT"
+    }
+  ]
+}
