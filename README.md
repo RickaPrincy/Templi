@@ -1,12 +1,29 @@
-# Templi :memo: 
+## Table of Contents
+
+- [What is Templi?](#what-is-templi)
+- [Installation](#installation)
+    - [Arch Linux](#archlinux)
+    - [Other Systems](#other-systems)
+    - [Templi as Submodule](#templi-as-submodule)
+- [Usage](#usage)
+    - [1. Creating a Boilerplate](#1-creating-a-boilerplate-rocket)
+    - [2. Setup and use the Boilerplate](#2-setup-the-boilerplate)
+        - [Using CLI](#using-cli)
+            - [1. Generate templi.json with: `templi configure`](#1-generate-templijson-with-templi-configure)
+            - [2. Use the boilerplate with: `templi generate`](#2-use-the-boilerplate-with-templi-generate)
+        - [Using Templi Library :palm_tree:](#using-templi-library-palm_tree)
+- [More Examples](#more-examples)
+- [License](#license)
+
+## What is Templi?
 
 ![templi](images/version.png)
 
-Templi is a groundbreaking tool designed to expedite the template file generation process. It operates as both a powerful library and an associated program (CLI) for straightforward usage.
+Templi is a tool that simplifies boilerplate creation and usage, available as both a library and a CLI. :rocket:
 
-# Installation :seedling:
+## Installation
 
-- Archlinux
+### Archlinux
 
 ```bash
 # install templi_cli and libtempli
@@ -15,11 +32,12 @@ or
 # install libtempli 
 yay -Sy libtempli
 ```
-For the moment, you have to build templi to use it if you use another system (not archlinux)
+### Other Systems
 
-- Dependancies
+For now, you need to build Templi manually if you're using a system other than Arch Linux.
 
-    - CMake (Version 3.27 or later)
+- Requirements 
+    - [CMake (Version 3.27 or later)](https://github.com/Kitware/CMake)
     - C++ Compiler with C++17 support
     - [rcli](https://github.com/RickaPrincy/rcli)
 
@@ -27,10 +45,10 @@ For the moment, you have to build templi to use it if you use another system (no
 bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/Templi/main/install.sh)
 ```
 
-- Build manually
+The script does the following:
 
 ```bash
-git clone -b v3.2.0 https://github.com/RickaPrincy/Templi.git
+git clone -b v4.0.0 https://github.com/RickaPrincy/Templi.git
 
 cd Templi
 
@@ -56,38 +74,72 @@ If you are using Linux, add the following code to your `~/.zshrc` or `~/.bashrc`
 export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH
 ```
 
-- You can also simply use Templi as a submodule.
+### Templi as submodule
 
-# Getting started
-
-## Writing a template :rocket:
-
-- First, create a folder for your template
-
-- Start to create some file and insert the names of the words you wish to replace within the `{{}}` placeholders.
-
+1. **Add the Submodule:**
 ```bash
-#ex: hello.sh 
-echo "hello {{name}}"
+git submodule add https://github.com/RickaPrincy/Templi external/Templi 
+```
+2. **Initialize and Update**
+```bash
+git submodule init
+git submodule update
+```
+3. **Link in CMake**
+In `CMakeLists.txt`:
+
+```cmake
+add_subdirectory(path/to/templi)
+target_link_libraries(your-target Templi)
 ```
 
+## Usage 
+### 1. Creating a Boilerplate
+
+- **Create a Folder for Your Boilerplate**  
+   Start by creating a folder where you will store your boilerplate files.
+
+- **Insert Dynamic Placeholders in Your Files**  
+   In each file, define dynamic values inside `{{}}` that you want to replace later.
+
+Ex1: **setup.sh**
+```bash
+echo "Installing {{software}} version {{version}}"
+```
+
+Ex2: **package.json**
 ```json
-//package.json
 {
-    "Project": {{project}},
-    "Author": {{author}},
-    "Version": {{version}},
-    "description": {{version}}
+    "name": "{{app_name}}",
+    "author": "{{author}}",
+    "license": "{{license}}",
+    "version": "{{version}}",
+    "private": {{is_private}}
 }
 ```
-## Using the Templi Cli :first_quarter_moon: 
-#### :warning: Read this [file](./templi.json.md) to understand how templi.json works
 
-### 1. Generate templi.json with with (or create it from 0) : `templi configure`
-
-- Place your template in a folder and run  (this generate templi.json base to your template)
+Ex3: **folder/{{app_name}}/config.json**
+```json
+{
+    "app_name": "{{app_name}}",
+    "author": "{{author}}",
+    "environment": "{{env}}"
+}
+```
+Ex4: **Ex4: setup-{{app_name}}.sh**
 ```bash
-templi configure -t <path_to_the_template>` 
+echo "Setting up {{app_name}}..."
+```
+
+### 2. Setup and use the Boilerplate
+To make your boilerplate work with templi, a `templi.json` file is required in the root of your project. This file tells Templi how to retrieve placeholder values and configure other settings.
+
+#### Using CLI
+
+##### 1. Generate `templi.json` with: `templi configure`
+
+```bash
+templi configure -t <path_to_the_boilerplate>` 
 # -t or --template
 #if path is not given from option, it will be prompted 
 ```
@@ -96,74 +148,84 @@ Example:
 
 ![configure template](images/configure.png)
 
-Example fo output:
+Example of `templi.json` generated:
 
 ```json
 {
-    "ignored_paths": [
+    "excludes": [
         "templi.json"
     ],
     "keys": [
         {
-        "key": "author_name",
-        "label": "",
-        "type": "input"
+            "name": "app_name",
+            "label": "What is the value of : app_name ?",
+            "type": "input"
         },
         {
-        "key": "ignored",
-        "label": "",
-        "type": "input"
+            "name": "author",
+            "label": "What is the value of : author ?",
+            "type": "input"
         },
         {
-        "key": "is_ok",
-        "label": "",
-        "type": "input"
+            "name": "is_private",
+            "label": "What is the value of : is_ok",
+            "type": "input"
         }
     ] 
 }
 ```
+For more information on how to customize templi.json, see this [file](./templi.json.md).
 
-### 2. Generating templates with: `templi generate` 
+##### 2. Use the boilerplate with: `templi generate` 
 
-- Just run
 ```bash
-templi generate -t <path-to-the-template> -o <path-to-the-output> -p <path-suffix>
+templi generate -t <path-to-the-template> -o <path-to-the-output>
 # -t or --template
 # -o or --output
 # -p or --path-suffix (optional) (for monorepo templates)
 # if one the option is not given, the it will be prompted 
 ```  
-## :warning: output_path can be retrieved to your template with {{TEMPLI_OUTPUT_FOLDER}}
-![configure template](images/generate.png)
 
-# Using Templi library :palm_tree:
+**Output example:** 
+
+![configure template](images/generate.png)
+![configure template](images/generate-2.png)
+
+#### Using Templi library
 
 ```c++
 //Signature
-nampespace Templi{
-    // Simple configure
-    void configure(string template_path, vectorstring ignored_path={});
+namespace Templi
+{
+    // To configure Boilerplate
+	void configure(std::string template_path);
 
     // Generate without templi.json
-    void generate(std::string template_path,std::string output_path, std::map<std::string, std::string> values, std::vector<std::string> ignored_path = {});
+	void generate(std::string template_path,
+		std::string output_path,
+		std::map<std::string, std::string> values,
+		std::vector<std::string> ignored_path = {});
 
     // Generate with templi.json
-    void generate_with_templi_config(std::string template_path, std::string output_path, std::string path_suffix = "");
-    
+	void generate_with_templi_config(std::string template_path,
+		std::string output_path,
+		std::function<std::string(Key key)> get_key_value);
+
     // Useful when you want to read a template.json file or save a config
-	class JSONConfig
+	class TempliConfig
 	{
 	public:
-		std::vector<std::string> _ignored_paths{}, _before{}, _after{};
-		std::vector<Key> _keys{};
+		std::vector<std::string> m_excludes{}, m_before{}, m_after{};
+		std::vector<Key> m_keys{};
 
-		void read_config(std::string template_path);
-		void save_config(std::string template_path);
+		void read(std::string template_path);
+		void save(std::string template_path);
 
-		JSONConfig(){};
-		JSONConfig(std::string template_path);
-	};	// JSONConfig
-}
+		TempliConfig() = default;
+		TempliConfig(std::string template_path);
+	};	// TempliConfig
+
+}  // namespace Templi
 
 //Example for Templi::generate
 Templi::generate("template", "output_path", {
@@ -175,10 +237,13 @@ Templi::generate("template", "output_path", {
 });
 ```
 
-# More example
+## More Examples
+
+[templi-express-js](https://github.com/RickaPrincy/templi-express-js)
+
 
 [templi-templates](https://github.com/RickaPrincy/templi-templates)
 
-# License
+## License
 
 This project is licensed under the [MIT License](License.txt).

@@ -73,6 +73,7 @@ int main(int argc, const char *argv[])
 								 GIT_SUFFIX))
 					{
 						Templi::clone_template(template_path);
+						std::cout << "\n";
 						is_github_repository = true;
 					}
 				}

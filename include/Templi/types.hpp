@@ -36,7 +36,7 @@ namespace Templi
 		std::string m_name{}, m_label{}, m_default{};
 		KeyType m_type;
 		std::vector<std::string> m_choices{};
-		bool m_required{ false }, m_clean{ true };
+		bool m_required{ true }, m_clean{ true };
 
 		Key() = default;
 
