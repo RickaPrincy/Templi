@@ -15,7 +15,7 @@ namespace Templi
 		std::string output_path,
 		std::function<std::string(Key key)> get_key_value);
 
-	void configure(std::string template_path, std::vector<std::string> ignored_path = {});
+	void configure(std::string template_path);
 
 	class TempliConfig
 	{

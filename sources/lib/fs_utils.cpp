@@ -84,10 +84,12 @@ void Templi::process_for_each_line(std::string path,
 	if (!file.is_open())
 		throw Templi::Exception("Cannot open " + path);
 
-	std::string line;
-
-	while (std::getline(file, line))
-		process(line);
+	if (file.good())
+	{
+		std::string line;
+		while (std::getline(file, line))
+			process(line);
+	}
 
 	file.close();
 }

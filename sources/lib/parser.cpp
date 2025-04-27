@@ -1,7 +1,6 @@
 #include "parser.hpp"
 
 #include <algorithm>
-#include <iostream>
 #include <iterator>
 
 #include "fs_utils.hpp"
@@ -154,6 +153,7 @@ void Templi::replace_folder_filename_placeholders(std::string folder_path,
 		std::back_inserter(relative_exclude_paths),
 		[&](const std::string path)
 		{ return (std::filesystem::path(folder_path) / std::filesystem::path(path)).string(); });
+
 
 	replace_folder_filename_placeholders_process(folder_path, values, relative_exclude_paths);
 }

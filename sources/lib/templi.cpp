@@ -32,14 +32,19 @@ void Templi::generate(std::string template_path,
 	Templi::replace_folder_filename_placeholders(output_path, values, ignored_path);
 }
 
-void Templi::configure(std::string template_path, std::vector<std::string> ignored_path)
+void Templi::configure(std::string template_path)
 {
 	TempliConfig templi_config;
-	templi_config.m_excludes = ignored_path;
 	templi_config.m_excludes.push_back(TEMPLI_CONFIG_NAME);
 
+	if (std::filesystem::exists(Templi::create_config_path(template_path)))
+	{
+    TempliConfig configure_templi_config(template_path);
+    templi_config.m_excludes = configure_templi_config.m_excludes;
+	}
+
 	std::vector<std::string> files =
-		Templi::get_files_with_placeholder(template_path, ignored_path);
+		Templi::get_files_with_placeholder(template_path, templi_config.m_excludes);
 	std::set<std::string> words{};
 
 	if (files.empty())
@@ -85,6 +90,6 @@ void Templi::generate_with_templi_config(std::string template_path,
 
 	Templi::execute_scripts(values, templi_config.m_before);
 	Templi::generate(template_path, output_path, values, templi_config.m_excludes);
-	Templi::execute_scripts(values, templi_config.m_after);
 	Templi::delete_file(Templi::create_config_path(output_path));
+	Templi::execute_scripts(values, templi_config.m_after);
 }
