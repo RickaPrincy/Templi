@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(templi_tools VERSION 3.2.4)
+project(templi_tools VERSION 4.0.0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -16,12 +16,12 @@ endif()
 
 # target names
 set(TEMPLI_LIB_NAME Templi)
-set(TEMPLI_LIB_VERSION 1.0.4)
-set(TEMPLI_LIB_VERSION_MAJOR 1)
+set(TEMPLI_LIB_VERSION ${PROJECT_VERSION})
+set(TEMPLI_LIB_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 
 set(TEMPLI_CLI_NAME templi)
-set(TEMPLI_CLI_VERSION 1.0.3)
-set(TEMPLI_CLI_VERSION_MAJOR 1)
+set(TEMPLI_CLI_VERSION ${PROJECT_VERSION})
+set(TEMPLI_CLI_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 
 set(TEMPLI_TEST_NAME TempliTest)
 set(TEMPLI_VERSION ${PROJECT_VERSION})
@@ -55,6 +55,9 @@ if(TEMPLI_IS_MAIN_PROJECT)
 
   configure_file(${TEMPLI_SOURCE_DIR}/.templates/PKGBUILD/lib/PKGBUILD.in
                  ${TEMPLI_SOURCE_DIR}/PKGBUILD/lib/PKGBUILD @ONLY)
+
+  configure_file(${TEMPLI_SOURCE_DIR}/.templates/scripts/install.sh.in
+                 ${TEMPLI_SOURCE_DIR}/install.sh @ONLY)
 
   configure_file(${TEMPLI_SOURCE_DIR}/.templates/scripts/create-release.sh.in
                  ${TEMPLI_SOURCE_DIR}/create-release.sh @ONLY)
