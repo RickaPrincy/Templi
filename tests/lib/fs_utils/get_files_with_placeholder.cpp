@@ -16,7 +16,7 @@ TEST(FsUtils_get_folder_files, basic_test)
 		"folder1/folder1_ignored_file.txt", "ignored_folder", "ignored_file.txt"
 	};
 
-	std::vector<std::string> files = Templi::get_folder_files(test_path, exclude_paths);
+	std::vector<std::string> files = Templi::get_files_with_placeholder(test_path, exclude_paths);
 
 	std::vector<std::string> expected_files = {
 		"fixtures/fs_utils/get_folder_files_fixture/file1.txt",

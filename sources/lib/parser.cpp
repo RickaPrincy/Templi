@@ -1,8 +1,13 @@
 #include "parser.hpp"
 
+#include <algorithm>
+#include <iostream>
+#include <iterator>
+
 #include "fs_utils.hpp"
 
 using namespace Templi;
+namespace fs = std::filesystem;
 
 // TODO: refactor
 static std::string process_placeholder(std::string text,
@@ -104,4 +109,51 @@ void Templi::replace_placeholders_in_file(std::string file_path,
 		{ file_parsed_content << replace_placeholders_in_text(line_content, values) << "\n"; });
 
 	save_file(output_path, file_parsed_content.str());
+}
+
+static void replace_folder_filename_placeholders_process(std::string folder_path,
+	std::map<std::string, std::string> values,
+	std::vector<std::string> exclude_paths)
+{
+	fs::path filepath = fs::path(folder_path);
+	auto it = std::find(exclude_paths.begin(), exclude_paths.end(), filepath.string());
+	if (it != exclude_paths.end())
+	{
+		return;
+	}
+
+	std::string filename = filepath.filename();
+	std::string new_file_name = Templi::replace_placeholders_in_text(filename, values);
+
+	if (filename != new_file_name)
+	{
+		fs::path new_path = filepath.parent_path() / new_file_name;
+		Templi::rename(filepath.string(), new_path.string());
+		return replace_folder_filename_placeholders_process(new_path, values, exclude_paths);
+	}
+
+	if (!fs::exists(filepath) || !fs::is_directory(filepath))
+	{
+		return;
+	}
+
+	for (const auto &child_file : fs::directory_iterator(filepath))
+	{
+		replace_folder_filename_placeholders_process(
+			child_file.path().string(), values, exclude_paths);
+	}
+}
+
+void Templi::replace_folder_filename_placeholders(std::string folder_path,
+	std::map<std::string, std::string> values,
+	std::vector<std::string> exclude_paths)
+{
+	std::vector<std::string> relative_exclude_paths{};
+	std::transform(exclude_paths.begin(),
+		exclude_paths.end(),
+		std::back_inserter(relative_exclude_paths),
+		[&](const std::string path)
+		{ return (std::filesystem::path(folder_path) / std::filesystem::path(path)).string(); });
+
+	replace_folder_filename_placeholders_process(folder_path, values, relative_exclude_paths);
 }

@@ -3,6 +3,7 @@
 #include <map>
 #include <set>
 #include <string>
+#include <vector>
 
 namespace Templi
 {
@@ -17,4 +18,7 @@ namespace Templi
 		std::string output_path,
 		std::map<std::string, std::string> values);
 
+	void replace_folder_filename_placeholders(std::string folder_path,
+		std::map<std::string, std::string> values,
+		std::vector<std::string> excludes);
 }  // namespace Templi

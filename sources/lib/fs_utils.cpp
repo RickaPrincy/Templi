@@ -145,7 +145,7 @@ static void get_folder_files_process(const std::string &path,
 	}
 }
 
-std::vector<std::string> Templi::get_folder_files(std::string template_path,
+std::vector<std::string> Templi::get_files_with_placeholder(std::string template_path,
 	std::vector<std::string> exclude_paths)
 {
 	std::vector<std::string> results{};

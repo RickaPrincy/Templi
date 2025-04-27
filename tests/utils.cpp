@@ -16,8 +16,8 @@ std::string FIXTURE(std::string prefix, std::string file)
 
 void ASSERT_EQ_DIRECTORY(std::string expected, std::string actual)
 {
-	std::vector<std::string> expected_files = Templi::get_folder_files(expected);
-	std::vector<std::string> actual_files = Templi::get_folder_files(actual);
+	std::vector<std::string> expected_files = Templi::get_files_with_placeholder(expected);
+	std::vector<std::string> actual_files = Templi::get_files_with_placeholder(actual);
 
 	ASSERT_EQ(expected_files.size(), actual_files.size());
 

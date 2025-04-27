@@ -15,7 +15,9 @@ namespace Templi
   void rename(const std::string& old_path, const std::string& new_path);
 
 	void copy_folder(std::string source, std::string destination);
-	std::vector<std::string> get_folder_files(std::string path,
+	std::vector<std::string> get_files_with_placeholder(std::string path,
+		std::vector<std::string> exclude_path = {});
+	std::vector<std::string> process_each_files(std::string path,
 		std::vector<std::string> exclude_path = {});
 
 	void process_for_each_line(std::string path,
