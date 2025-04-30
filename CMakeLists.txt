@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(templi_tools VERSION 4.0.0)
+project(templi_tools VERSION 4.0.1)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -128,6 +128,6 @@ endif()
 # CPack configuration
 set(CPACK_PACKAGE_VENDOR "RickaPrincy <https://github.com/RickaPrincy>")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
-    "Templi is a simple tool designed to expedite the template file generation process"
+    "Templi is a tool that simplifies boilerplate creation and usage"
 )
 include(CPack)

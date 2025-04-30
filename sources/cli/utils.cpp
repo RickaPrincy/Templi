@@ -23,7 +23,7 @@ std::string Templi::generate_unique_id()
 	return ss.str();
 }
 
-void Templi::clone_template(std::string &template_path)
+std::string Templi::clone_template(std::string template_path)
 {
 	std::filesystem::path os_temp_path = std::filesystem::temp_directory_path();
 	const std::filesystem::path template_temp_path =
@@ -31,11 +31,11 @@ void Templi::clone_template(std::string &template_path)
 	const std::string clone_command =
 		"git clone " + template_path + " " + template_temp_path.string();
 
-	template_path = template_temp_path.string();
-
 	TColor::write_endl(
 		TColor::B_GREEN, std::string("Cloning the template to " + template_path + " ..."));
 	std::system(clone_command.c_str());
+  return template_temp_path.string();
+
 }
 
 rcli::InputConfig config;

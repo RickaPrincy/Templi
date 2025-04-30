@@ -17,7 +17,9 @@ const std::string GIT_SUFFIX = ".git";
 int main(int argc, const char *argv[])
 {
 	// base of the application
-	rcli::App templi("templi", "Generate a project easily", Templi_VERSION);
+	rcli::App templi("templi",
+		"Templi is a tool that simplifies boilerplate creation and usage",
+		Templi_VERSION);
 	templi.add_informations(
 		{ { "Author", "RickaPrincy" }, { "Github", "<https://github.com/RickaPrincy/Templi>" } });
 
@@ -72,8 +74,7 @@ int main(int argc, const char *argv[])
 								 GIT_SUFFIX.length(),
 								 GIT_SUFFIX))
 					{
-						Templi::clone_template(template_path);
-						std::cout << "\n";
+						template_path = Templi::clone_template(template_path);
 						is_github_repository = true;
 					}
 				}
