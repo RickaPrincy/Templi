@@ -39,8 +39,8 @@ void Templi::configure(std::string template_path)
 
 	if (std::filesystem::exists(Templi::create_config_path(template_path)))
 	{
-    TempliConfig configure_templi_config(template_path);
-    templi_config.m_excludes = configure_templi_config.m_excludes;
+		TempliConfig configure_templi_config(template_path);
+		templi_config.m_excludes = configure_templi_config.m_excludes;
 	}
 
 	std::vector<std::string> files =

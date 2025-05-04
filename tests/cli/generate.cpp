@@ -14,8 +14,9 @@ TEST(TempliCli_generate, fixtures)
 {
 	std::string template_path = FIXTURE("", "generate_template");
 	std::string output_path = "generate_cli_output";
-	auto templi_generate_command =
-		get_templi_cli_path() + " generate -t " + template_path + " -o " + output_path;
+	auto templi_generate_command = get_templi_cli_path() + " generate -t " + template_path +
+								   " -o " + output_path +
+								   " -another another -another-file another_file";
 
 	FILE* templi_cli = popen(templi_generate_command.c_str(), "w");
 	if (!templi_cli)
@@ -23,15 +24,9 @@ TEST(TempliCli_generate, fixtures)
 		throw std::runtime_error("Cannot run templi_cli");
 	}
 
-	std::vector<std::string> values = { "another",
-		"another_file",
-		"author",
-		"description",
-		"email",
-		"file",
-		"git_url",
-		"project_name",
-		"version" };
+	std::vector<std::string> values = {
+		"author", "description", "email", "file", "git_url", "project_name", "version"
+	};
 
 	for (const auto& value : values)
 	{

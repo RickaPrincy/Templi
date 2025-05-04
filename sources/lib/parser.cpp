@@ -154,6 +154,5 @@ void Templi::replace_folder_filename_placeholders(std::string folder_path,
 		[&](const std::string path)
 		{ return (std::filesystem::path(folder_path) / std::filesystem::path(path)).string(); });
 
-
 	replace_folder_filename_placeholders_process(folder_path, values, relative_exclude_paths);
 }

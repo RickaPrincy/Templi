@@ -88,7 +88,7 @@ int main(int argc, const char *argv[])
 
 				Templi::generate_with_templi_config(valid_template_path,
 					output_path,
-					[&](Key key) { return Templi::ask_input_value(key); });
+					[&](Key key) { return Templi::get_placeholder_value(_generate, key); });
 				if (is_github_repository)
 				{
 					Templi::delete_folder(template_path);
