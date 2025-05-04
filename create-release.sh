@@ -29,7 +29,7 @@ create_tar_release(){
 
 create_lib_release(){
 
-    local RELEASE_NAME=libtempli_archlinux@4.0.1
+    local RELEASE_NAME=libtempli_archlinux@4.0.2
     release_path+=("${RELEASE_NAME}")
     
     mkdir -p "${RELEASE_NAME}"
@@ -45,7 +45,7 @@ create_lib_release(){
 }
 
 create_cli_release(){
-    local RELEASE_NAME=templi_cli_archlinux@4.0.1
+    local RELEASE_NAME=templi_cli_archlinux@4.0.2
     release_path+=("${RELEASE_NAME}")
 
     mkdir -p "${RELEASE_NAME}"
@@ -77,5 +77,5 @@ for arg in "$@"; do
 done
 
 git add --all
-git commit -m "release: libtempli@4.0.1 - templi_cli@4.0.1"
-git tag -a v4.0.1 -m "templi v4.0.1"
+git commit -m "release: libtempli@4.0.2 - templi_cli@4.0.2"
+git tag -a v4.0.2 -m "templi v4.0.2"
