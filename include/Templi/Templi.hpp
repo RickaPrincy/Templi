@@ -13,7 +13,7 @@ namespace Templi
 
 	void generate_with_templi_config(std::string template_path,
 		std::string output_path,
-		std::function<std::string(Key key)> get_key_value);
+		std::function<std::string(Placeholder placeholder)> get_placeholder_value);
 
 	void configure(std::string template_path);
 
@@ -21,7 +21,7 @@ namespace Templi
 	{
 	public:
 		std::vector<std::string> m_excludes{}, m_before{}, m_after{};
-		std::vector<Key> m_keys{};
+		std::vector<Placeholder> m_placeholders{};
 
 		void read(std::string template_path);
 		void save(std::string template_path);

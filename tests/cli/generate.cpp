@@ -16,7 +16,7 @@ TEST(TempliCli_generate, fixtures)
 	std::string output_path = "generate_cli_output";
 	auto templi_generate_command = get_templi_cli_path() + " generate -t " + template_path +
 								   " -o " + output_path +
-								   " -another another -another-file another_file";
+								   " -ANOTHER another -ANOTHER_FILE another_file";
 
 	FILE* templi_cli = popen(templi_generate_command.c_str(), "w");
 	if (!templi_cli)

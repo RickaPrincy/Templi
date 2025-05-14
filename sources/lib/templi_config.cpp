@@ -43,22 +43,22 @@ void Templi::TempliConfig::read(std::string template_path)
 			m_after = scripts["after"];
 		}
 
-		for (auto key : config_json["keys"])
+		for (auto placeholder : config_json["placeholders"])
 		{
-			Key new_key;
-			new_key.m_name = key["name"];
-			new_key.m_label = key["label"];
-			new_key.m_type = Key::keytype_value_of(key["type"]);
+			Placeholder new_placeholder;
+			new_placeholder.m_name = placeholder["name"];
+			new_placeholder.m_label = placeholder["label"];
+			new_placeholder.m_type = Placeholder::placeholdertype_value_of(placeholder["type"]);
 
-			if (new_key.m_type == KeyType::SELECT)
-				new_key.m_choices = key["choices"];
-			if (key["required"].is_boolean())
-				new_key.m_required = key["required"];
-			if (key["clean"].is_boolean())
-				new_key.m_clean = key["clean"];
-			if (key["default"].is_string() && !key["default"].empty())
-				new_key.m_default = key["default"];
-			this->m_keys.push_back(new_key);
+			if (new_placeholder.m_type == PlaceholderType::SELECT)
+				new_placeholder.m_choices = placeholder["choices"];
+			if (placeholder["required"].is_boolean())
+				new_placeholder.m_required = placeholder["required"];
+			if (placeholder["remove_spaces"].is_boolean())
+				new_placeholder.m_remove_spaces = placeholder["remove_spaces"];
+			if (placeholder["default"].is_string() && !placeholder["default"].empty())
+				new_placeholder.m_default = placeholder["default"];
+			this->m_placeholders.push_back(new_placeholder);
 		}
 	}
 	catch (const json::exception &error)
@@ -73,7 +73,7 @@ void Templi::TempliConfig::save(std::string template_path)
 {
 	const std::string config_full_path = Templi::create_config_path(template_path);
 	json new_config_json = json::object();
-	json keys_json = json::array();
+	json placeholders_json = json::array();
 
 	new_config_json["excludes"] = m_excludes;
 
@@ -85,24 +85,24 @@ void Templi::TempliConfig::save(std::string template_path)
 		new_config_json["scripts"] = scripts;
 	}
 
-	for (auto key : m_keys)
+	for (auto placeholder : this->m_placeholders)
 	{
-		json new_key = json::object();
-		new_key["name"] = key.m_name;
-		new_key["label"] = key.m_label;
-		new_key["type"] = Key::keytype_to_string(key.m_type);
+		json new_placeholder = json::object();
+		new_placeholder["name"] = placeholder.m_name;
+		new_placeholder["label"] = placeholder.m_label;
+		new_placeholder["type"] = Placeholder::placeholdertype_to_string(placeholder.m_type);
 
-		if (key.m_required)
-			new_key["required"] = key.m_required;
-		if (!key.m_clean)
-			new_key["clean"] = key.m_clean;
-		if (key.m_type == KeyType::SELECT)
-			new_key["choices"] = key.m_choices;
-		if (!key.m_default.empty())
-			new_key["default"] = key.m_default;
-		keys_json.push_back(new_key);
+		if (placeholder.m_required)
+			new_placeholder["required"] = placeholder.m_required;
+		if (!placeholder.m_remove_spaces)
+			new_placeholder["remove_spaces"] = placeholder.m_remove_spaces;
+		if (placeholder.m_type == PlaceholderType::SELECT)
+			new_placeholder["choices"] = placeholder.m_choices;
+		if (!placeholder.m_default.empty())
+			new_placeholder["default"] = placeholder.m_default;
+		placeholders_json.push_back(new_placeholder);
 	}
-	new_config_json["keys"] = keys_json;
+	new_config_json["placeholders"] = placeholders_json;
 
 	Templi::save_file(config_full_path, new_config_json);
 };

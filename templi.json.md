@@ -19,14 +19,14 @@ Example:
         "templi.json",
         "ignored_file.txt"
     ],
-    "keys": [
+    "placeholders": [
         {
             "name": "author_name",
             "label": "Who is the author",
             "type": "INPUT",
             "default": "RickaPrincy",
             "required": true,
-            "clean": true
+            "remove_spaces": true
         },
         {
             "name": "project_name",
@@ -46,7 +46,7 @@ Example:
 
 Attributes of `templi.json`:
 
-- **`keys`**:
+- **`placeholders`**:
     - **description**: An array containing definitions for the dynamic words (placeholders) found within your template files.
     - **type**: `array`
     - **items**:
@@ -68,7 +68,7 @@ Attributes of `templi.json`:
         - **`required`** (optional):
             - **description**: A boolean value indicating whether the user must provide a value for this key. If set to `true`, the user cannot leave the prompt empty (note: this has no effect if a `default` value is provided).
             - **type**: `boolean`
-        - **`clean`** (optional):
+        - **`remove_spaces`** (optional):
             - **description**: A boolean value. If set to `true`, all whitespace characters will be removed from the user's input for this key. This is useful for ensuring clean values without spaces.
             - **type**: `boolean`
 - **`excludes`** (optional):

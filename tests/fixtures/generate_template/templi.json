@@ -13,7 +13,7 @@
       "echo \"Run after generating\""
     ]
   },
-  "keys": [
+  "placeholders": [
     {
       "label": "ANOTHER",
       "name": "ANOTHER",

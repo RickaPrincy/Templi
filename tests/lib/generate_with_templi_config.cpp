@@ -23,8 +23,9 @@ TEST(TempliLib_generate_with_templi_config, fixtures)
 		{ "PROJECT_NAME", "project_name" },
 		{ "VERSION", "version" } };
 
-	Templi::generate_with_templi_config(
-		template_path, output_path, [&](Key key) { return values[key.m_name]; });
+	Templi::generate_with_templi_config(template_path,
+		output_path,
+		[&](Placeholder placeholder) { return values[placeholder.m_name]; });
 
 	ASSERT_EQ_DIRECTORY(FIXTURE("", "generate_expected_output"), output_path);
 }

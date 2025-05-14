@@ -22,26 +22,26 @@ namespace Templi
 		}
 	};	// TempliException
 
-	// all supported types of key in the templi.json["keys"]
-	enum class KeyType
+	// all supported types of placeholder in the templi.json["placeholders"]
+	enum class PlaceholderType
 	{
 		INPUT,
 		BOOLEAN,
 		SELECT
-	};	// KeyType
+	};	// PlaceholderType
 
-	class Key
+	class Placeholder
 	{
 	public:
 		std::string m_name{}, m_label{}, m_default{};
-		KeyType m_type;
+		PlaceholderType m_type;
 		std::vector<std::string> m_choices{};
-		bool m_required{ true }, m_clean{ true };
+		bool m_required{ true }, m_remove_spaces{ true };
 
-		Key() = default;
+		Placeholder() = default;
 
-		static KeyType keytype_value_of(std::string type);
-		static std::string keytype_to_string(KeyType type);
-	};	// Key
+		static PlaceholderType placeholdertype_value_of(std::string type);
+		static std::string placeholdertype_to_string(PlaceholderType type);
+	};	// Placeholder
 
 }  // namespace Templi

@@ -3,28 +3,28 @@
 
 using namespace Templi;
 
-// key method
-std::string Templi::Key::keytype_to_string(KeyType type)
+// placeholder method
+std::string Templi::Placeholder::placeholdertype_to_string(PlaceholderType type)
 {
 	switch (type)
 	{
-		case KeyType::BOOLEAN: return "BOOLEAN";
-		case KeyType::SELECT: return "SELECT";
-		case KeyType::INPUT: return "INPUT";
+		case PlaceholderType::BOOLEAN: return "BOOLEAN";
+		case PlaceholderType::SELECT: return "SELECT";
+		case PlaceholderType::INPUT: return "INPUT";
 		default:
 			throw Templi::Exception(
-				"Invalid key type, these are the valid values [ SELECT, INPUT, BOOLEAN ]");
+				"Invalid placeholder type, these are the valid values [ SELECT, INPUT, BOOLEAN ]");
 	}
 };
 
-KeyType Templi::Key::keytype_value_of(std::string type)
+PlaceholderType Templi::Placeholder::placeholdertype_value_of(std::string type)
 {
 	if (type == "SELECT")
-		return KeyType::SELECT;
+		return PlaceholderType::SELECT;
 	if (type == "BOOLEAN")
-		return KeyType::BOOLEAN;
+		return PlaceholderType::BOOLEAN;
 	if (type == "INPUT")
-		return KeyType::INPUT;
+		return PlaceholderType::INPUT;
 	throw Templi::Exception(
-		"Invalid key type, these are the valid values [ SELECT, INPUT, BOOLEAN ]");
+		"Invalid placeholder type, these are the valid values [ SELECT, INPUT, BOOLEAN ]");
 };

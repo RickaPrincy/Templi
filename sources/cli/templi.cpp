@@ -56,7 +56,7 @@ int main(int argc, const char *argv[])
 		{
 			std::string template_path = _generate->get_option_value("template_path");
 			std::string output_path = _generate->get_option_value("output_path");
-			std::string path_suffix = _generate->get_option_value("path_suffix");
+			std::string scope = _generate->get_option_value("scope");
 
 			if (template_path.empty())
 				template_path = rcli::ask_input_value(config.text("Template path (or github url)"));
@@ -79,16 +79,17 @@ int main(int argc, const char *argv[])
 					}
 				}
 				std::string valid_template_path = template_path;
-				if (!path_suffix.empty())
+				if (!scope.empty())
 				{
 					valid_template_path =
-						(std::filesystem::path(template_path) / std::filesystem::path(path_suffix))
+						(std::filesystem::path(template_path) / std::filesystem::path(scope))
 							.string();
 				}
 
 				Templi::generate_with_templi_config(valid_template_path,
 					output_path,
-					[&](Key key) { return Templi::get_placeholder_value(_generate, key); });
+					[&](Placeholder placeholder)
+					{ return Templi::get_placeholder_value(_generate, placeholder); });
 				if (is_github_repository)
 				{
 					Templi::delete_folder(template_path);
@@ -109,8 +110,7 @@ int main(int argc, const char *argv[])
 
 	generate.add_option(&template_path_option);
 	generate.add_option("-o,--output", "Specify output path", "output_path");
-	generate.add_option(
-		"-p, --path-suffix", "Path suffix after template_path if you use monorepo", "path_suffix");
+	generate.add_option("-s, --scope", "Specify which template in the monorepo to use", "scope");
 
 	templi.add_subcommand(&configure);
 	templi.add_subcommand(&generate);

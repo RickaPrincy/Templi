@@ -68,25 +68,26 @@ void Templi::configure(std::string template_path)
 
 	for (auto word : words)
 	{
-		Key new_key;
-		new_key.m_label = "What is the value of : " + word + " ?";
-		new_key.m_name = word;
-		new_key.m_type = KeyType::INPUT;
-		templi_config.m_keys.push_back(new_key);
+		Placeholder new_placeholder;
+		new_placeholder.m_label = "What is the value of : " + word + " ?";
+		new_placeholder.m_name = word;
+		new_placeholder.m_type = PlaceholderType::INPUT;
+		templi_config.m_placeholders.push_back(new_placeholder);
 	}
 	templi_config.save(template_path);
 }
 
 void Templi::generate_with_templi_config(std::string template_path,
 	std::string output_path,
-	std::function<std::string(Key key)> get_key_value)
+	std::function<std::string(Placeholder placeholder)> get_placeholder_value)
 {
 	std::map<std::string, std::string> values{ { "TEMPLI_OUTPUT_FOLDER", output_path } };
 	TempliConfig templi_config(template_path);
 
-	std::for_each(templi_config.m_keys.begin(),
-		templi_config.m_keys.end(),
-		[&](Key &key) { values.insert(std::make_pair(key.m_name, get_key_value(key))); });
+	std::for_each(templi_config.m_placeholders.begin(),
+		templi_config.m_placeholders.end(),
+		[&](Placeholder &placeholder)
+		{ values.insert(std::make_pair(placeholder.m_name, get_placeholder_value(placeholder))); });
 
 	Templi::execute_scripts(values, templi_config.m_before);
 	Templi::generate(template_path, output_path, values, templi_config.m_excludes);

@@ -17,7 +17,7 @@ TEST(TempliLib_configure, fixtures)
 
 	Templi::configure(template_path);
 	TempliConfig generated_config(template_path);
-	std::vector<std::string> expected_keys_names = { "ANOTHER",
+	std::vector<std::string> expected_placeholders_names = { "ANOTHER",
 		"ANOTHER_FILE",
 		"AUTHOR",
 		"DESCRIPTION",
@@ -28,7 +28,7 @@ TEST(TempliLib_configure, fixtures)
 		"VERSION" };
 	std::vector<std::string> expected_excludes_paths = { "templi.json", "ignored/ignored.txt" };
 
-	ASSERT_EQ(generated_config.m_keys.size(), expected_keys_names.size());
+	ASSERT_EQ(generated_config.m_placeholders.size(), expected_placeholders_names.size());
 	ASSERT_EQ(generated_config.m_excludes.size(), expected_excludes_paths.size());
 
 	for (size_t i = 0; i < generated_config.m_excludes.size(); i++)
@@ -36,12 +36,13 @@ TEST(TempliLib_configure, fixtures)
 		ASSERT_EQ(generated_config.m_excludes[i], expected_excludes_paths[i]);
 	}
 
-	for (size_t i = 0; i < generated_config.m_keys.size(); i++)
+	for (size_t i = 0; i < generated_config.m_placeholders.size(); i++)
 	{
-		auto name = generated_config.m_keys[i].m_name;
-		ASSERT_EQ(name, expected_keys_names[i]);
-		ASSERT_EQ(generated_config.m_keys[i].m_type, KeyType::INPUT);
-		ASSERT_EQ(generated_config.m_keys[i].m_label, "What is the value of : " + name + " ?");
+		auto name = generated_config.m_placeholders[i].m_name;
+		ASSERT_EQ(name, expected_placeholders_names[i]);
+		ASSERT_EQ(generated_config.m_placeholders[i].m_type, PlaceholderType::INPUT);
+		ASSERT_EQ(
+			generated_config.m_placeholders[i].m_label, "What is the value of : " + name + " ?");
 	}
 	std::filesystem::remove(generated_config_path);
 }

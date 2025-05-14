@@ -155,7 +155,7 @@ Example of `templi.json` generated:
     "excludes": [
         "templi.json"
     ],
-    "keys": [
+    "placeholders": [
         {
             "name": "app_name",
             "label": "What is the value of : app_name ?",
@@ -182,7 +182,7 @@ For more information on how to customize templi.json, see this [file](./templi.j
 templi generate -t <path-to-the-template> -o <path-to-the-output>
 # -t or --template
 # -o or --output
-# -p or --path-suffix (optional) (for monorepo templates)
+# -s or --scope (optional) (for monorepo templates)
 # if one the option is not given, the it will be prompted 
 ```  
 
@@ -216,7 +216,7 @@ namespace Templi
 	{
 	public:
 		std::vector<std::string> m_excludes{}, m_before{}, m_after{};
-		std::vector<Key> m_keys{};
+		std::vector<Key> m_placeholders{};
 
 		void read(std::string template_path);
 		void save(std::string template_path);
