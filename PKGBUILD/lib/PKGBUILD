@@ -9,7 +9,7 @@ url="https://github.com/RickaPrincy/Templi"
 license=('MIT')
 source=("libtempli_archlinux@$pkgver.tar.gz::https://github.com/RickaPrincy/Templi/releases/download/v4.1.0/libtempli_archlinux@$pkgver.tar.gz")
 
-sha256sums=("SHASUM")
+sha256sums=("22f61dda366439b6a60611f38bf9fed37a4bcb90cac3c1a549876881877826bc")
 
 package() {
     echo "Installing to \"$pkgdir/usr/\""
