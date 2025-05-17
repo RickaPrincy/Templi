@@ -1,4 +1,4 @@
-name: CI linux
+name: ci 
 
 on:
   push:
@@ -7,10 +7,36 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  style:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    
+    - name: install TColor 
+      run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/TColor.hpp/main/install.sh)
+
+    - name: install rcli 
+      run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/rcli/main/install.sh)
+
+    - name: Get submodule dependancies
+      run: git submodule update --init --recursive
+
+    - name: Configure And Build 
+      run: cmake  -DBUILD_GMOCK=OFF -S . -B build
+    
+    - name: Run Clang-Format check target 
+      run: cmake --build build --target format-check
+      
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: install TColor 
+      run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/TColor.hpp/main/install.sh)
+
+    - name: install rcli 
+      run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/rcli/main/install.sh)
 
     - name: Get submodule dependancies
       run: git submodule update --init --recursive
@@ -19,4 +45,6 @@ jobs:
       run: cmake  -DBUILD_GMOCK=OFF -S . -B build
     
     - name: Test
-      run: cmake --build build --target format-check
+      run: |
+        export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH
+        cd build; make; cd tests/bin; ./TempliTest  

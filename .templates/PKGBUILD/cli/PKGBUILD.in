@@ -2,17 +2,17 @@
 pkgname=templi_cli
 pkgver=@TEMPLI_CLI_VERSION@
 pkgrel=1
-pkgdesc="Templi is a simple tool designed to expedite the template file generation process"
+pkgdesc="Templi is a tool that simplifies boilerplate creation and usage"
 arch=('x86_64')
 depends=()
 url="https://github.com/RickaPrincy/Templi"
 license=('MIT')
-source=("templi_cli_archlinux@$pkgver.tar.gz::https://github.com/RickaPrincy/Templi/releases/download/v@TEMPLI_VERSION@/templi_cli_archlinux@$pkgver.tar.gz")
+source=("templi-cli-linux-x86_64@$pkgver.tar.gz::https://github.com/RickaPrincy/Templi/releases/download/v@TEMPLI_VERSION@/templi-cli-linux-x86_64@$pkgver.tar.gz")
 
 sha256sums=("SHASUM")
 
 package() {
     echo "Installing to \"$pkgdir/usr/\""
     mkdir -p "$pkgdir/usr/bin"
-    cp -r "templi_cli_archlinux@$pkgver/bin" "$pkgdir/usr"
+    cp -r "templi-cli-linux-x86_64@$pkgver/bin" "$pkgdir/usr"
 }
