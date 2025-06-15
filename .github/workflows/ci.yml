@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
-    - name: install TColor 
-      run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/TColor.hpp/main/install.sh)
+
+    - name: install cpp_inquirer 
+      run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/cpp_inquirer/main/install.sh)
 
     - name: install rcli 
       run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/rcli/main/install.sh)
@@ -31,10 +31,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
-    - name: install TColor 
-      run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/TColor.hpp/main/install.sh)
 
+    - name: install cpp_inquirer 
+      run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/cpp_inquirer/main/install.sh)
+    
     - name: install rcli 
       run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/rcli/main/install.sh)
 

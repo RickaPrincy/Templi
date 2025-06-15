@@ -43,7 +43,7 @@ TEST(TempliCli_configure, fixtures)
 	for (size_t i = 0; i < generated_config.m_placeholders.size(); i++)
 	{
 		ASSERT_EQ(generated_config.m_placeholders[i].m_name, expected_placeholders_names[i]);
-		ASSERT_EQ(generated_config.m_placeholders[i].m_type, PlaceholderType::INPUT);
+		ASSERT_EQ(generated_config.m_placeholders[i].m_type, PlaceholderType::TEXT);
 	}
 	std::filesystem::remove(generated_config_path);
 }

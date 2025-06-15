@@ -25,7 +25,7 @@ TEST(TempliLib_generate_with_templi_config, fixtures)
 
 	Templi::generate_with_templi_config(template_path,
 		output_path,
-		[&](Placeholder placeholder) { return values[placeholder.m_name]; });
+		[&](const Placeholder &placeholder) { return values[placeholder.m_name]; });
 
 	ASSERT_EQ_DIRECTORY(FIXTURE("", "generate_expected_output"), output_path);
 }

@@ -40,9 +40,8 @@ TEST(TempliLib_configure, fixtures)
 	{
 		auto name = generated_config.m_placeholders[i].m_name;
 		ASSERT_EQ(name, expected_placeholders_names[i]);
-		ASSERT_EQ(generated_config.m_placeholders[i].m_type, PlaceholderType::INPUT);
-		ASSERT_EQ(
-			generated_config.m_placeholders[i].m_label, "What is the value of : " + name + " ?");
+		ASSERT_EQ(generated_config.m_placeholders[i].m_type, PlaceholderType::TEXT);
+		ASSERT_EQ(generated_config.m_placeholders[i].m_label, name);
 	}
 	std::filesystem::remove(generated_config_path);
 }

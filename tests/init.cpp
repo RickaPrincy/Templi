@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-int main(int argc, char **argv)
+auto main(int argc, char **argv) -> int
 {
 	::testing::InitGoogleTest();
 	return RUN_ALL_TESTS();

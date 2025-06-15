@@ -8,13 +8,13 @@
 
 #include "fs_utils.hpp"
 
-std::string FIXTURE(std::string prefix, std::string file)
+auto FIXTURE(std::string prefix, std::string file) -> std::string	// NOLINT
 {
 	return std::filesystem::path("fixtures") / std::filesystem::path(prefix) /
 		   std::filesystem::path(file);
 }
 
-void ASSERT_EQ_DIRECTORY(std::string expected, std::string actual)
+void ASSERT_EQ_DIRECTORY(std::string expected, std::string actual)	// NOLINT
 {
 	std::vector<std::string> expected_files = Templi::get_files_with_placeholder(expected);
 	std::vector<std::string> actual_files = Templi::get_files_with_placeholder(actual);
@@ -29,9 +29,10 @@ void ASSERT_EQ_DIRECTORY(std::string expected, std::string actual)
 		std::vector<std::string> actual_lines{};
 
 		Templi::process_for_each_line(
-			expected_files[i], [&](std::string line) { expected_lines.push_back(line); });
+			expected_files[i], [&](const std::string &line) { expected_lines.push_back(line); });
+
 		Templi::process_for_each_line(
-			actual_files[i], [&](std::string line) { actual_lines.push_back(line); });
+			actual_files[i], [&](const std::string &line) { actual_lines.push_back(line); });
 
 		ASSERT_EQ(expected_lines.size(), actual_lines.size());
 		for (size_t j = 0; j < expected_lines.size(); j++)
@@ -41,7 +42,7 @@ void ASSERT_EQ_DIRECTORY(std::string expected, std::string actual)
 	}
 }
 
-std::string get_templi_cli_path()
+auto get_templi_cli_path() -> std::string
 {
 	auto templi_cli_path =
 		std::filesystem::current_path().parent_path().parent_path() / "bin" / "templi";

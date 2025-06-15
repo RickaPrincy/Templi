@@ -6,6 +6,8 @@ add_executable(${TEMPLI_CLI_NAME} ${CLI_SOURCES})
 target_include_directories(${TEMPLI_CLI_NAME}
                            PRIVATE ${TEMPLI_SOURCE_DIR}/include)
 
+target_link_libraries(${TEMPLI_CLI_NAME} PRIVATE rcli)
+target_link_libraries(${TEMPLI_CLI_NAME} PRIVATE cpp_inquirer)
 target_link_libraries(${TEMPLI_CLI_NAME} PRIVATE ${TEMPLI_LIB_NAME})
 
 set_target_properties(${TEMPLI_CLI_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY

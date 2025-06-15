@@ -1,6 +1,1 @@
-// clang-format off
-#define Templi_VERSION_MAJOR @Templi_CLI_VERSION_MAJOR@
-#define Templi_VERSION_MINOR @Templi_CLI_VERSION_MINOR@
-#define Templi_VERSION_PATCH @Templi_CLI_VERSION_PATCH@
 #define Templi_VERSION "@TEMPLI_CLI_VERSION@"
-// clang-format on
