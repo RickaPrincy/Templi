@@ -86,11 +86,7 @@ namespace Templi
 					generate_with_templi_config(valid_template_path,
 						output_path,
 						[&](const Placeholder &placeholder)
-						{
-							auto result = get_placeholder_value(_generate, placeholder);
-							std::cout << "\n";
-							return result;
-						});
+						{ return get_placeholder_value(_generate, placeholder); });
 
 					if (is_github_repository)
 					{

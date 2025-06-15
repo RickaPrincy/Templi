@@ -60,6 +60,16 @@ namespace Templi
 				new_placeholder.m_label = placeholder["label"];
 				new_placeholder.m_type = Placeholder::placeholdertype_value_of(placeholder["type"]);
 
+				if (new_placeholder.m_type == PlaceholderType::TEXT &&
+					placeholder["validators"].is_array())
+				{
+					for (const auto &validator : placeholder["validators"])
+					{
+						new_placeholder.m_validators.emplace_back(validator["pattern"],
+							validator["message"].is_string() ? validator["message"] : "");
+					}
+				}
+
 				if (new_placeholder.m_type == PlaceholderType::SELECT)
 				{
 					new_placeholder.m_choices = placeholder["choices"];
@@ -102,6 +112,11 @@ namespace Templi
 			if (placeholder.m_type == PlaceholderType::SELECT)
 			{
 				new_placeholder["choices"] = placeholder.m_choices;
+			}
+
+			if (placeholder.m_type == PlaceholderType::TEXT)
+			{
+				new_placeholder["validators"] = placeholder.m_validators;
 			}
 			placeholders_json.push_back(new_placeholder);
 		}

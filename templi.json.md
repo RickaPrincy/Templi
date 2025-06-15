@@ -21,9 +21,16 @@ Example:
     ],
     "placeholders": [
         {
+            "type": "TEXT",
             "name": "author_name",
             "label": "Who is the author",
-            "type": "TEXT"
+            "validators": [
+                { "pattern": "required" },
+                {
+                    "pattern": "[a-z]",
+                    "message": "Must be lowercase"
+                }
+            ]
         },
         {
             "name": "project_name",

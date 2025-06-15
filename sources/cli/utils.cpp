@@ -1,9 +1,12 @@
 #include "utils.hpp"
 
+#include <algorithm>
 #include <chrono>
 #include <cpp_inquirer/cpp_inquirer.hpp>
 #include <filesystem>
 #include <iostream>
+#include <map>
+#include <memory>
 #include <random>
 #include <rcli/command.hpp>
 #include <sstream>
@@ -11,6 +14,32 @@
 
 namespace Templi
 {
+	const std::map<std::string, std::shared_ptr<cpp_inquirer::validator>> BUILTIN_VALIDATORS = {
+		{ "required", cpp_inquirer::validator_factory::required() },
+		{ "optional", cpp_inquirer::validator_factory::optional() },
+		{ "email", cpp_inquirer::validator_factory::email() },
+		{ "number", cpp_inquirer::validator_factory::number() },
+		{ "lowercase", cpp_inquirer::validator_factory::lowercase() },
+		{ "uppercase", cpp_inquirer::validator_factory::uppercase() },
+		{ "floating", cpp_inquirer::validator_factory::floating() },
+	};
+
+	static auto get_validator(const std::pair<std::string, std::string> &validator)
+		-> std::shared_ptr<cpp_inquirer::validator>
+	{
+		const auto it = std::find_if(BUILTIN_VALIDATORS.begin(),
+			BUILTIN_VALIDATORS.end(),
+			[validator](const std::pair<std::string, std::shared_ptr<cpp_inquirer::validator>>
+					&builtin_validtor) { return builtin_validtor.first == validator.first; });
+
+		if (it != BUILTIN_VALIDATORS.end())
+		{
+			return it->second;
+		}
+
+		return cpp_inquirer::validator_factory::make(validator.first, validator.second);
+	}
+
 	auto generate_unique_id() -> std::string
 	{
 		auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -50,7 +79,13 @@ namespace Templi
 			return cpp_inquirer::boolean_question::prompt(copied_placeholder);
 		}
 
-		return cpp_inquirer::text_question::prompt(copied_placeholder);
+		std::vector<std::shared_ptr<cpp_inquirer::validator>> validators{};
+		validators.reserve(placeholder.m_validators.size());
+		for (const auto &validator : placeholder.m_validators)
+		{
+			validators.push_back(get_validator(validator));
+		}
+		return cpp_inquirer::text_question::prompt(copied_placeholder, validators);
 	}
 
 	auto get_placeholder_value(rcli::command *command, const Templi::Placeholder &placeholder)

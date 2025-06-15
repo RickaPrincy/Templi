@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <string>
+#include <utility>
 #include <vector>
 
 #define TEMPLI_CONFIG_NAME "templi.json"
@@ -37,6 +38,7 @@ namespace Templi
 		std::string m_name{}, m_label{};
 		std::vector<std::string> m_choices{};
 		PlaceholderType m_type{ PlaceholderType::TEXT };
+		std::vector<std::pair<std::string, std::string>> m_validators{};
 
 		Placeholder() = default;
 
