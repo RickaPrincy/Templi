@@ -1,7 +1,8 @@
-project(${TEMPLI_CLI_NAME} VERSION ${TEMPLI_CLI_VERSION} LANGUAGES CXX)
-
 set(CLI_SOURCES templi.cpp utils.cpp)
-add_executable(${TEMPLI_CLI_NAME} ${CLI_SOURCES})
+
+add_executable(${TEMPLI_CLI_NAME})
+
+target_sources(${TEMPLI_CLI_NAME} PRIVATE ${CLI_SOURCES})
 
 target_include_directories(${TEMPLI_CLI_NAME}
                            PRIVATE ${TEMPLI_SOURCE_DIR}/include)

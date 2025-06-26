@@ -54,7 +54,7 @@ Attributes of `templi.json`:
     - **type**: `array`
     - **items**:
         - **`name`**:
-            - **description**: A string representing the placeholder name used in your template files (e.g., in `hello {{you}}`, the name is `you`). This field is mandatory and cannot be empty.
+            - **description**: A string representing the placeholder name used in your template files (e.g., in `hello {{name}}`, the name is `name`). This field is mandatory and cannot be empty.
             - **type**: `string`
         - **`type`**:
             - **description**: Determines the method Templi will use to prompt the user for the value of this key.

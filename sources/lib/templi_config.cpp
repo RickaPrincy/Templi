@@ -38,16 +38,16 @@ namespace Templi
 		try
 		{
 			m_excludes = config_json["excludes"];
-			if (config_json["scripts"].is_object())
+			if (config_json.contains("scripts"))
 			{
 				json scripts = config_json["scripts"];
 
-				if (scripts["before"].is_array())
+				if (config_json.contains("before"))
 				{
 					m_before = scripts["before"];
 				}
 
-				if (scripts["after"].is_array())
+				if (config_json.contains("after"))
 				{
 					m_after = scripts["after"];
 				}
@@ -61,7 +61,7 @@ namespace Templi
 				new_placeholder.m_type = Placeholder::placeholdertype_value_of(placeholder["type"]);
 
 				if (new_placeholder.m_type == PlaceholderType::TEXT &&
-					placeholder["validators"].is_array())
+					placeholder.contains("validators"))
 				{
 					for (const auto &validator : placeholder["validators"])
 					{
