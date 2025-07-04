@@ -1,0 +1,14 @@
+Checks: >
+  clang-analyzer-*,
+  modernize-*,
+  performance-*,
+  -readability-avoid-endl
+  -readability-identifier-naming
+  -performance-move-const-arg
+
+WarningsAsErrors: '*'
+HeaderFilterRegex: '.*'
+FormatStyle: file
+CheckOptions:
+  - key:             modernize-use-nullptr.NullMacros
+    value:           'NULL'

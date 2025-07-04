@@ -1,30 +1,32 @@
 #include <Templi/TempliConfig.hpp>
 #include <Templi/types.hpp>
 
-using namespace Templi;
-
-// placeholder method
-std::string Templi::Placeholder::placeholdertype_to_string(PlaceholderType type)
+namespace Templi
 {
-	switch (type)
+	// placeholder method
+	auto Templi::Placeholder::placeholdertype_to_string(PlaceholderType type) -> std::string
 	{
-		case PlaceholderType::BOOLEAN: return "BOOLEAN";
-		case PlaceholderType::SELECT: return "SELECT";
-		case PlaceholderType::INPUT: return "INPUT";
-		default:
-			throw Templi::Exception(
-				"Invalid placeholder type, these are the valid values [ SELECT, INPUT, BOOLEAN ]");
-	}
-};
+		switch (type)
+		{
+			case PlaceholderType::BOOLEAN: return "BOOLEAN";
+			case PlaceholderType::SELECT: return "SELECT";
+			case PlaceholderType::TEXT: return "TEXT";
+			default:
+				throw Templi::Exception(
+					"Invalid placeholder type, these are the valid values [ SELECT, TEXT, BOOLEAN "
+					"]");
+		}
+	};
 
-PlaceholderType Templi::Placeholder::placeholdertype_value_of(std::string type)
-{
-	if (type == "SELECT")
-		return PlaceholderType::SELECT;
-	if (type == "BOOLEAN")
-		return PlaceholderType::BOOLEAN;
-	if (type == "INPUT")
-		return PlaceholderType::INPUT;
-	throw Templi::Exception(
-		"Invalid placeholder type, these are the valid values [ SELECT, INPUT, BOOLEAN ]");
-};
+	auto Templi::Placeholder::placeholdertype_value_of(const std::string &type) -> PlaceholderType
+	{
+		if (type == "SELECT")
+			return PlaceholderType::SELECT;
+		if (type == "BOOLEAN")
+			return PlaceholderType::BOOLEAN;
+		if (type == "TEXT")
+			return PlaceholderType::TEXT;
+		throw Templi::Exception(
+			"Invalid placeholder type, these are the valid values [ SELECT, TEXT, BOOLEAN ]");
+	};
+}  // namespace Templi

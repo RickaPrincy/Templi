@@ -1,5 +1,3 @@
-project(${TEMPLI_LIB_NAME} VERSION ${TEMPLI_LIB_VERSION} LANGUAGES CXX)
-
 set(LIB_SOURCES fs_utils.cpp templi_config.cpp parser.cpp templi.cpp types.cpp
                 utils.cpp)
 

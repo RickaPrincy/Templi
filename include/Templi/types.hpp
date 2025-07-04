@@ -1,6 +1,8 @@
 #pragma once
 
+#include <cstdint>
 #include <string>
+#include <utility>
 #include <vector>
 
 #define TEMPLI_CONFIG_NAME "templi.json"
@@ -13,35 +15,34 @@ namespace Templi
 		std::string m_message;
 
 	public:
-		Exception(std::string message) : m_message(message)
+		Exception(std::string message) : m_message(std::move(message))
 		{
 		}
-		const char* what() const noexcept override
+
+		[[nodiscard]] auto what() const noexcept -> const char* override
 		{
 			return m_message.c_str();
 		}
 	};	// TempliException
 
-	// all supported types of placeholder in the templi.json["placeholders"]
-	enum class PlaceholderType
+	enum class PlaceholderType : std::uint8_t
 	{
-		INPUT,
-		BOOLEAN,
-		SELECT
+		TEXT,
+		SELECT,
+		BOOLEAN
 	};	// PlaceholderType
 
 	class Placeholder
 	{
 	public:
-		std::string m_name{}, m_label{}, m_default{};
-		PlaceholderType m_type;
+		std::string m_name{}, m_label{};
 		std::vector<std::string> m_choices{};
-		bool m_required{ true }, m_remove_spaces{ true };
+		PlaceholderType m_type{ PlaceholderType::TEXT };
+		std::vector<std::pair<std::string, std::string>> m_validators{};
 
 		Placeholder() = default;
 
-		static PlaceholderType placeholdertype_value_of(std::string type);
-		static std::string placeholdertype_to_string(PlaceholderType type);
+		static auto placeholdertype_value_of(const std::string& type) -> PlaceholderType;
+		static auto placeholdertype_to_string(PlaceholderType type) -> std::string;
 	};	// Placeholder
-
 }  // namespace Templi

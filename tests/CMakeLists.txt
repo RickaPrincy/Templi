@@ -15,7 +15,7 @@ target_link_directories(${TEMPLI_TEST_NAME} PUBLIC ${CMAKE_BINARY_DIR}/lib)
 
 target_link_libraries(
   ${TEMPLI_TEST_NAME}
-  PUBLIC ${TEMPLI_LIB_NAME}
+  PRIVATE ${TEMPLI_LIB_NAME}
   PUBLIC gtest)
 
 set_target_properties(

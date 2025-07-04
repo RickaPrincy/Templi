@@ -1,1 +1,2 @@
 find_package(rcli REQUIRED)
+find_package(cpp_inquirer REQUIRED)

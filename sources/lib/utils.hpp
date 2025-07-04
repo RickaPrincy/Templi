@@ -7,8 +7,8 @@
 
 namespace Templi
 {
-	std::string create_config_path(std::string template_path);
+	auto create_config_path(const std::string &template_path) -> std::string;
 
-	void execute_scripts(const std::map<std::string, std::string> &values,
-		const std::vector<std::string> &scripts);
+	auto execute_scripts(const std::map<std::string, std::string> &values,
+		const std::vector<std::string> &scripts) -> void;
 }  // namespace Templi

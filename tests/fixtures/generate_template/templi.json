@@ -17,47 +17,47 @@
     {
       "label": "ANOTHER",
       "name": "ANOTHER",
-      "type": "INPUT"
+      "type": "TEXT"
     },
     {
       "label": "ANOTHER FILE",
       "name": "ANOTHER_FILE",
-      "type": "INPUT"
+      "type": "TEXT"
     },
     {
       "label": "AUTHOR VALUE",
       "name": "AUTHOR",
-      "type": "INPUT"
+      "type": "TEXT"
     },
     {
       "label": "DESCRIPTION VALUE",
       "name": "DESCRIPTION",
-      "type": "INPUT"
+      "type": "TEXT"
     },
     {
       "label": "EMAIL VALUE",
       "name": "EMAIL",
-      "type": "INPUT"
+      "type": "TEXT"
     },
     {
       "label": "FILE",
       "name": "FILE",
-      "type": "INPUT"
+      "type": "TEXT"
     },
     {
       "label": "GIT_URL VALUE",
       "name": "GIT_URL",
-      "type": "INPUT"
+      "type": "TEXT"
     },
     {
       "label": "PROJECT_NAME VALUE",
       "name": "PROJECT_NAME",
-      "type": "INPUT"
+      "type": "TEXT"
     },
     {
       "label": "VERSION VALUE",
       "name": "VERSION",
-      "type": "INPUT"
+      "type": "TEXT"
     }
   ]
 }

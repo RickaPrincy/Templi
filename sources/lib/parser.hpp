@@ -7,18 +7,18 @@
 
 namespace Templi
 {
-	std::set<std::string> extract_placeholders_from_text(std::string text);
+	auto extract_placeholders_from_text(const std::string &text) -> std::set<std::string>;
 
-	std::string replace_placeholders_in_text(std::string text,
-		std::map<std::string, std::string> values);
+	auto extract_placeholders_from_file(const std::string &file_path) -> std::set<std::string>;
 
-	std::set<std::string> extract_placeholders_from_file(std::string file_path);
+	auto replace_placeholders_in_text(const std::string &text,
+		const std::map<std::string, std::string> &values) -> std::string;
 
-	void replace_placeholders_in_file(std::string file_path,
-		std::string output_path,
-		std::map<std::string, std::string> values);
+	auto replace_placeholders_in_file(const std::string &file_path,
+		const std::string &output_path,
+		const std::map<std::string, std::string> &values) -> void;
 
-	void replace_folder_filename_placeholders(std::string folder_path,
-		std::map<std::string, std::string> values,
-		std::vector<std::string> excludes);
+	auto replace_folder_filename_placeholders(const std::string &folder_path,
+		const std::map<std::string, std::string> &values,
+		const std::vector<std::string> &excludes) -> void;
 }  // namespace Templi
