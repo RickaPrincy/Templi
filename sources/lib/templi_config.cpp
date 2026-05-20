@@ -42,12 +42,12 @@ namespace Templi
 			{
 				json scripts = config_json["scripts"];
 
-				if (config_json.contains("before"))
+				if (scripts.contains("before"))
 				{
 					m_before = scripts["before"];
 				}
 
-				if (config_json.contains("after"))
+				if (scripts.contains("after"))
 				{
 					m_after = scripts["after"];
 				}
@@ -98,7 +98,7 @@ namespace Templi
 		{
 			json scripts = json::object();
 			scripts["before"] = m_before;
-			scripts["after"] = m_before;
+			scripts["after"] = m_after;
 			new_config_json["scripts"] = scripts;
 		}
 

@@ -7,7 +7,7 @@ arch=('x86_64')
 depends=()
 url="https://github.com/RickaPrincy/Templi"
 license=('MIT')
-source=("templi-cli-linux-x86_64@$pkgver.tar.gz::https://github.com/RickaPrincy/Templi/releases/download/v@TEMPLI_VERSION@/templi-cli-linux-x86_64@$pkgver.tar.gz")
+source=("templi-lib-linux-x86_64@$pkgver.tar.gz::https://github.com/RickaPrincy/Templi/releases/download/v@TEMPLI_VERSION@/templi-lib-linux-x86_64@$pkgver.tar.gz")
 
 sha256sums=("SHASUM")
 

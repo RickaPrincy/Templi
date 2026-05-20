@@ -18,3 +18,5 @@ example/build
 out
 ./src/build-templi_qt-Desktop-Debug/
 release
+.idea
+cmake-build-debug
