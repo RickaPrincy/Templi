@@ -30,8 +30,8 @@ create_lib_release(){
     mkdir -p "${RELEASE_NAME}/include"
     mkdir -p "${RELEASE_NAME}/lib/cmake"
     
-    cp -r ../build/lib "${RELEASE_NAME}"
-    cp -r ../build/cmake "${RELEASE_NAME}/lib/cmake/Templi"
+    cp -r ../build/release/lib "${RELEASE_NAME}"
+    cp -r ../build/release/cmake "${RELEASE_NAME}/lib/cmake/Templi"
     cp -r ../include/Templi "${RELEASE_NAME}/include/Templi"
 
     create_tar_release "${RELEASE_NAME}" "../PKGBUILD/lib/PKGBUILD"
@@ -44,7 +44,7 @@ create_cli_release(){
     mkdir -p "${RELEASE_NAME}"
     mkdir -p "${RELEASE_NAME}/bin"
 
-    cp -r ../build/bin "${RELEASE_NAME}"
+    cp -r ../build/release/bin "${RELEASE_NAME}"
 
     create_tar_release "${RELEASE_NAME}" "../PKGBUILD/cli/PKGBUILD"
 }
