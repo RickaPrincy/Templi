@@ -1,0 +1,39 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "debug-vcpkg",
+      "inherits": "debug",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "/home/ricka/Apk/vcpkg/scripts/buildsystems/vcpkg.cmake"
+      }
+    },
+    {
+      "name": "release-vcpkg",
+      "inherits": "release",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "/home/ricka/Apk/vcpkg/scripts/buildsystems/vcpkg.cmake"
+      }
+    }
+  ],
+   "buildPresets": [
+    {
+      "name": "debug-vcpkg",
+      "configurePreset": "debug-vcpkg"
+    },
+    {
+      "name": "release-vcpkg",
+      "configurePreset": "release-vcpkg"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "debug-vcpkg",
+      "configurePreset": "debug-vcpkg"
+    },
+    {
+      "name": "release-vcpkg",
+      "configurePreset": "release-vcpkg"
+    }
+  ]
+}

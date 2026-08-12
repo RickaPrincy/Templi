@@ -1,0 +1,8 @@
+{
+  "name": "templi",
+  "version-string": "0.0.1",
+  "builtin-baseline": "fd3dde77905b1b1890df3c8daa496d9b2fe44f7f",
+  "dependencies": [
+    "gtest"
+  ]
+}

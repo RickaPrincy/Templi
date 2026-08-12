@@ -1,3 +1,6 @@
+find_package(rcli REQUIRED VERSION 2.0.23)
+find_package(cpp_inquirer REQUIRED VERSION 0.0.1)
+
 set(CLI_SOURCES templi.cpp utils.cpp)
 
 add_executable(${TEMPLI_CLI_NAME})

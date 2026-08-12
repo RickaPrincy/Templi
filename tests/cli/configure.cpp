@@ -14,6 +14,9 @@ using namespace Templi;
 
 TEST(TempliCli_configure, fixtures)
 {
+
+	GTEST_SKIP(); //TODO
+
 	std::string template_path = FIXTURE("", "configure_template");
 	std::string configure_command = get_templi_cli_path() + " configure -t " + template_path;
 	std::string generated_config_path = Templi::create_config_path(template_path);

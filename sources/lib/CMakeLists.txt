@@ -2,7 +2,7 @@ set(LIB_SOURCES fs_utils.cpp templi_config.cpp parser.cpp templi.cpp types.cpp
                 utils.cpp)
 
 # Create the library
-if(BUILD_SHARED_LIBS)
+if(CMAKE_BUILD_SHARED_LIBS)
   add_library(${TEMPLI_LIB_NAME} SHARED ${LIB_SOURCES})
 else()
   add_library(${TEMPLI_LIB_NAME} STATIC ${LIB_SOURCES})
@@ -10,9 +10,7 @@ endif()
 
 # Set include directories for the library
 target_include_directories(
-  ${TEMPLI_LIB_NAME} PRIVATE $<BUILD_INTERFACE:${TEMPLI_SOURCE_DIR}/include>)
-
-target_link_libraries(${TEMPLI_LIB_NAME} PUBLIC rcli)
+  ${TEMPLI_LIB_NAME} PUBLIC $<BUILD_INTERFACE:${TEMPLI_SOURCE_DIR}/include>)
 
 # set properties
 set_target_properties(

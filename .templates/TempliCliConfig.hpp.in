@@ -1,1 +1,3 @@
+#pragma once
+
 #define Templi_VERSION "@TEMPLI_CLI_VERSION@"

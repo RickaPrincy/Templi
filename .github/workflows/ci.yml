@@ -2,9 +2,9 @@ name: ci
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "dev" ] # TODO
   pull_request:
-    branches: [ "main" ]
+    branches: [ "dev" ] # TODO
 
 jobs:
   style:

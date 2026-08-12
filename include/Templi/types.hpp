@@ -11,7 +11,6 @@ namespace Templi
 {
 	class Exception : public std::exception
 	{
-	private:
 		std::string m_message;
 
 	public:

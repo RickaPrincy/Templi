@@ -27,7 +27,7 @@ namespace Templi
 		auto save(const std::string &template_path) -> void;
 
 		TempliConfig() = default;
-		TempliConfig(const std::string &template_path);
+		explicit TempliConfig(const std::string &template_path);
 	};	// TempliConfig
 
 }  // namespace Templi
