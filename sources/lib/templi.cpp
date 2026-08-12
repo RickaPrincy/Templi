@@ -1,5 +1,4 @@
 #include <Templi/Templi.hpp>
-#include <Templi/TempliConfig.hpp>
 #include <Templi/types.hpp>
 #include <algorithm>
 
@@ -7,18 +6,18 @@
 #include "parser.hpp"
 #include "utils.hpp"
 
-static const std::string GIT_SUFFIX = ".git";
-
 namespace Templi
 {
 	auto generate(const std::string &template_path,
 		const std::string &output_path,
 		const std::map<std::string, std::string> &values,
-		const std::vector<std::string> &excludes) -> void
+		const std::vector<std::string> &parse_excludes,
+		const std::vector<std::string> &copy_excludes) -> void
 	{
-		copy_folder(template_path, output_path);
+		copy_folder(template_path, output_path, copy_excludes);
 
-		std::vector<std::string> files = get_files_with_placeholder(output_path, excludes);
+		const std::vector<std::string> files =
+			get_files_with_placeholder(output_path, parse_excludes);
 
 		if (files.empty())
 		{
@@ -29,24 +28,26 @@ namespace Templi
 		{
 			replace_placeholders_in_file(file, file, values);
 		}
-		replace_folder_filename_placeholders(output_path, values, excludes);
+		replace_folder_filename_placeholders(output_path, values, parse_excludes);
 	}
 
 	auto configure(const std::string &template_path) -> void
 	{
 		TempliConfig templi_config;
-		templi_config.m_excludes.emplace_back(TEMPLI_CONFIG_NAME);
+		templi_config.m_parse_excludes.emplace_back(TEMPLI_CONFIG_NAME);
+		templi_config.m_copy_excludes.emplace_back(TEMPLI_CONFIG_NAME);
 
 		if (std::filesystem::exists(create_config_path(template_path)))
 		{
 			TempliConfig configure_templi_config(template_path);
-			templi_config.m_excludes = configure_templi_config.m_excludes;
+			templi_config.m_parse_excludes = configure_templi_config.m_parse_excludes;
+			templi_config.m_copy_excludes = configure_templi_config.m_copy_excludes;
 		}
 
 		std::vector<std::string> files =
-			get_files_with_placeholder(template_path, templi_config.m_excludes);
-		std::set<std::string> words{};
+			get_files_with_placeholder(template_path, templi_config.m_parse_excludes);
 
+		std::set<std::string> words{};
 		if (files.empty())
 		{
 			throw Exception("Folder empty or no words inside {{}} was found");
@@ -64,7 +65,7 @@ namespace Templi
 
 			if (words_found.empty())
 			{
-				templi_config.m_excludes.push_back(file.substr(template_path.size() + 1));
+				templi_config.m_parse_excludes.push_back(file.substr(template_path.size() + 1));
 			}
 
 			for (const auto &word_found : words_found)
@@ -86,22 +87,25 @@ namespace Templi
 
 	auto generate_with_templi_config(const std::string &template_path,
 		const std::string &output_path,
-		std::function<std::string(Placeholder placeholder)> get_placeholder_value) -> void
+		const std::function<std::string(Placeholder placeholder)> &get_placeholder_value) -> void
 	{
 		std::map<std::string, std::string> values{ { "TEMPLI_OUTPUT_FOLDER", output_path } };
 		TempliConfig templi_config(template_path);
 
 		std::for_each(templi_config.m_placeholders.begin(),
 			templi_config.m_placeholders.end(),
-			[&](Placeholder &placeholder)
+			[&](Placeholder &placeholder) -> void
 			{
 				values.insert(
 					std::make_pair(placeholder.m_name, get_placeholder_value(placeholder)));
 			});
 
 		execute_scripts(values, templi_config.m_before);
-		generate(template_path, output_path, values, templi_config.m_excludes);
-		delete_file(create_config_path(output_path));
+		generate(template_path,
+			output_path,
+			values,
+			templi_config.m_parse_excludes,
+			templi_config.m_copy_excludes);
 		execute_scripts(values, templi_config.m_after);
 	}
 }  // namespace Templi

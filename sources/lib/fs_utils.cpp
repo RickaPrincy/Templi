@@ -1,6 +1,5 @@
 #include "fs_utils.hpp"
 
-#include <Templi/TempliConfig.hpp>
 #include <Templi/types.hpp>
 #include <algorithm>
 #include <cstdio>
@@ -65,15 +64,56 @@ namespace Templi
 		}
 	}
 
-	auto copy_folder(const std::string &source, const std::string &destination) -> void
+	auto copy_folder(const std::string &source,
+		const std::string &destination,
+		const std::vector<std::string> &copy_excludes) -> void
 	{
 		try
 		{
-			fs::copy(source,
-				destination,
-				fs::copy_options::recursive | fs::copy_options::overwrite_existing);
+			const fs::path source_path = source;
+			const fs::path destination_path = destination;
+
+			std::vector<fs::path> absolute_excludes;
+			absolute_excludes.reserve(copy_excludes.size());
+			std::transform(copy_excludes.begin(),
+				copy_excludes.end(),
+				std::back_inserter(absolute_excludes),
+				[&](const std::string &path) -> fs::path
+				{ return fs::weakly_canonical(source_path / path); });
+
+			for (fs::recursive_directory_iterator it(source_path), end; it != end; ++it)
+			{
+				const auto current_path = fs::weakly_canonical(it->path());
+
+				const bool is_excluded = std::any_of(absolute_excludes.begin(),
+					absolute_excludes.end(),
+					[&current_path](const fs::path &ex_path) -> bool
+					{ return current_path == ex_path; });
+
+				if (is_excluded)
+				{
+					if (it->is_directory())
+					{
+						it.disable_recursion_pending();
+					}
+					continue;
+				}
+
+				const auto relative_path = fs::relative(it->path(), source_path);
+				const auto target = destination_path / relative_path;
+
+				if (it->is_directory())
+				{
+					fs::create_directories(target);
+				}
+				else
+				{
+					fs::create_directories(target.parent_path());
+					fs::copy_file(it->path(), target, fs::copy_options::overwrite_existing);
+				}
+			}
 		}
-		catch (const std::exception &e)
+		catch (const std::exception &)
 		{
 			throw Exception("Error when try to copy " + source + " to " + destination);
 		}
@@ -123,7 +163,7 @@ namespace Templi
 		std::vector<std::string> &result,
 		const std::vector<std::string> &exclude_paths) -> void
 	{
-		auto it = std::find(exclude_paths.begin(), exclude_paths.end(), path);
+		const auto it = std::find(exclude_paths.begin(), exclude_paths.end(), path);
 		if (it != exclude_paths.end())
 		{
 			return;
@@ -137,8 +177,9 @@ namespace Templi
 		for (const auto &file : fs::directory_iterator(path))
 		{
 			std::string file_path = file.path().string();
-			auto it = std::find(exclude_paths.begin(), exclude_paths.end(), file_path);
-			if (it != exclude_paths.end())
+			// ReSharper disable once CppTooWideScopeInitStatement
+			auto _it = std::find(exclude_paths.begin(), exclude_paths.end(), file_path);
+			if (_it != exclude_paths.end())
 			{
 				continue;
 			}
@@ -163,7 +204,7 @@ namespace Templi
 		std::transform(exclude_paths.begin(),
 			exclude_paths.end(),
 			std::back_inserter(relative_exclude_paths),
-			[&](const std::string &path)
+			[&](const std::string &path) -> std::string
 			{
 				return (std::filesystem::path(template_path) / std::filesystem::path(path))
 					.string();

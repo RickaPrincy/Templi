@@ -7,12 +7,11 @@
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "cacheVariables": {
-        "CMAKE_CXX_STANDARD": "20",
+        "CMAKE_CXX_STANDARD": "17",
         "CMAKE_CXX_EXTENSIONS": "OFF",
         "CMAKE_CXX_COMPILER": "clang++",
         "CMAKE_CXX_STANDARD_REQUIRED": "ON",
         "CMAKE_BUILD_SHARED_LIBS": "OFF",
-        "TEMPLI_BUILD_TESTS": "ON",
         "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
       }
     },
@@ -27,7 +26,12 @@
       "name": "release",
       "inherits": "base",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Release",
+        "TEMPLI_LIB_BUILD": "ON",
+        "TEMPLI_CLI_BUILD": "ON",
+        "TEMPLI_LIB_INSTALL": "ON",
+        "TEMPLI_CLI_INSTALL": "ON",
+        "TEMPLI_BUILD_TESTS": "OFF"
       }
     }
   ],

@@ -14,7 +14,7 @@ namespace Templi
 		std::string m_message;
 
 	public:
-		Exception(std::string message) : m_message(std::move(message))
+		explicit Exception(std::string message) : m_message(std::move(message))
 		{
 		}
 

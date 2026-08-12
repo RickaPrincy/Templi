@@ -1,5 +1,4 @@
 #include <Templi/Templi.hpp>
-#include <Templi/TempliConfig.hpp>
 #include <fstream>
 
 #include "fs_utils.hpp"
@@ -30,14 +29,21 @@ namespace Templi
 			config_file >> config_json;
 			config_file.close();
 		}
-		catch (const json::parse_error &e)
+		catch ([[maybe_unused]] const json::parse_error &e)
 		{
 			throw Exception(config_full_path + " is not a valid json file");
 		}
 
 		try
 		{
-			m_excludes = config_json["excludes"];
+			if (config_json.contains("parse_excludes"))
+			{
+				m_parse_excludes = config_json["parse_excludes"];
+			}
+			if (config_json.contains("copy_excludes"))
+			{
+				m_copy_excludes = config_json["copy_excludes"];
+			}
 			if (config_json.contains("scripts"))
 			{
 				json scripts = config_json["scripts"];
@@ -78,7 +84,7 @@ namespace Templi
 				this->m_placeholders.push_back(new_placeholder);
 			}
 		}
-		catch (const json::exception &error)
+		catch ([[maybe_unused]] const json::exception &error)
 		{
 			throw Exception(config_full_path +
 							" is not a valid config file (ref: "
@@ -92,7 +98,8 @@ namespace Templi
 		json new_config_json = json::object();
 		json placeholders_json = json::array();
 
-		new_config_json["excludes"] = m_excludes;
+		new_config_json["copy_excludes"] = m_copy_excludes;
+		new_config_json["parse_excludes"] = m_parse_excludes;
 
 		if (!m_before.empty() || !m_after.empty())
 		{
@@ -102,24 +109,25 @@ namespace Templi
 			new_config_json["scripts"] = scripts;
 		}
 
-		for (auto placeholder : this->m_placeholders)
+		for (const auto &[m_name, m_label, m_choices, m_type, m_validators] : this->m_placeholders)
 		{
 			json new_placeholder = json::object();
-			new_placeholder["name"] = placeholder.m_name;
-			new_placeholder["label"] = placeholder.m_label;
-			new_placeholder["type"] = Placeholder::placeholdertype_to_string(placeholder.m_type);
+			new_placeholder["name"] = m_name;
+			new_placeholder["label"] = m_label;
+			new_placeholder["type"] = Placeholder::placeholdertype_to_string(m_type);
 
-			if (placeholder.m_type == PlaceholderType::SELECT)
+			if (m_type == PlaceholderType::SELECT)
 			{
-				new_placeholder["choices"] = placeholder.m_choices;
+				new_placeholder["choices"] = m_choices;
 			}
 
-			if (placeholder.m_type == PlaceholderType::TEXT)
+			if (m_type == PlaceholderType::TEXT)
 			{
-				new_placeholder["validators"] = placeholder.m_validators;
+				new_placeholder["validators"] = m_validators;
 			}
 			placeholders_json.push_back(new_placeholder);
 		}
+
 		new_config_json["placeholders"] = placeholders_json;
 
 		save_file(config_full_path, new_config_json);

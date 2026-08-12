@@ -1,7 +1,6 @@
 #include "utils.hpp"
 
 #include <Templi/Templi.hpp>
-#include <Templi/TempliConfig.hpp>
 #include <Templi/types.hpp>
 #include <cstdlib>
 #include <filesystem>
@@ -22,7 +21,7 @@ namespace Templi
 	{
 		for (const auto &script : scripts)
 		{
-			std::string command = Templi::replace_placeholders_in_text(script, values);
+			std::string command = replace_placeholders_in_text(script, values);
 			std::cout << command << "\n";
 			std::system(command.c_str());
 		}

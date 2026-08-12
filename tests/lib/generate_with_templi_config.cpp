@@ -11,8 +11,8 @@ using namespace Templi;
 
 TEST(TempliLib_generate_with_templi_config, fixtures)
 {
-	std::string template_path = FIXTURE("", "generate_template");
-	std::string output_path = "generate_lib_with_templi_config_output";
+	const std::string template_path = FIXTURE("", "generate_template");
+	const std::string output_path = "generate_lib_with_templi_config_output";
 	std::map<std::string, std::string> values = { { "ANOTHER", "another" },
 		{ "ANOTHER_FILE", "another_file" },
 		{ "AUTHOR", "author" },
@@ -23,9 +23,9 @@ TEST(TempliLib_generate_with_templi_config, fixtures)
 		{ "PROJECT_NAME", "project_name" },
 		{ "VERSION", "version" } };
 
-	Templi::generate_with_templi_config(template_path,
+	generate_with_templi_config(template_path,
 		output_path,
-		[&](const Placeholder &placeholder) { return values[placeholder.m_name]; });
+		[&](const Placeholder &placeholder) -> std::string { return values[placeholder.m_name]; });
 
 	ASSERT_EQ_DIRECTORY(FIXTURE("", "generate_expected_output"), output_path);
 }

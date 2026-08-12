@@ -8,7 +8,7 @@
 
 #include "fs_utils.hpp"
 
-auto FIXTURE(std::string prefix, std::string file) -> std::string	// NOLINT
+auto FIXTURE(std::string prefix, std::string file) -> std::string  // NOLINT
 {
 	return std::filesystem::path("fixtures") / std::filesystem::path(prefix) /
 		   std::filesystem::path(file);
@@ -28,11 +28,11 @@ void ASSERT_EQ_DIRECTORY(std::string expected, std::string actual)	// NOLINT
 		std::vector<std::string> expected_lines{};
 		std::vector<std::string> actual_lines{};
 
-		Templi::process_for_each_line(
-			expected_files[i], [&](const std::string &line) { expected_lines.push_back(line); });
+		Templi::process_for_each_line(expected_files[i],
+			[&](const std::string &line) -> void { expected_lines.push_back(line); });
 
-		Templi::process_for_each_line(
-			actual_files[i], [&](const std::string &line) { actual_lines.push_back(line); });
+		Templi::process_for_each_line(actual_files[i],
+			[&](const std::string &line) -> void { actual_lines.push_back(line); });
 
 		ASSERT_EQ(expected_lines.size(), actual_lines.size());
 		for (size_t j = 0; j < expected_lines.size(); j++)
@@ -44,7 +44,7 @@ void ASSERT_EQ_DIRECTORY(std::string expected, std::string actual)	// NOLINT
 
 auto get_templi_cli_path() -> std::string
 {
-	auto templi_cli_path =
+	const auto templi_cli_path =
 		std::filesystem::current_path().parent_path().parent_path() / "bin" / "templi";
 	return templi_cli_path.string();
 }

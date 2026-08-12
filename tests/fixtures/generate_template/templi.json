@@ -1,6 +1,8 @@
 {
-  "excludes": [
-    "templi.json",
+  "copy_excludes": [
+    "templi.json"
+  ],
+  "parse_excludes": [
     "ignored",
     "ignored.txt",
     "subfolder/subfolder/ignored.txt"

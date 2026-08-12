@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(templi_tools VERSION 4.1.31)
+project(templi_tools VERSION 4.1.32)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -25,26 +25,25 @@ set(TEMPLI_TEST_NAME TempliTest)
 set(TEMPLI_VERSION ${PROJECT_VERSION})
 set(TEMPLI_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 
-# list of options
 # configure build type
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Debug")
 endif()
 
+# list of options
 option(TEMPLI_LIB_BUILD "Build Templi lib" ON)
-option(TEMPLI_CLI_BUILD "Build Templi cli" OFF)
 option(CMAKE_BUILD_SHARED_LIBS "Build Templi as a shared library" OFF)
-
+option(TEMPLI_LIB_INSTALL "Install Templi lib" ${TEMPLI_IS_MAIN_PROJECT})
+option(TEMPLI_CLI_BUILD "Build Templi cli" ${TEMPLI_IS_MAIN_PROJECT})
 option(TEMPLI_CLI_INSTALL "Install Templi cli" ${TEMPLI_CLI_BUILD})
-option(TEMPLI_LIB_INSTALL "Install Templi lib" ${TEMPLI_LIB_BUILD})
-option(TEMPLI_TEST "Build templi test" ${TEMPLI_IS_MAIN_PROJECT})
+option(TEMPLI_BUILD_TESTS "Build templi test" ${TEMPLI_IS_MAIN_PROJECT})
 
 if(WIN32)
   add_compile_options(WIN32)
 endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
-  set(TEMPLI_TEST OFF)
+  set(TEMPLI_BUILD_TESTS OFF)
 endif()
 
 if(NOT CMAKE_BUILD_SHARED_LIBS)
@@ -71,5 +70,6 @@ add_subdirectory(sources)
 
 # Test configuration
 if(TEMPLI_BUILD_TESTS)
+  enable_testing()
   add_subdirectory(tests)
 endif()

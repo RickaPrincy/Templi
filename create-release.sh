@@ -1,17 +1,10 @@
 #!/bin/bash
-if [ "$#" -lt 1 ]; then
-    exit 1
-fi
-
-RELEASE_TO_CREATE="$1"
 
 SHA_PGKBUILD_LINE=12
 release_path=()
 
-cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
-cd build 
-make
-cd ..
+cmake --preset release
+cmake --build --preset release
 
 mkdir -p release
 cd release
@@ -29,7 +22,7 @@ create_tar_release(){
 
 create_lib_release(){
 
-    local RELEASE_NAME=templi-lib-linux-x86_64@4.1.31
+    local RELEASE_NAME=templi-lib-linux-x86_64@4.1.32
     release_path+=("${RELEASE_NAME}")
     
     mkdir -p "${RELEASE_NAME}"
@@ -45,7 +38,7 @@ create_lib_release(){
 }
 
 create_cli_release(){
-    local RELEASE_NAME=templi-cli-linux-x86_64@4.1.31
+    local RELEASE_NAME=templi-cli-linux-x86_64@4.1.32
     release_path+=("${RELEASE_NAME}")
 
     mkdir -p "${RELEASE_NAME}"
@@ -56,26 +49,5 @@ create_cli_release(){
     create_tar_release "${RELEASE_NAME}" "../PKGBUILD/cli/PKGBUILD"
 }
 
-create_qt_release(){
-    echo "..."
-}
-
-for arg in "$@"; do
-    case "$arg" in
-        "LIB")
-            create_lib_release
-            ;;
-        "CLI")
-            create_cli_release
-            ;;
-        "QT")
-            echo "..."
-            ;;
-        *)
-            ;;
-    esac
-done
-
-git add --all
-git commit -m "release: libtempli@4.1.31 - templi_cli@4.1.31"
-git tag -a v4.1.31 -m "templi v4.1.31"
+create_lib_release
+create_cli_release

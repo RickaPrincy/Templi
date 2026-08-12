@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Templi/types.hpp>
 #include <functional>
 #include <vector>
 
@@ -13,13 +12,15 @@ namespace Templi
 	auto save_file(const std::string& path, const std::string& text) -> void;
 	auto save_file(const std::string& path, const nlohmann::json& text) -> void;
 	auto rename(const std::string& old_path, const std::string& new_path) -> void;
-	auto copy_folder(const std::string& source, const std::string& destination) -> void;
+	auto copy_folder(const std::string& source,
+		const std::string& destination,
+		const std::vector<std::string>& copy_excludes) -> void;
 
-	auto get_files_with_placeholder(const std::string& path,
-		const std::vector<std::string>& exclude_path = {}) -> std::vector<std::string>;
+	auto get_files_with_placeholder(const std::string& template_path,
+		const std::vector<std::string>& exclude_paths = {}) -> std::vector<std::string>;
 
 	auto process_each_files(const std::string& path,
-		const std::vector<std::string>& exclude_path = {}) -> std::vector<std::string>;
+		const std::vector<std::string>& exclude_paths = {}) -> std::vector<std::string>;
 
 	auto process_for_each_line(const std::string& path,
 		std::function<void(const std::string& line_content)> process) -> void;

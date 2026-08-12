@@ -36,11 +36,11 @@ TEST(TempliCli_configure, fixtures)
 	std::vector<std::string> expected_excludes_paths = { "templi.json", "ignored/ignored.txt" };
 
 	ASSERT_EQ(generated_config.m_placeholders.size(), expected_placeholders_names.size());
-	ASSERT_EQ(generated_config.m_excludes.size(), expected_excludes_paths.size());
+	ASSERT_EQ(generated_config.m_parse_excludes.size(), expected_excludes_paths.size());
 
-	for (size_t i = 0; i < generated_config.m_excludes.size(); i++)
+	for (size_t i = 0; i < generated_config.m_parse_excludes.size(); i++)
 	{
-		ASSERT_EQ(generated_config.m_excludes[i], expected_excludes_paths[i]);
+		ASSERT_EQ(generated_config.m_parse_excludes[i], expected_excludes_paths[i]);
 	}
 
 	for (size_t i = 0; i < generated_config.m_placeholders.size(); i++)
