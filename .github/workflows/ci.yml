@@ -1,48 +1,29 @@
-name: ci 
+name: ci
 
 on:
   push:
-    branches: [ "dev" ] # TODO
+    branches: [ "main" ]
   pull_request:
-    branches: [ "dev" ] # TODO
+    branches: [ "main" ]
 
 jobs:
-  style:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
 
-    - name: install cpp_inquirer 
-      run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/cpp_inquirer/main/install.sh)
+    - name: install googletest
+      run: sudo apt-get update && sudo apt-get install -y libgtest-dev
 
-    - name: install rcli 
-      run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/rcli/main/install.sh)
+    # rcli and cpp_inquirer are header-only and downloaded by CMake: nothing to install
+    - name: configure
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 
-    - name: Get submodule dependancies
-      run: git submodule update --init --recursive
+    - name: build
+      run: cmake --build build
 
-    - name: Configure And Build 
-      run: cmake  -DBUILD_GMOCK=OFF -S . -B build
-    
-    #- name: Run Clang-Format check target 
-      #run: cmake --build build --target format-check
-      
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
+    - name: run the cli
+      run: ./build/bin/templi --version
 
-    - name: install cpp_inquirer 
-      run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/cpp_inquirer/main/install.sh)
-    
-    - name: install rcli 
-      run: bash <(curl -s https://raw.githubusercontent.com/RickaPrincy/rcli/main/install.sh)
-
-    - name: Get submodule dependancies
-      run: git submodule update --init --recursive
-
-    - name: Configure And Build 
-      run: cmake  -DBUILD_GMOCK=OFF -S . -B build
-    
-    - name: Test
-      run: cd build; make; cd tests/bin; ./TempliTest  
+    - name: test
+      run: ctest --test-dir build --output-on-failure

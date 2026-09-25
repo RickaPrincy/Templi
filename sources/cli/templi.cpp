@@ -23,7 +23,7 @@ namespace Templi
 				std::string template_path = _configure->get_option_value("template_path");
 				if (template_path.empty())
 				{
-					template_path = cpp_inquirer::text_question::prompt(
+					template_path = cpp_inquirer::prompt::text(
 						"Template Path", { cpp_inquirer::validator_factory::required() });
 				}
 				try
@@ -50,13 +50,13 @@ namespace Templi
 
 				if (template_path.empty())
 				{
-					template_path = cpp_inquirer::text_question::prompt(
+					template_path = cpp_inquirer::prompt::text(
 						"Template Path", { cpp_inquirer::validator_factory::required() });
 				}
 
 				if (output_path.empty())
 				{
-					output_path = cpp_inquirer::text_question::prompt(
+					output_path = cpp_inquirer::prompt::text(
 						"Output path", { cpp_inquirer::validator_factory::required() });
 				}
 

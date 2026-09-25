@@ -14,7 +14,7 @@
 
 namespace Templi
 {
-	const std::map<std::string, std::shared_ptr<cpp_inquirer::validator>> BUILTIN_VALIDATORS = {
+	const std::map<std::string, cpp_inquirer::validator_ptr> BUILTIN_VALIDATORS = {
 		{ "required", cpp_inquirer::validator_factory::required() },
 		{ "optional", cpp_inquirer::validator_factory::optional() },
 		{ "email", cpp_inquirer::validator_factory::email() },
@@ -25,11 +25,11 @@ namespace Templi
 	};
 
 	static auto get_validator(const std::pair<std::string, std::string> &validator)
-		-> std::shared_ptr<cpp_inquirer::validator>
+		-> cpp_inquirer::validator_ptr
 	{
 		const auto it = std::find_if(BUILTIN_VALIDATORS.begin(),
 			BUILTIN_VALIDATORS.end(),
-			[validator](const std::pair<std::string, std::shared_ptr<cpp_inquirer::validator>>
+			[validator](const std::pair<std::string, cpp_inquirer::validator_ptr>
 					&builtin_validtor) { return builtin_validtor.first == validator.first; });
 
 		if (it != BUILTIN_VALIDATORS.end())
@@ -70,22 +70,23 @@ namespace Templi
 		const auto copied_placeholder = placeholder.m_label;
 		if (placeholder.m_type == PlaceholderType::SELECT)
 		{
-			return cpp_inquirer::select_question::prompt(
+			return cpp_inquirer::prompt::select(
 				copied_placeholder, vector_to_pair(placeholder.m_choices));
 		}
 
 		if (placeholder.m_type == PlaceholderType::BOOLEAN)
 		{
-			return cpp_inquirer::boolean_question::prompt(copied_placeholder);
+			// answers stay "true" / "false", as with cpp_inquirer 0.0.x
+			return cpp_inquirer::prompt::confirm(copied_placeholder) ? "true" : "false";
 		}
 
-		std::vector<std::shared_ptr<cpp_inquirer::validator>> validators{};
+		cpp_inquirer::validator_list validators{};
 		validators.reserve(placeholder.m_validators.size());
 		for (const auto &validator : placeholder.m_validators)
 		{
 			validators.push_back(get_validator(validator));
 		}
-		return cpp_inquirer::text_question::prompt(copied_placeholder, validators);
+		return cpp_inquirer::prompt::text(copied_placeholder, validators);
 	}
 
 	auto get_placeholder_value(rcli::command *command, const Templi::Placeholder &placeholder)
