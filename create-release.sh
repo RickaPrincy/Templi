@@ -22,7 +22,7 @@ create_tar_release(){
 
 create_lib_release(){
 
-    local RELEASE_NAME=templi-lib-linux-x86_64@4.1.32
+    local RELEASE_NAME=templi-lib-linux-x86_64@4.2.0
     release_path+=("${RELEASE_NAME}")
     
     mkdir -p "${RELEASE_NAME}"
@@ -38,7 +38,7 @@ create_lib_release(){
 }
 
 create_cli_release(){
-    local RELEASE_NAME=templi-cli-linux-x86_64@4.1.32
+    local RELEASE_NAME=templi-cli-linux-x86_64@4.2.0
     release_path+=("${RELEASE_NAME}")
 
     mkdir -p "${RELEASE_NAME}"

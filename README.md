@@ -194,6 +194,15 @@ ctest --test-dir build --output-on-failure
 ./build/bin/templi --help
 ```
 
+### Releasing
+
+1. Bump `project(templi_tools VERSION x)` in `CMakeLists.txt`, configure once (it regenerates
+   `include/Templi/TempliConfig.hpp` and the PKGBUILDs), commit and push.
+2. Actions > **release** > **Run workflow** (or push the tag `v<version>`): the tests run, then
+   `tools/package_release.sh` builds `templi-cli-linux-x86_64@<version>.tar.gz` and
+   `templi-lib-linux-x86_64@<version>.tar.gz`, and the GitHub release is published.
+3. Run `updpkgsums` in `PKGBUILD/cli` and `PKGBUILD/lib`, commit, push, then run the AUR workflows.
+
 ## 🙌 Built with
 
 - [rcli](https://github.com/RickaPrincy/rcli): command line parsing

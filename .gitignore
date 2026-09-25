@@ -21,3 +21,4 @@ out
 release
 .idea
 cmake-build-debug
+dist/

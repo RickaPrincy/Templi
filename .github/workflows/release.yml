@@ -1,0 +1,62 @@
+name: release
+
+# Publishes a GitHub release for the version declared in CMakeLists.txt
+# (`project(templi_tools VERSION x)`), with the files built by tools/package_release.sh:
+#   templi-cli-linux-x86_64@<version>.tar.gz and templi-lib-linux-x86_64@<version>.tar.gz
+#
+# Two ways to release:
+#   - Actions tab > release > "Run workflow": creates the tag v<version> itself
+#   - or push the tag yourself: git tag v4.2.0 && git push origin v4.2.0
+# Then put the checksums in PKGBUILD/cli and PKGBUILD/lib (updpkgsums) and run the AUR workflows.
+on:
+  push:
+    tags: [ "v*" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: read the version
+      id: version
+      run: |
+        version=$(sed -n 's/^project(templi_tools VERSION \([0-9.]*\))$/\1/p' CMakeLists.txt)
+        echo "tag=v$version" >> "$GITHUB_OUTPUT"
+        echo "CMakeLists.txt declares v$version"
+
+    - name: check the tag
+      env:
+        TAG: ${{ steps.version.outputs.tag }}
+      run: |
+        if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+          test "$GITHUB_REF_NAME" = "$TAG" || { echo "::error::tag $GITHUB_REF_NAME does not match CMakeLists.txt ($TAG)"; exit 1; }
+        elif git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null; then
+          echo "::error::$TAG already exists: bump the version in CMakeLists.txt first"
+          exit 1
+        fi
+
+    - name: run the tests
+      run: |
+        sudo apt-get update && sudo apt-get install -y libgtest-dev
+        cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+        cmake --build build
+        ctest --test-dir build --output-on-failure
+
+    - name: build the release files
+      run: tools/package_release.sh
+
+    - name: publish the release
+      env:
+        GH_TOKEN: ${{ github.token }}
+        TAG: ${{ steps.version.outputs.tag }}
+      run: |
+        if gh release view "$TAG" >/dev/null 2>&1; then
+          gh release upload "$TAG" dist/* --clobber
+        else
+          gh release create "$TAG" dist/* --title "$TAG" --target "$GITHUB_SHA" --generate-notes
+        fi
