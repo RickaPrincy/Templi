@@ -10,10 +10,10 @@
 {
   "scripts": {
     "before": [
-      "cp /home/user/file.txt ${{TEMPLI_OUTPUT_FOLDER}}/file.txt"
+      "cp /home/user/file.txt {{TEMPLI_OUTPUT_FOLDER}}/file.txt"
     ],
     "after": [
-      "cd ${{TEMPLI_OUTPUT_FOLDER}}",
+      "cd {{TEMPLI_OUTPUT_FOLDER}}",
       "git init"
     ]
   },
@@ -92,7 +92,7 @@ Defines the dynamic variables found inside your template files (e.g. `{{author_n
   "message": "Custom error message when validation fails"
 }
 ```
-* **Common Keywords**: `"required"`
+* **Keywords**: `"required"`, `"optional"`, `"email"`, `"number"`, `"floating"`, `"lowercase"`, `"uppercase"` (any other pattern is used as a regular expression)
 * **Regex Example**: `"^[a-z]+$"`
 
 ---
@@ -149,7 +149,7 @@ Defines lifecycle shell hooks executed during template generation.
 | `after` | `array<string>` | Shell commands executed **after** all files have been parsed and generated. |
 
 #### 🔑 Environment Variables
-Templi exposes the target output directory via the `${TEMPLI_OUTPUT_FOLDER}` variable inside script hooks:
+Templi exposes the target output directory as the `{{TEMPLI_OUTPUT_FOLDER}}` placeholder inside script hooks (the other placeholders are replaced in scripts too):
 
 ```json
 {
@@ -158,7 +158,7 @@ Templi exposes the target output directory via the `${TEMPLI_OUTPUT_FOLDER}` var
       "echo 'Starting template generation...'"
     ],
     "after": [
-      "cd ${{TEMPLI_OUTPUT_FOLDER}}",
+      "cd {{TEMPLI_OUTPUT_FOLDER}}",
       "git init",
       "npm install"
     ]
