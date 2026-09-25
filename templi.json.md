@@ -13,8 +13,7 @@
       "cp /home/user/file.txt {{TEMPLI_OUTPUT_FOLDER}}/file.txt"
     ],
     "after": [
-      "cd {{TEMPLI_OUTPUT_FOLDER}}",
-      "git init"
+      "cd {{TEMPLI_OUTPUT_FOLDER}} && git init"
     ]
   },
   "copy_excludes": [
@@ -23,8 +22,7 @@
   ],
   "parse_excludes": [
     "binary.bin",
-    "assets/images/**",
-    "*.png"
+    "assets/images"
   ],
   "placeholders": [
     {
@@ -36,7 +34,7 @@
           "pattern": "required"
         },
         {
-          "pattern": "[a-z]",
+          "pattern": "^[a-z]+$",
           "message": "Must be lowercase"
         }
       ]
@@ -102,14 +100,14 @@ Defines the dynamic variables found inside your template files (e.g. `{{author_n
 > **Required**: No  
 > **Default**: `[]`
 
-An array of file paths or glob patterns to **completely ignore**. Files matching these patterns will **not** be copied to the output folder.
+An array of paths, relative to the template root, to **completely ignore**: they are **not** copied to the output folder. A folder excludes everything inside it. Wildcards (`*.png`, `**`) are **not** supported: write exact paths.
 
 ```json
 {
   "copy_excludes": [
     "templi.json",
     "ignored_file.txt",
-    "docs/drafts/**"
+    "docs/drafts"
   ]
 }
 ```
@@ -121,7 +119,7 @@ An array of file paths or glob patterns to **completely ignore**. Files matching
 > **Required**: No  
 > **Default**: `[]`
 
-An array of file paths or glob patterns to **copy directly without parsing**. Templi will transfer these files as raw byte data without processing placeholders (e.g. `{{var}}`).
+An array of paths, relative to the template root, to **copy directly without parsing** (a folder applies to everything inside it, no wildcards). Templi will transfer these files as raw byte data without processing placeholders (e.g. `{{var}}`).
 
 > 💡 **Best Use Case**: Binary files, media assets (`.png`, `.jpg`), archives (`.zip`), or files containing template-like syntax (e.g., Vue.js / Jinja templates).
 
@@ -129,8 +127,7 @@ An array of file paths or glob patterns to **copy directly without parsing**. Te
 {
   "parse_excludes": [
     "binary.bin",
-    "assets/images/**",
-    "*.png"
+    "assets/images"
   ]
 }
 ```
@@ -148,6 +145,8 @@ Defines lifecycle shell hooks executed during template generation.
 | `before` | `array<string>`| Shell commands executed **before** Templi processes and copies template files. |
 | `after` | `array<string>` | Shell commands executed **after** all files have been parsed and generated. |
 
+> ⚠️ Each command runs in its **own shell**, from the folder where `templi` was launched: a `cd` does not apply to the next command. Chain commands with `&&` on the same line.
+
 #### 🔑 Environment Variables
 Templi exposes the target output directory as the `{{TEMPLI_OUTPUT_FOLDER}}` placeholder inside script hooks (the other placeholders are replaced in scripts too):
 
@@ -158,9 +157,8 @@ Templi exposes the target output directory as the `{{TEMPLI_OUTPUT_FOLDER}}` pla
       "echo 'Starting template generation...'"
     ],
     "after": [
-      "cd {{TEMPLI_OUTPUT_FOLDER}}",
-      "git init",
-      "npm install"
+      "cd {{TEMPLI_OUTPUT_FOLDER}} && git init",
+      "cd {{TEMPLI_OUTPUT_FOLDER}} && npm install"
     ]
   }
 }

@@ -89,7 +89,7 @@ labels, types (`TEXT`, `BOOLEAN`, `SELECT`), choices, validators, excludes and s
 ```json
 {
   "copy_excludes": ["templi.json"],
-  "parse_excludes": ["templi.json", "assets/**"],
+  "parse_excludes": ["templi.json", "assets"],
   "scripts": {
     "after": ["cd {{TEMPLI_OUTPUT_FOLDER}} && git init"]
   },
